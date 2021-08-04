@@ -34,6 +34,82 @@
 	<p>
 		As a user and administrator of the site I want to make it easy for both organizations and volunteers to be able to sign up and provide or take opportunities to help their communities.
 	</p>
+	<div>
+		<div class="container">
+			<h1>Case & Interaction Flows</h1>
+
+			<h2>Case #1</h2>
+			<p>Jackson is checking the site as the admin/moderator and looking for a post that has been flagged by another user.</p>
+			<ul>
+				<li>Pre-condition: Pre-condition: As a user and administrator of the site I want to make it easy for both organizations and volunteers to be able to sign up and provide or take opportunities to help their communities.</li>
+				<li>Post-condition: Jackson logged in to the site to check if any posts have been flagged or reported.</li>
+			</ul>
+			<h3>Interaction Flow: Admin checks reported post</h3>
+			<ul>
+				<li>Jackson logs into his account via the login button at the top right of the page.</li>
+				<li>MissionCitizen returns a login form with a blank field for username and password.</li>
+				<li>Jackson enters login details and clicks “Login” button.</li>
+				<li>MissionCitizen site reloads profile page.</li>
+				<li>Inside of profile page the MissionCitizen displays a message box that has postings that have been reported by other volunteers/organizers. Jackson reviews inbox for flagged posts.</li>
+				<li>MissionCitizen returns a posting that has been flagged by an organizer.</li>
+				<li>Jackson clicks on the reported post for details on why it has been reported.</li>
+				<li>MissionCitizen returns a form that was filled out by an organizer.</li>
+				<li>Jackson reads the reason listed [User claiming to be a part of XYZ corporation] Organizers says the post is by someone not known to the organization.</li>
+				<li>Jackson reviews the post by clicking on the link for volunteer opportunity.</li>
+				<li>MissionCitizen returns listing that has been reported.</li>
+				<li>Jackson clicks “Message Post Author” Jackson sends a message to verify association with the organization that was claimed.</li>
+				<li>MissionCitizen returns form with Subject, Body and Send button at bottom of form.</li>
+				<li>Jackson messages the author of post to gather more details. Enters text in form and clicks “Send”.</li>
+				<li>MissionCitizen returns form closes and container pops up with “Message Sent”.</li>
+				<li>Jackson clicks “My Profile” link at top right of the page.</li>
+				<li>MissionCitizen returns Jackson back to original profile page where he started when logged in.</li>
+			</ul>
+
+			<h2>Case #2</h2>
+			<p>Jackson removes a flagged post and sites reason of removal to the user who posted event.</p>
+			<ul>
+				<li>Pre-condition: Jackson is on MissionCitizen’s landing page and is logging in to his profile. There is a option to flag questionable post and an algorithm that flags specific words against community guidelines.</li>
+				<li>Post-condition: Jackson logged in to the site to check if any posts have been flagged or reported.</li>
+			</ul>
+
+			<h3>Interaction Flow: Removal of a flagged post by admin/moderator</h3>
+			<ul>
+				<li>Jackson clicks on the message from Hank who had a flagged post by another user of the site.</li>
+				<li>MissionCitizen site returns form with Subject, Body and Reply.</li>
+				<li>Jackson reads the message and confirms that the flagged post should be removed.</li>
+				<li>Jackson clicks URL displayed above the form for the original post.</li>
+				<li>MissionCitizen returns to original post, to the right of the post button displays Remove post.</li>
+				<li>Jackson clicks remove post.</li>
+				<li>The site displays Confirm Action button.</li>
+				<li>Jackson clicks confirm.</li>
+				<li>MissionCitizen removes the flagged post.</li>
+				<li>MissionCitizen prompts notification to be sent to Hank that notifies him that his post has been removed and sites reason XYZ for removal.</li>
+				<li>Jackson returns to homepage by clicking profile button.</li>
+			</ul>
+
+			<h2>Case #3</h2>
+			<p>Jackson is dealing with a user who repeatedly makes posts against the community guidelines and the decision has been made to remove the user after repeated violations.</p>
+			<ul>
+				<li>Pre-condition: Jackson is on MissionCitizen’s landing page and is logging in to his profile.  There is a option to flag questionable post and an algorithm that flags specific words against community guidelines.</li>
+				<li>Post-condition: Jackson logged in to the site to check if any posts have been flagged or reported.</li>
+			</ul>
+
+			<h3>Interaction Flow: Removing a user from platform.</h3>
+			<p>Jackson is removing a repeat offender from the platform after repeated violations to the community guidelines.</p>
+			<ul>
+				<li>Jackson starts on profile page and clicks on the link that shows “Users”.</li>
+				<li>MissionCitizen returns the data for the users registered on the site.</li>
+				<li>Jackson uses Ctrl + F and searches the user’s name “Hank Fisher”.</li>
+				<li>The web browser highlights Hank’s user information.</li>
+				<li>Jackson clicks Remove User.</li>
+				<li>MissionCitizen prompts a display box with text “Delete User”.</li>
+				<li>Jackson clicks check the box that shows implications of deleting a user.</li>
+				<li>Clicks “Delete User”.</li>
+				<li></li>
+				<li>MissionCitizen returns a prompt showing that the user has been deleted from the data base of users and email has been added to a restricted list to prevent new account with the same email.</li>
+				<li>MissionCitizen logs out Jackson and returns to the homepage.</li>
+			</ul>
+		</div>
 	<a href="index.html">Home</a>
 </div>
 
