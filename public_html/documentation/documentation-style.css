@@ -12,3 +12,6 @@ footer {
 .landing-page {
     line-height: 2rem;
 }
+.name {
+    font-weight: bold;
+}
