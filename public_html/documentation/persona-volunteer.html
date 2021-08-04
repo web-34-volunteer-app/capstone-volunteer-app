@@ -33,15 +33,27 @@
 </div>
 
 <div class="container">
-  <h2>User Story:</h2>
-  <p>As a normal user of Mission Citizen, I would like to visit the website, search for new volunteer events, stay up to date with saved volunteer events, contact event organizers and other volunteers, change my privacy settings to allow other users to contact me, and get a report of my volunteering history.</p>
+  <h2>Use Case:</h2>
+  <p>As a normal user of Mission Citizen, I would like to visit the website and stay up to date with saved volunteer events.</p>
+
   <p><span class="name">Pre-condition: </span>User is a registered user using a device that was previously logged into.</p>
-  <p><span class="name">Post-condition: </span>John has checked his upcoming events, registered for a new event, reported a suspicious event, checked his user profile, checked his new messages, sent a message, and saved a contact.</p>
+  <p><span class="name">Post-condition: </span>John has checked his upcoming events.</p>
+
   <h2>Interaction Flow:</h2>
-  <p><span class="name">User: </span>Navigates to the website home page on his smart phone.</p>
+  <p><span class="name">User: </span>Navigates to the website home page on his smartphone.</p>
   <p><span class="name">System: </span>Since he regularly visits the website from this device, the system maintains his login. His username is displayed in the navigation bar to indicate he is still logged in. The welcome banner is displayed below the navigation bar; just below that is a list of hyperlinks describing upcoming dates of volunteer events, event names, and contact lists for the event.</p>
   <p><span class="name">User: </span>He clicks on the top event name, which is the soonest to occur.</p>
   <p><span class="name">System: </span>A new page appears (either replacing whole page or a frame of the home page), displaying the event name, date, point of contact (POC), details, address, and a list of other available contacts. There is a checkbox to control privacy and allow other volunteers involved with this event to contact John. There is a green light indication in the top left indicating that John is registered to attend this event. There are buttons at the bottom of the form to unregister from the event, contact the POC, or flag suspicious activity.</p>
+</div>
+
+<div class="container">
+  <h2>Use Case:</h2>
+  <p>Search for new volunteer events and register for an event.</p>
+
+  <p><span class="name">Pre-condition: </span>John has logged in and checked his upcoming events.</p>
+  <p><span class="name">Post-condition: </span>John has searched for new events and registered for a new event.</p>
+
+  <h2>Interaction Flow:</h2>
   <p><span class="name">User: </span>He clicks the "Return (or Home)" link.</p>
   <p><span class="name">System: </span>The home page reappears.</p>
   <p><span class="name">User: </span>He types his zip code into the search filter that appears just below his event list. He enters a date range from now to four weeks from now and clicks the search button.</p>
@@ -50,6 +62,16 @@
   <p><span class="name">System: </span>The event page is again displayed. The green light indication is red, indicating that John is not registered for this event. The "Unregister" button instead says "Register".</p>
   <p><span class="name">User: </span>He clicks the "Register" button.</p>
   <p><span class="name">System: </span>A pop-up window indicates "You are registered for this event." The "Register" button reverts to "Unregister" and the red light/text indicator becomes green, indicating he is registered for the event.</p>
+</div>
+
+<div class="container">
+  <h2>Use Case:</h2>
+  <p>Report a suspicious event.</p>
+
+  <p><span class="name">Pre-condition: </span>John has registered for a new event and wants to see what else is available.</p>
+  <p><span class="name">Post-condition: </span>John reports a suspicious event.</p>
+
+  <h2>Interaction Flow:</h2>
   <p><span class="name">User: </span>He clicks the "Return (or Home)" link.</p>
   <p><span class="name">System: </span>The home page reappears.</p>
   <p><span class="name">User: </span>He clicks the name of another event that looks suspicious.</p>
@@ -58,8 +80,28 @@
   <p><span class="name">System: </span>A form appears allowing him to describe the suspicious activity and submit the report with a "Submit" button.</p>
   <p><span class="name">User: </span>He describes his suspicions and clicks the submit button.</p>
   <p><span class="name">System: </span>A message appears indicating "Report submitted." Followed again by the home page.</p>
+</div>
+
+<div class="container">
+  <h2>Use Case:</h2>
+  <p>View user profile.</p>
+
+  <p><span class="name">Pre-condition: </span>User in on the home page.</p>
+  <p><span class="name">Post-condition: </span>John views his user profile.</p>
+
+  <h2>Interaction Flow:</h2>
   <p><span class="name">User: </span>He clicks his user name/user icon in the top right/left corner.</p>
   <p><span class="name">System: </span>A form appears displaying pertinent information: user name, real name, date of account, volunteer hours and events history, privacy preferences (can other volunteers or organizers contact you). There is a link to download a detailed .csv file for volunteer history details.</p>
+</div>
+
+<div class="container">
+  <h2>Use Case:</h2>
+  <p>Check messages and reply to a message.</p>
+
+  <p><span class="name">Pre-condition: </span>User is viewing user profile</p>
+  <p><span class="name">Post-condition: </span>User checks his messages and replies to a message.</p>
+
+  <h2>Interaction Flow:</h2>
   <p><span class="name">User: </span>He clicks the "Return (or Home)" link.</p>
   <p><span class="name">System: </span>The home page reappears.</p>
   <p><span class="name">User: </span>He notices a small bubbled number "1" on his message icon in the navigation bar. He clicks the message icon.</p>
@@ -70,11 +112,20 @@
   <p><span class="name">System: </span>A form blank text box appears. Above is a short text box with subject pre-filled: "RE: " the original subject. Below are buttons: "Send" and "Cancel".</p>
   <p><span class="name">User: </span>He replies, thanking the organizer for the opportunity and briefly comments on items and skills he has available to him. He clicks "Send".</p>
   <p><span class="name">System: </span>A message appears stating "Message Sent". The inbox reappears.</p>
+</div>
+
+<div class="container">
+  <h2>Use Case:</h2>
+  <p>Add a contact.</p>
+
+  <p><span class="name">Pre-condition: </span>User has a desirable contact's user name visible on any screen.</p>
+  <p><span class="name">Post-condition: </span>Contact added to contact list.</p>
+
+  <h2>Interaction Flow:</h2>
   <p><span class="name">User: </span>He clicks the user name of the most recent sender.</p>
   <p><span class="name">System: </span>A form appears with limited details of the user, with buttons: "Save Contact" "Send Message" "See Posted Events" (Buttons are available depending on the user's privacy settings).</p>
   <p><span class="name">User: </span>He clicks "Save Contact".</p>
   <p><span class="name">System: </span>A message appears stating "Contact Saved".</p>
-
 </div>
 
   <a href="index.html">Home</a>
