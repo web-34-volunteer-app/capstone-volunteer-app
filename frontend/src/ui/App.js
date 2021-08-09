@@ -1,4 +1,26 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Home} from "./Home";
+export function App() {
 
-export const App = () => ( <h1 className="text-info">Is this thing on?</h1> );
+
+
+
+
+    return (
+        <>
+
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path='/' component={Home}/>
+
+                </Switch>
+
+            </BrowserRouter>
+        </>
+
+
+
+    )
+}
