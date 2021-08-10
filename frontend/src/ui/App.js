@@ -1,4 +1,10 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
-export const App = () => ( <h1 className="text-info">Is this thing on?</h1> );
+export function App () {
+    return (
+        <>
+        </>
+    )
+}
