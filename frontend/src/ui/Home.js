@@ -4,7 +4,7 @@ import {Image, Carousel, Container, InputGroup, FormControl, Card} from "react-b
 import PLaceHolderImage from "./images/PlaceHolder.svg"
 import MapBoxPlaceHolder from "./images/MapBoxAsset.png"
 import CardHeader from "react-bootstrap/CardHeader";
-import {button} from "bootstrap";
+
 
 export function Home(){
 
