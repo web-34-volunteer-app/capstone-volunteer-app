@@ -10,8 +10,8 @@ export function Map () {
         return {
             latitude: currentLat,
             longitude: currentLong,
-            width: "100vw",
-            height: "100vh",
+            width: "50vw",
+            height: "50vh",
             zoom: 10
         }
     });
@@ -30,8 +30,8 @@ export function Map () {
             viewport = {
                 latitude: currentLat,
                 longitude: currentLong,
-                width: "100vw",
-                height: "100vh",
+                width: "50vw",
+                height: "50vh",
                 zoom: 10
             }
             return viewport;
