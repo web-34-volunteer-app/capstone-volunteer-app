@@ -58,23 +58,29 @@ export function Home(){
             aria-describedby="inputGroup-sizing-default"
         />
     </InputGroup>
-    <div>
 
-        <Image src={MapBoxPlaceHolder} alt="MapBox" className="col-12 col-lg-8"/>
+    <div className="row">
+<div className="col-9">
+        <Image src={MapBoxPlaceHolder} alt="MapBox"/>
+
+</div>
+        <div className="d-inline-block col-3">
+            <Card>
+                <CardHeader as="h5">Featured</CardHeader>
+                <Card.Body>
+                    <Card.Title>Special title treatment</Card.Title>
+                    <Card.Text>
+                        With supporting text below as a natural lead-in to additional content.
+                    </Card.Text>
+                    <button>Go somewhere</button>
+                </Card.Body>
+            </Card>
+
+        </div>
     </div>
 
 
 
-    <Card>
-        <CardHeader as="h5">Featured</CardHeader>
-        <Card.Body>
-            <Card.Title>Special title treatment</Card.Title>
-            <Card.Text>
-                With supporting text below as a natural lead-in to additional content.
-            </Card.Text>
-            <button>Go somewhere</button>
-        </Card.Body>
-    </Card>
 
 </Container>
         </>
