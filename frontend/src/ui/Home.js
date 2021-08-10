@@ -6,6 +6,10 @@ import MapBoxPlaceHolder from "./images/MapBoxAsset.png"
 import CardHeader from "react-bootstrap/CardHeader";
 import {button} from "bootstrap";
 
+function Map() {
+    return null;
+}
+
 export function Home(){
 
     return (
@@ -61,7 +65,7 @@ export function Home(){
 
     <div className="row">
 <div className="col-9">
-        <Image src={MapBoxPlaceHolder} alt="MapBox"/>
+       <Map/>
 
 </div>
         <div className="d-inline-block col-3">
