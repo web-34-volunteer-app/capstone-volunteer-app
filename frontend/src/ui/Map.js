@@ -1,9 +1,12 @@
 import React, {useState} from "react";
 import ReactMapGL from "react-map-gl";
+import {Home} from "./Home";
 
 let currentLat = 0;
 let currentLong = 0;
 let init = true;
+
+
 
 export function Map () {
     const [viewport, setViewport] = useState(() => {
