@@ -4,7 +4,7 @@ import {Image, Carousel, Container, InputGroup, FormControl, Card} from "react-b
 import PLaceHolderImage from "./images/PlaceHolder.svg"
 import CardHeader from "react-bootstrap/CardHeader";
 import {Map} from "./Map";
-
+import {Accordion} from "react-bootstrap";
 
 export function Home(){
 
@@ -63,20 +63,30 @@ export function Home(){
     <div className="row my-4">
 <div className="col-12 col-md-9">
      <Map/>
-
 </div>
-        <div className="col-12 col-md-3">
-            <Card>
-                <CardHeader as="h5">Featured</CardHeader>
-                <Card.Body>
-                    <Card.Title>Special title treatment</Card.Title>
-                    <Card.Text>
-                        With supporting text below as a natural lead-in to additional content.
-                    </Card.Text>
-                    <button>Go somewhere</button>
-                </Card.Body>
-            </Card>
 
+
+        <div className="col-12 col-md-3">
+            <Accordion>
+                <Accordion.Item eventKey="0">
+                    <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>
+                    <Accordion.Body>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                        est laborum.
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                    <Accordion.Header>Volunteer Opportunity Event 2</Accordion.Header>
+                    <Accordion.Body>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                        est laborum.
+                    </Accordion.Body>
+                </Accordion.Item>
+            </Accordion>
         </div>
     </div>
 

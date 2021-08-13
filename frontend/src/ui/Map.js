@@ -1,17 +1,20 @@
 import React, {useState} from "react";
 import ReactMapGL from "react-map-gl";
+import {Home} from "./Home";
 
 let currentLat = 0;
 let currentLong = 0;
 let init = true;
+
+
 
 export function Map () {
     const [viewport, setViewport] = useState(() => {
         return {
             latitude: currentLat,
             longitude: currentLong,
-            width: "50vw",
-            height: "50vh",
+            width: "100vw",
+            height: "100vh",
             zoom: 10
         }
     });
@@ -30,8 +33,8 @@ export function Map () {
             viewport = {
                 latitude: currentLat,
                 longitude: currentLong,
-                width: "50vw",
-                height: "50vh",
+                width: "100vw",
+                height: "100vh",
                 zoom: 10
             }
             return viewport;
