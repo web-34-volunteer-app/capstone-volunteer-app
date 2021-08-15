@@ -5,6 +5,7 @@ import {Home} from "./Home";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
 import {Navigation} from "./Navigation";
+import {UserProfile} from "./UserProfile";
 
 export function App() {
     return (
@@ -13,6 +14,7 @@ export function App() {
             <BrowserRouter>
                 <Switch>
                     <Route exact path='/' component={Home}/>
+                    <Route exact path='/user-profile' component={UserProfile}/>
                 </Switch>
             </BrowserRouter>
         </>
