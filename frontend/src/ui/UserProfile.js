@@ -1,10 +1,12 @@
 import React from "react";
 import {Container} from "react-bootstrap";
+import {UserOverview} from "./UserOverview";
 
 export function UserProfile () {
     return (
         <>
-            <Container>
+            <UserOverview/>
+                <Container>
                 <label>First Name: </label>
                 <input type="text"/>
                 <label>Last Name: </label>
