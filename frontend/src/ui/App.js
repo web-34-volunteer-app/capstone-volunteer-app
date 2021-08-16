@@ -6,6 +6,7 @@ import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
 import {Navigation} from "./Navigation";
 import {UserProfile} from "./UserProfile";
+import {PageFooter} from "./PageFooter";
 
 export function App() {
     return (
@@ -17,6 +18,7 @@ export function App() {
                     <Route exact path='/user-profile' component={UserProfile}/>
                 </Switch>
             </BrowserRouter>
+            <PageFooter/>
         </>
     )
 }
