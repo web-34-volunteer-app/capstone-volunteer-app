@@ -10,7 +10,7 @@ export function EventApprovalTable() {
                 <th>#</th>
                 <th>Event Name</th>
                 <th>Event Description</th>
-                <th>Decision </th>
+                <th>Approval</th>
             </tr>
             </thead>
             <tbody>
@@ -21,7 +21,7 @@ export function EventApprovalTable() {
                 <td>
                     <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Status
+                            Action
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu>
@@ -37,17 +37,7 @@ export function EventApprovalTable() {
                 <td>Paint Local Shelter</td>
                 <td>Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</td>
                 <td>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Status
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Approve</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Deny</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Contact</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <input type="checkbox" id="scales" name="scales"/>
                 </td>
             </tr>
             </tbody>

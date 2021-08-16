@@ -7,6 +7,7 @@ export function UserProfile () {
     return (
         <>
             <UserOverview/>
+            <EventApprovalTable/>
         </>
     )
 }
