@@ -1,6 +1,6 @@
 import React from "react";
 import {UserOverview} from "./UserOverview";
-import {PageFooter} from "./PageFooter";
+import {EventApprovalTable} from "./EventApprovalTable";
 
 
 export function UserProfile () {
