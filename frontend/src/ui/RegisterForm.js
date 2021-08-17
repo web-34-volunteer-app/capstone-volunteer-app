@@ -10,12 +10,12 @@ export function RegisterForm(){
         <>
             <Form>
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Group as={Col} controlId="formGridFirstName">
                         <Form.Label>First Name</Form.Label>
                         <Form.Control type="text" placeholder="First Name" />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridPassword">
+                    <Form.Group as={Col} controlId="forGridLastName">
                         <Form.Label>Last Name</Form.Label>
                         <Form.Control type="text" placeholder="Last Name" />
                     </Form.Group>
@@ -28,7 +28,7 @@ export function RegisterForm(){
                         <Form.Control type="email" placeholder="Enter email" />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridEmail">
+                    <Form.Group as={Col} controlId="formGridEmailConfirm">
                         <Form.Label>Confirm Email</Form.Label>
                         <Form.Control type="email" placeholder="Confirm Email" />
                     </Form.Group>
@@ -42,7 +42,7 @@ export function RegisterForm(){
                         <Form.Control type="password" placeholder="Password" />
                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="formGridPassword">
+                    <Form.Group as={Col} controlId="formGridPasswordConfirm">
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control type="password" placeholder="Confirm Password" />
                     </Form.Group>
