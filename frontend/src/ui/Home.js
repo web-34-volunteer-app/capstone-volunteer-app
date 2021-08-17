@@ -62,7 +62,7 @@ export function Home(){
 
     <div className="row my-4">
 <div className="col-12 col-md-9">
-     <Map/>
+     <Map width={"75vw"} height={"75vh"}/>
 </div>
 
 

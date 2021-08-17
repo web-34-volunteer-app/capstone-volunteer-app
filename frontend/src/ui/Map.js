@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect } from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import GPS_cursor from "./images/gps-pin-black.png";
 import "./style.css";
@@ -6,7 +6,7 @@ import "./style.css";
 let currentLat = 0;
 let currentLong = 0;
 let init = true;
-let parkData = [
+let eventData = [
         {
             id: 0,
             name: "home",
@@ -17,17 +17,32 @@ let parkData = [
         }
         ];
 
-export function Map () {
+export function Map (inputs) {
     const [viewport, setViewport] = useState(() => {
+        console.log(inputs);
         return {
             latitude: currentLat,
             longitude: currentLong,
-            width: "100vw",
-            height: "100vh",
+            width: inputs.width,
+            height: inputs.height,
             zoom: 10
         }
     });
+
     const [selectedPlace, setSelectedPlace] = useState(null);
+
+    useEffect(() => {
+        const listener = (e) => {
+            if(e.key === "Escape") {
+                setSelectedPlace(null);
+            }
+        };
+        window.addEventListener("keydown", listener);
+
+        return () => {
+            window.removeEventListener("keydown", listener);
+        }
+    }, []);
 
     if(init) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -39,14 +54,12 @@ export function Map () {
     }
 
     function updateMap() {
-        setViewport(viewport => {
-            viewport = {
-                latitude: currentLat,
-                longitude: currentLong,
-                width: "100vw",
-                height: "100vh",
-                zoom: 10
-            }
+        console.log(inputs.width + ", " + inputs.height);
+        setViewport(() => {
+            viewport.latitude = currentLat;
+            viewport.longitude = currentLong;
+            viewport.width = inputs.width;
+            viewport.height = inputs.height;
             return viewport;
         });
     }
@@ -63,8 +76,8 @@ export function Map () {
                         }}
                     >
                         <p color="white">Make sure you enable access to your gps!</p>
-                        {parkData.map(place => (
-                            <Marker key={place.id} latitude={place.latitude} longitude={place.longitude}>
+                        {eventData.map(place => (
+                            <Marker key={place.id} latitude={place.latitude} longitude={place.longitude} offsetLeft={-25.5} offsetTop={-36}>
                                 <button className="marker-btn"
                                         onClick={(e) => {
                                             e.preventDefault();
