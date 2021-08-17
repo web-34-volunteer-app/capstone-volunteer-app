@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Container, Nav, Navbar, NavDropdown, Offcanvas} from "react-bootstrap";
 import HeaderImage from "./images/HeaderLogoImage.svg";
 import {RegisterForm} from "./RegisterForm";
+import "./style.css"
 
 export function Navigation() {
     const [show, setShow] = useState(false);
@@ -11,31 +12,31 @@ export function Navigation() {
 
     return (
         <>
-            <Navbar bg="light" expand="lg">
+            <Navbar id="navbar1" expand="lg">
             <Container>
                 <Navbar.Brand href="#home">
                     <img
                         src={HeaderImage}
-                        width="100"
-                        height="25"
+                        width="150"
+                        height="45"
                         className="d-inline-block align-top"
-                        alt="React Bootstrap logo"
+                        alt="Mission Citizen Logo"
                     />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link href="#" onClick={toggleShow}>Register</Nav.Link>
-                        <Nav.Link href="#">Log In</Nav.Link>
-                        <Nav.Link href="#">Contact</Nav.Link>
-                        <Nav.Link href="#">Log Out</Nav.Link>
-                        <Nav.Link href="#">Privacy Settings</Nav.Link>
-                        <Nav.Link href="#">Community Guidelines</Nav.Link>
+                    <Nav className="ms-auto">
+                        <Nav.Link href="#" onClick={toggleShow} className="ms-auto">Register</Nav.Link>
+                        <Nav.Link href="#" className="ms-auto">Log In</Nav.Link>
+                        <Nav.Link href="#" className="ms-auto">Contact</Nav.Link>
+                        <Nav.Link href="#" className="ms-auto">Log Out</Nav.Link>
+                        <Nav.Link href="#" className="ms-auto">Privacy Settings</Nav.Link>
+                        <Nav.Link href="#" className="ms-auto">Community Guidelines</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
-            <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false}>
+            <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false} placement={"end"} >
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Register Account</Offcanvas.Title>
                 </Offcanvas.Header>

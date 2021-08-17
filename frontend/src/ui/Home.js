@@ -1,10 +1,9 @@
 import React from "react";
 import HeaderImage from "./images/HeaderLogoImage.svg"
-import {Image, Carousel, Container, InputGroup, FormControl, Card} from "react-bootstrap";
+import {Image, Carousel, Container, InputGroup, FormControl, Col} from "react-bootstrap";
 import PLaceHolderImage from "./images/PlaceHolder.svg"
-import CardHeader from "react-bootstrap/CardHeader";
 import {Map} from "./Map";
-import {Accordion} from "react-bootstrap";
+
 
 export function Home(){
 
@@ -49,49 +48,14 @@ export function Home(){
                     </h4>
                         <p>Thank you for visiting MissionCitizen, a site dedicated to making volunteerism easy! Here at MissionCitizen, we believe giving back is our mission and civic duty. Consider becoming a MissionCitizen today!</p>
                 </div>
-    <div>
+    <div className="col-md-5 mx-auto text-center my-3">
         <h3 id="MissionHours">PLACEHOLDER: volunteer hours </h3>
     </div>
-    <InputGroup className="mb-3">
-        <InputGroup.Text id="inputGroup-sizing-default">Search</InputGroup.Text>
-        <FormControl
-            aria-label="Search"
-            aria-describedby="inputGroup-sizing-default"
-        />
-    </InputGroup>
 
-    <div className="row my-4">
-<div className="col-12 col-md-9">
+
+
+
      <Map/>
-</div>
-
-
-        <div className="col-12 col-md-3">
-            <Accordion>
-                <Accordion.Item eventKey="0">
-                    <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>
-                    <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        est laborum.
-                    </Accordion.Body>
-                </Accordion.Item>
-                <Accordion.Item eventKey="1">
-                    <Accordion.Header>Volunteer Opportunity Event 2</Accordion.Header>
-                    <Accordion.Body>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        est laborum.
-                    </Accordion.Body>
-                </Accordion.Item>
-            </Accordion>
-        </div>
-    </div>
-
-
-
 
 </Container>
         </>
