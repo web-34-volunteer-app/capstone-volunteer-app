@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Container, Nav, Navbar, NavDropdown, Offcanvas} from "react-bootstrap";
+import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
 import HeaderImage from "./images/HeaderLogoImage.svg";
 import {RegisterForm} from "./RegisterForm";
 
@@ -35,7 +35,7 @@ export function Navigation() {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
-            <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false}>
+            <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Register Account</Offcanvas.Title>
                 </Offcanvas.Header>
