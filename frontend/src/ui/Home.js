@@ -60,10 +60,10 @@ export function Home() {
                     />
                 </InputGroup>
             </Container>
-            <Container fluid={true}>
-                <Row g={5} className="my-4">
-                    <Col md={6}>
-                        <div className="ms-5">
+            <Container>
+                <Row g={3} className="my-4">
+                    <Col md={8}>
+                        <div className="d-flex justify-content-center">
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>

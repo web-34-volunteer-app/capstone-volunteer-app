@@ -45,6 +45,7 @@ export function Map(inputs) {
 
     useEffect(() => {
         window.addEventListener('resize', updateMap);
+
         return () => {
             window.removeEventListener('resize', updateMap);
         }
@@ -61,11 +62,20 @@ export function Map(inputs) {
     }
 
     function updateMap() {
+        let screenWidth = document.documentElement.clientWidth;
         setViewport(() => {
             viewport.latitude = currentLat;
             viewport.longitude = currentLong;
-            viewport.width = inputs.width;
-            viewport.height = inputs.height;
+            console.log(screenWidth);
+            if(screenWidth > 750) {
+                console.log("Screenwidth > 750");
+                viewport.width = inputs.width;
+                viewport.height = inputs.height;
+            } else {
+                console.log("Screendwidth is mobile");
+                viewport.width = "93vw";
+                viewport.height = "65vh";
+            }
             return viewport;
         });
     }
