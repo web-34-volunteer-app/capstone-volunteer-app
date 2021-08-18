@@ -3,6 +3,7 @@ import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import GPS_cursor from "./images/gps-pin-black.png";
 import "./style.css";
 
+
 let currentLat = 0;
 let currentLong = 0;
 let init = true;
@@ -17,13 +18,13 @@ let eventData = [
     }
 ];
 
-export function Map(inputs) {
+export function Map() {
     const [viewport, setViewport] = useState(() => {
         return {
             latitude: currentLat,
             longitude: currentLong,
-            width: inputs.width,
-            height: inputs.height,
+            // width: inputs.width,
+            // height: inputs.height,
             zoom: 10
         }
     });
@@ -64,8 +65,8 @@ export function Map(inputs) {
         setViewport(() => {
             viewport.latitude = currentLat;
             viewport.longitude = currentLong;
-            viewport.width = inputs.width;
-            viewport.height = inputs.height;
+            // viewport.width = inputs.width;
+            // viewport.height = inputs.height;
             return viewport;
         });
     }
@@ -82,7 +83,7 @@ export function Map(inputs) {
                     setViewport(viewport);
                 }}
             >
-                <p color="white">Make sure you enable access to your gps!</p>
+
                 {eventData.map(place => (
                     <Marker key={place.id} latitude={place.latitude} longitude={place.longitude} offsetLeft={-25.5}
                             offsetTop={-36}>

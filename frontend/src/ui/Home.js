@@ -60,14 +60,15 @@ export function Home() {
                     />
                 </InputGroup>
             </Container>
-            <Container fluid={true}>
-                <Row g={5} className="my-4">
-                    <Col md={6}>
-                        <div className="ms-5">
-                            <Map width={"50vw"} height={"40vh"}/>
-                        </div>
-                    </Col>
-                    <Col md={4} className="d-block mx-auto">
+            <Container>
+                <Row className="my-4">
+
+                        <Col md={{span:4, offset: 1}} >
+
+                            <Map/>
+                        </Col>
+
+                    <Col md={{span:4, offset: 1}} className="d-block mx-auto">
                         <Accordion>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>
