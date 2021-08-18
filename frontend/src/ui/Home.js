@@ -1,13 +1,11 @@
 import React from "react";
 import HeaderImage from "./images/HeaderLogoImage.svg"
-import {Image, Carousel, Container, InputGroup, FormControl, Card} from "react-bootstrap";
+import {Image, Carousel, Container, InputGroup, FormControl, Row, Col} from "react-bootstrap";
 import PLaceHolderImage from "./images/PlaceHolder.svg"
-import CardHeader from "react-bootstrap/CardHeader";
 import {Map} from "./Map";
 import {Accordion} from "react-bootstrap";
 
-export function Home(){
-
+export function Home() {
     return (
         <>
             <Container>
@@ -15,7 +13,7 @@ export function Home(){
 
                     <Image src={HeaderImage} alt="headerImage" className="d-block"/>
                 </div>
-                <div  className="col-12 col-lg-8 mx-auto">
+                <div className="col-12 col-lg-8 mx-auto">
                     <Carousel variant="dark">
                         <Carousel.Item>
                             <Image
@@ -47,7 +45,9 @@ export function Home(){
                     <h4>
                         Mission Statement:
                     </h4>
-                    <p>Thank you for visiting MissionCitizen, a site dedicated to making volunteerism easy! Here at MissionCitizen, we believe giving back is our mission and civic duty. Consider becoming a MissionCitizen today!</p>
+                    <p>Thank you for visiting MissionCitizen, a site dedicated to making volunteerism easy! Here at
+                        MissionCitizen, we believe giving back is our mission and civic duty. Consider becoming a
+                        MissionCitizen today!</p>
                 </div>
                 <div>
                     <h3 id="MissionHours">PLACEHOLDER: volunteer hours </h3>
@@ -59,14 +59,15 @@ export function Home(){
                         aria-describedby="inputGroup-sizing-default"
                     />
                 </InputGroup>
-
-                <div className="row my-4">
-                    <div className="col-12 col-md-6">
-                        <Map width={"75vw"} height={"75vh"}/>
-                    </div>
-
-
-                    <div className="col-12 col-md-6">
+            </Container>
+            <Container fluid={true}>
+                <Row g={5} className="my-4">
+                    <Col md={6}>
+                        <div className="ms-5">
+                            <Map width={"50vw"} height={"40vh"}/>
+                        </div>
+                    </Col>
+                    <Col md={4} className="d-block mx-auto">
                         <Accordion>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>
@@ -87,12 +88,8 @@ export function Home(){
                                 </Accordion.Body>
                             </Accordion.Item>
                         </Accordion>
-                    </div>
-                </div>
-
-
-
-
+                    </Col>
+                </Row>
             </Container>
         </>
     )

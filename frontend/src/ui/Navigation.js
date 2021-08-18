@@ -1,6 +1,5 @@
-
 import React, {useState} from "react";
-import {Container, Nav, Navbar, NavDropdown, Offcanvas} from "react-bootstrap";
+import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
 import HeaderImage from "./images/HeaderLogoImage.svg";
 import {RegisterForm} from "./RegisterForm";
 
@@ -23,9 +22,9 @@ export function Navigation() {
                             alt="React Bootstrap logo"
                         />
                     </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ms-auto">
+                        <Nav className="me-auto">
                             <Nav.Link href="#" onClick={toggleShow}>Register</Nav.Link>
                             <Nav.Link href="#">Log In</Nav.Link>
                             <Nav.Link href="#">Contact</Nav.Link>
@@ -36,7 +35,7 @@ export function Navigation() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false} placement={"end"}>
+            <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Register Account</Offcanvas.Title>
                 </Offcanvas.Header>

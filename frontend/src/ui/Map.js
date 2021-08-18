@@ -1,5 +1,4 @@
-
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import GPS_cursor from "./images/gps-pin-black.png";
 import "./style.css";
@@ -18,9 +17,8 @@ let eventData = [
     }
 ];
 
-export function Map (inputs) {
+export function Map(inputs) {
     const [viewport, setViewport] = useState(() => {
-        console.log(inputs);
         return {
             latitude: currentLat,
             longitude: currentLong,
@@ -34,7 +32,7 @@ export function Map (inputs) {
 
     useEffect(() => {
         const listener = (e) => {
-            if(e.key === "Escape") {
+            if (e.key === "Escape") {
                 setSelectedPlace(null);
             }
         };
@@ -45,7 +43,15 @@ export function Map (inputs) {
         }
     }, []);
 
-    if(init) {
+    useEffect(() => {
+        window.addEventListener('resize', updateMap);
+        return () => {
+            window.removeEventListener('resize', updateMap);
+        }
+    }, []);
+
+
+    if (init) {
         navigator.geolocation.getCurrentPosition(position => {
             currentLat = position.coords.latitude;
             currentLong = position.coords.longitude;
@@ -55,7 +61,6 @@ export function Map (inputs) {
     }
 
     function updateMap() {
-        console.log(inputs.width + ", " + inputs.height);
         setViewport(() => {
             viewport.latitude = currentLat;
             viewport.longitude = currentLong;
@@ -65,45 +70,46 @@ export function Map (inputs) {
         });
     }
 
+
+
     return (
         <>
-            <div>
-                <ReactMapGL
-                    {...viewport}
-                    mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                    mapStyle="mapbox://styles/akpowers1986/cks64jxs869f317qpopvvckls"
-                    onViewportChange={viewport => {
-                        setViewport(viewport);
-                    }}
-                >
-                    <p color="white">Make sure you enable access to your gps!</p>
-                    {eventData.map(place => (
-                        <Marker key={place.id} latitude={place.latitude} longitude={place.longitude} offsetLeft={-25.5} offsetTop={-36}>
-                            <button className="marker-btn"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setSelectedPlace(place);
-                                    }}>
-                                <img src={GPS_cursor} alt="gps pin"/>
-                            </button>
-                        </Marker>
-                    ))}
-                    {selectedPlace ? (
-                        <Popup
-                            latitude={selectedPlace.latitude}
-                            longitude={selectedPlace.longitude}
-                            onClose={() => {
-                                setSelectedPlace(null);
-                            }}>
-                            <div>
-                                <h2>{selectedPlace.name}</h2>
-                                <p>{selectedPlace.address}</p>
-                                <p>{selectedPlace.description}</p>
-                            </div>
-                        </Popup>
-                    ) : null}
-                </ReactMapGL>
-            </div>
+            <ReactMapGL
+                {...viewport}
+                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                mapStyle="mapbox://styles/akpowers1986/cks64jxs869f317qpopvvckls"
+                onViewportChange={viewport => {
+                    setViewport(viewport);
+                }}
+            >
+                <p color="white">Make sure you enable access to your gps!</p>
+                {eventData.map(place => (
+                    <Marker key={place.id} latitude={place.latitude} longitude={place.longitude} offsetLeft={-25.5}
+                            offsetTop={-36}>
+                        <button className="marker-btn"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setSelectedPlace(place);
+                                }}>
+                            <img src={GPS_cursor} alt="gps pin"/>
+                        </button>
+                    </Marker>
+                ))}
+                {selectedPlace ? (
+                    <Popup
+                        latitude={selectedPlace.latitude}
+                        longitude={selectedPlace.longitude}
+                        onClose={() => {
+                            setSelectedPlace(null);
+                        }}>
+                        <div>
+                            <h2>{selectedPlace.name}</h2>
+                            <p>{selectedPlace.address}</p>
+                            <p>{selectedPlace.description}</p>
+                        </div>
+                    </Popup>
+                ) : null}
+            </ReactMapGL>
         </>
     )
 }
