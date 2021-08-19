@@ -62,12 +62,16 @@ export function Home() {
             </Container>
             <Container>
                 <Row g={3} className="my-4">
-                    <Col md={8}>
+
+
+
+                    <Col md={6}>
+
                         <div className="d-flex justify-content-center">
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <Col md={4} className="d-block mx-auto">
+                    <Col md={6} className="d-block mx-auto">
                         <Accordion>
                             <Accordion.Item eventKey="0">
                                 <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>

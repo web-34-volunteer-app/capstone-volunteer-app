@@ -51,7 +51,11 @@ export function Navigation() {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="me-auto">
+
+
+
+                        <Nav className="ms-auto">
+
                             <Nav.Link href="#" onClick={() => {toggleShow("register");}}>Register</Nav.Link>
                             <Nav.Link href="#" onClick={() => {toggleShow("login");}}>Log In</Nav.Link>
                             <Nav.Link href="#">Contact</Nav.Link>
