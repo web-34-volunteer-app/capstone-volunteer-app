@@ -4,6 +4,7 @@ import {Image, Carousel, Container, InputGroup, FormControl, Row, Col} from "rea
 import PLaceHolderImage from "./images/PlaceHolder.svg"
 import {Map} from "./Map";
 import {Accordion} from "react-bootstrap";
+import {EventList} from "./EventList";
 
 export function Home() {
     return (
@@ -71,28 +72,7 @@ export function Home() {
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <Col md={6} className="d-block mx-auto">
-                        <Accordion>
-                            <Accordion.Item eventKey="0">
-                                <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                            <Accordion.Item eventKey="1">
-                                <Accordion.Header>Volunteer Opportunity Event 2</Accordion.Header>
-                                <Accordion.Body>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                    veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                    est laborum.
-                                </Accordion.Body>
-                            </Accordion.Item>
-                        </Accordion>
-                    </Col>
+                    <EventList/>
                 </Row>
             </Container>
         </>

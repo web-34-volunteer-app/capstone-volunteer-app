@@ -3,6 +3,11 @@ import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
 import HeaderImage from "./images/HeaderLogoImage.svg";
 import {RegisterForm} from "./RegisterForm";
 import {LoginForm} from "./LoginForm";
+import {CreateEventForm} from "./CreateEventForm";
+import {Link} from "react-router-dom";
+
+
+
 
 let offcanvasTitle = "";
 let offcanvasForm = <></>;
@@ -27,6 +32,10 @@ export function Navigation() {
                 offcanvasTitle = "Log In";
                 offcanvasForm = <LoginForm/>;
                 break;
+            case("register event"):
+                offcanvasTitle = "Register Event";
+                offcanvasForm = <CreateEventForm/>;
+                break;
             default:
                 offcanvasTitle = "";
                 offcanvasForm = <></>;
@@ -40,14 +49,14 @@ export function Navigation() {
         <>
             <Navbar bg="light" expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">
+                    <Navbar.Brand><Link to={"/"}>
                         <img
                             src={HeaderImage}
-                            width="100"
-                            height="25"
+                            width="200"
+                            height="auto"
                             className="d-inline-block align-top"
                             alt="React Bootstrap logo"
-                        />
+                        /></Link>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -58,14 +67,18 @@ export function Navigation() {
 
                             <Nav.Link href="#" onClick={() => {toggleShow("register");}}>Register</Nav.Link>
                             <Nav.Link href="#" onClick={() => {toggleShow("login");}}>Log In</Nav.Link>
+
+                            <Nav.Link href="#" onClick={() => {toggleShow("register event");}}>Register Event</Nav.Link>
                             <Nav.Link href="#">Contact</Nav.Link>
                             <Nav.Link href="#">Log Out</Nav.Link>
                             <Nav.Link href="#">Privacy Settings</Nav.Link>
                             <Nav.Link href="#">Community Guidelines</Nav.Link>
+                            <Nav.Link href= "/user-profile">User Profile </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+
             <Offcanvas show={show} onHide={handleClose} backdrop={false} scroll={false} placement={'end'}>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>{offcanvasTitle}</Offcanvas.Title>

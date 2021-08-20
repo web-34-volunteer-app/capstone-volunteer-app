@@ -8,7 +8,7 @@ export function LoginForm(){
                 <Row className="mb-3">
                     <Form.Group as={Col}>
                         <Form.Label>User Name</Form.Label>
-                        <Form.Control id="loginFormUserName" type="text" placeholder="User Name" />
+                        <Form.Control id="loginFormUserName" type="text" placeholder="User Name"/>
                     </Form.Group>
                 </Row>
 
