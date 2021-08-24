@@ -6,7 +6,8 @@ import {EventDetails} from "./EventDetails";
 import {Col, Container, FormControl, InputGroup, Row} from "react-bootstrap";
 import {Map} from "./Map";
 import {EventList} from "./EventList";
-
+import {SearchField} from "./SearchField";
+import {EventsAttending} from "./EventsAttending";
 
 let events = [
     {
@@ -36,14 +37,9 @@ export function UserProfile () {
         <>
             <Container>
             <UserOverview/>
+                <EventsAttending/>
             <EventApprovalTable/>
-                <InputGroup className="mb-3">
-                    <InputGroup.Text id="inputGroup-sizing-default">Search</InputGroup.Text>
-                    <FormControl
-                        aria-label="Search"
-                        aria-describedby="inputGroup-sizing-default"
-                    />
-                </InputGroup>
+            <SearchField/>
                 <Row g={3} className="my-4">
                     <Col md={6}>
                         <div className="d-flex justify-content-center">

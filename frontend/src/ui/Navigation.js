@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
-import HeaderImage from "./images/HeaderLogoImage.svg";
+import HeaderImage from "./images/MC3NAV.svg";
 import {RegisterForm} from "./RegisterForm";
 import {LoginForm} from "./LoginForm";
 import {CreateEventForm} from "./CreateEventForm";
@@ -73,7 +73,7 @@ export function Navigation() {
                             <Nav.Link href="#">Log Out</Nav.Link>
                             <Nav.Link href="#">Privacy Settings</Nav.Link>
                             <Nav.Link href="#">Community Guidelines</Nav.Link>
-                            <Nav.Link href= "/user-profile">User Profile </Nav.Link>
+                            <Nav.Link href= "/user-profile">User Profile</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

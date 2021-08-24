@@ -1,16 +1,17 @@
 import React from "react";
-import HeaderImage from "./images/HeaderLogoImage.svg"
+import HeaderImage from "./images/MC5.svg"
 import {Image, Carousel, Container, InputGroup, FormControl, Row, Col} from "react-bootstrap";
 import PLaceHolderImage from "./images/PlaceHolder.svg"
 import {Map} from "./Map";
 import {Accordion} from "react-bootstrap";
 import {EventList} from "./EventList";
+import {SearchField} from "./SearchField";
 
 export function Home() {
     return (
         <>
             <Container>
-                <div className="col-8 col-lg-6 mx-auto my-5">
+                <div className="col-8 col-lg-3 mx-auto my-5">
 
                     <Image src={HeaderImage} alt="headerImage" className="d-block"/>
                 </div>
@@ -53,21 +54,11 @@ export function Home() {
                 <div>
                     <h3 id="MissionHours">PLACEHOLDER: volunteer hours </h3>
                 </div>
-                <InputGroup className="mb-3">
-                    <InputGroup.Text id="inputGroup-sizing-default">Search</InputGroup.Text>
-                    <FormControl
-                        aria-label="Search"
-                        aria-describedby="inputGroup-sizing-default"
-                    />
-                </InputGroup>
+                <SearchField/>
             </Container>
             <Container>
                 <Row g={3} className="my-4">
-
-
-
                     <Col md={6}>
-
                         <div className="d-flex justify-content-center">
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>

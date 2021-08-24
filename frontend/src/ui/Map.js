@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
-import GPS_cursor from "./images/gps-pin-black.png";
+import GPS_cursor from "./images/Map_pin_icon.svg";
 import "./style.css";
 
 let currentLat = 0;
@@ -93,7 +93,7 @@ export function Map(inputs) {
                     setViewport(viewport);
                 }}
             >
-                <p color="white">Make sure you enable access to your gps!</p>
+
                 {eventData.map(place => (
                     <Marker key={place.id} latitude={place.latitude} longitude={place.longitude} offsetLeft={-25.5}
                             offsetTop={-36}>
