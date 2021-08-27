@@ -1,27 +1,77 @@
-drop table if exists event;
-drop table if exists user;
+DROP TABLE IF EXISTS flag;
+DROP TABLE IF EXISTS bookmark;
+DROP TABLE IF EXISTS volunteer;
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS user;
 
-create table user (
-                      userId binary(16) not null,
-                      primary key (userId)
+CREATE TABLE user
+(
+    userId              BINARY(16)   NOT NULL,
+    userActivationToken CHAR(32),
+    userAdmin           BOOLEAN      NOT NULL,
+    userAllowContact    BOOLEAN      NOT NULL,
+    userEmail           VARCHAR(128) NOT NULL,
+    userFirstName       VARCHAR(16)  NOT NULL,
+    userHash            CHAR(97)     NOT NULL,
+    userLastName        VARCHAR(32)  NOT NULL,
+    userProfileImage    VARCHAR(128),
+    userStartDate       DATETIME(6)  NOT NULL,
+    userTotalHours      DECIMAL(6, 2),
+    userZipCode         VARCHAR(10)  NOT NULL,
+    INDEX (userEmail),
+    PRIMARY KEY (userID)
 );
 
+create table event
+(
+    eventId                        BINARY(16)   NOT NULL,
+    eventUserId                    BINARY       NOT NULL,
+    eventDate                      DATETIME(6)  NOT NULL,
+    eventDescription               blob         NOT NULL,
+    eventDescriptionSkillsRequired VARCHAR(256),
+    eventDescriptionTransportation boolean      NOT NULL,
+    eventDescriptionTypeOfWork     VARCHAR(128) NOT NULL,
+    eventEndTime                   TIME(4),
+    eventFlag                      boolean,
+    eventLatitude                  VARCHAR(32)  NOT NULL,
+    eventLongitude                 VARCHAR(32)  NOT NULL,
+    eventOrganization              VARCHAR(64)  NOT NULL,
+    eventStartTime                 TIME(4),
+    INDEX (eventUserId),
+    FOREIGN KEY (eventUserId) references user (userId),
+    PRIMARY KEY (eventId)
+);
 
-create table event (
-                       eventId binary(16) not null,
-                       eventUserId binary not null,
-                       eventDate datetime(6) not null,
-                       eventDescription blob not null,
-                       eventDescriptionSkillsRequired varchar(256),
-                       eventDescriptionTransportation boolean not null,
-                       eventDescriptionTypeOfWork varchar(128) not null,
-                       eventEndTime time(4),
-                       eventFlag boolean,
-                       eventLatitude varchar(32) not null,
-                       eventLongitude varchar(32) not null,
-                       eventOrganization varchar(64) not null,
-                       eventStartTime time(4),
-                       index (eventUserId),
-                       foreign key (eventUserId) references user(userId),
-                       primary key (eventId)
+CREATE TABLE volunteer
+(
+    volunteerEventId                BINARY(16) NOT NULL,
+    volunteerUserId                 BINARY(16) NOT NULL,
+    volunteerHours                  DECIMAL(6, 2),
+    volunteerHoursPosterVerified    BOOLEAN,
+    volunteerHoursVolunteerVerified BOOLEAN,
+    INDEX (volunteerEventId),
+    INDEX (volunteerUserId),
+    FOREIGN KEY (volunteerEventId) REFERENCES event (eventId),
+    FOREIGN KEY (volunteerUserId) REFERENCES user (userId)
+);
+
+CREATE TABLE flag
+(
+    flagEventId binary(16) NOT NULL,
+    flagUserId  binary(16) NOT NULL,
+    flagMessage blob       NOT NULL,
+    index (flagEventId),
+    index (flagUserId),
+    foreign key (flagEventId) references event (eventId),
+    foreign key (flagUserId) references user (userId)
+);
+
+CREATE TABLE bookmarkedEvent
+(
+    bookMarkedEventEventID binary(16) NOT NULL,
+    bookMarkedEventUserID  binary(16) NOT NULL,
+    index (bookmarkedEventEventId),
+    index (bookmarkedEventUserId),
+    foreign key (bookmarkedEventEventId) references event (eventId),
+    foreign key (bookmarkedEventUserId) references user (userId)
 );
