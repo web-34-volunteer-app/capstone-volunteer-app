@@ -7,7 +7,7 @@ const { checkSchema } = require('express-validator');
 const router = Router();
 
 //Needs update and delete
-router.route('/')
+router.route('/flag')
     .get( getAllFlagsController )
     .post( isLoggedInAdmin, asyncValidatorController(checkSchema(flagValidator)), insertFlag);
 
