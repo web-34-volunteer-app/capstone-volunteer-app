@@ -27,7 +27,7 @@ create table event
     eventId                        BINARY(16)   NOT NULL,
     eventUserId                    BINARY       NOT NULL,
     eventDate                      DATETIME(6)  NOT NULL,
-    eventDescription               blob         NOT NULL,
+    eventDescription               BLOB         NOT NULL,
     eventDescriptionSkillsRequired VARCHAR(256),
     eventDescriptionTransportation boolean      NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128) NOT NULL,
@@ -38,7 +38,7 @@ create table event
     eventOrganization              VARCHAR(64)  NOT NULL,
     eventStartTime                 TIME(4),
     INDEX (eventUserId),
-    FOREIGN KEY (eventUserId) references user (userId),
+    FOREIGN KEY (eventUserId) REFERENCES user (userId),
     PRIMARY KEY (eventId)
 );
 
@@ -57,21 +57,21 @@ CREATE TABLE volunteer
 
 CREATE TABLE flag
 (
-    flagEventId binary(16) NOT NULL,
-    flagUserId  binary(16) NOT NULL,
-    flagMessage blob       NOT NULL,
-    index (flagEventId),
-    index (flagUserId),
-    foreign key (flagEventId) references event (eventId),
-    foreign key (flagUserId) references user (userId)
+    flagEventId BINARY(16) NOT NULL,
+    flagUserId  BINARY(16) NOT NULL,
+    flagMessage BLOB       NOT NULL,
+    INDEX (flagEventId),
+    INDEX (flagUserId),
+    FOREIGN KEY (flagEventId) REFERENCES event (eventId),
+    FOREIGN KEY (flagUserId) REFERENCES user (userId)
 );
 
 CREATE TABLE bookmarkedEvent
 (
-    bookMarkedEventEventID binary(16) NOT NULL,
-    bookMarkedEventUserID  binary(16) NOT NULL,
-    index (bookmarkedEventEventId),
-    index (bookmarkedEventUserId),
-    foreign key (bookmarkedEventEventId) references event (eventId),
-    foreign key (bookmarkedEventUserId) references user (userId)
+    bookMarkedEventEventID BINARY(16) NOT NULL,
+    bookMarkedEventUserID  BINARY(16) NOT NULL,
+    INDEX (bookmarkedEventEventId),
+    INDEX (bookmarkedEventUserId),
+    FOREIGN KEY (bookmarkedEventEventId) REFERENCES event (eventId),
+    FOREIGN KEY (bookmarkedEventUserId) REFERENCES user (userId)
 );

@@ -8,7 +8,9 @@ import {updateUser} from "../../utils/user/updateUser";
 export async function putUserController(request: Request, response: Response) : Promise<Response>{
     try {
         const {userId} = request.params
-        const {userActivationToken, userAdmin, userAllowContact, userEmail, userFirstName, userHash, userLastName, userProfileImage, userStartDate, userTotalHours, userZip} = request.body
+        //Anything that can be edited
+        const {userEmail,userProfileImage} = request.body
+        // @ts-ignore
         const userIdFromSession: string = <string>request.session?.user.userId
 
         const preFormUpdate = async (partialUser: PartialUser) : Promise<Response> => {
@@ -23,8 +25,9 @@ export async function putUserController(request: Request, response: Response) : 
         }
 
         return userId === userIdFromSession
-            ? preFormUpdate({userId, userActivationToken, userAdmin, userAllowContact, userEmail, userFirstName, userHash, userLastName, userProfileImage, userStartDate, userTotalHours, userZip})
-            : updateFailed("you are not allowed to preform this action")
+            //Anything that can be edited
+            ? preFormUpdate({userId, userEmail})
+            : updateFailed("you are not allowed to perform this action")
     } catch (error) {
         return response.json( {status:400, data: null, message: error.message})
     }

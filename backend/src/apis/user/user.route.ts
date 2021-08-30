@@ -1,4 +1,3 @@
-
 import {getUserByUserId, putUserController} from "./user.controller";
 import {Router} from "express";
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";

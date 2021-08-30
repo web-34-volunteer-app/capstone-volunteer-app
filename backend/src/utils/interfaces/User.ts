@@ -1,7 +1,14 @@
 export interface PartialUser {
-    userId: string | null,
+    userId: string|null,
+    userAdmin: boolean | null,
+    userAllowContact: boolean | null,
     userEmail: string| null,
-    userPhone: string,
+    userFirstName: string| null,
+    userLastName: string| null,
+    userProfileImage: string,
+    userStartDate: string,
+    userTotalHours: string,
+    userZipCode: string
 }
 
 export interface User {
