@@ -14,6 +14,7 @@ export async function getAllFlagsController(request: Request, response: Response
         return response.json({status: 200, message: null, data});
     } catch(error) {
         console.error(error);
+        // @ts-ignore
         return response.json({status: 200, message: error.message, data: null});
     }
 }
@@ -35,6 +36,7 @@ export async function insertFlagController(request: Request, response: Response)
         return response.json({status: 200, message: result ?? 'Flag successfully inserted', data: null});
     } catch (error) {
         console.error(error);
+        // @ts-ignore
         return response.json({status: 200, message: error.message, data: null});
     }
 }
@@ -54,6 +56,7 @@ export async function updateFlagController(request: Request, response: Response)
 
     } catch (error) {
         console.error(error);
+        // @ts-ignore
         return response.json({status: 200, message: error.message, data: null});
     }
 }
@@ -69,6 +72,7 @@ export async function deleteFlagController(request: Request, response: Response)
         const result = await deleteFlag(flag);
         return response.json({status: 200, data: null, message: result ?? 'Flag successfully deleted'});
     } catch (error) {
+        // @ts-ignore
         console.error({status: 200, message: error.message, data: null});
     }
 }

@@ -1,4 +1,5 @@
 import {Request, Response} from "express";
+import "express-session";
 import {setActivationToken, setHash} from "../../utils/auth.utils";
 import {User} from "../../utils/interfaces/User";
 import {insertUser} from "../../utils/user/insertUser";
@@ -23,8 +24,7 @@ export async function signupUserController(request: Request, response: Response)
 
         const message = `<h2>Welcome to DDCTwitter.</h2>
 <p>In order to start posting tweets of cats you must confirm your account </p>
-<p><a href="${basePath}">${basePath}</a></p>
-`
+<p><a href="${basePath}">${basePath}</a></p>`
 
         const mailgunMessage = {
             from: `Mailgun Sandbox <postmaster@${process.env.MAILGUN_DOMAIN}>`,
