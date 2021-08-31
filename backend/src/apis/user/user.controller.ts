@@ -7,20 +7,6 @@ import {insertUser} from "../../utils/user/insertUser";
 //import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 //import {updateUser} from "../../utils/user/updateUser";
 
-export async function postUserController(request: Request, response: Response): Promise<Response> {
-    try {
-        console.log(request.body)
-        const {userActivationToken, userAdmin, userAllowContact, userEmail, userFirstName, userHash, userLastName, userPhone, userProfileImage, userStartDate, userTotalHours, userZipCode} = request.body;
-
-        const user: User = {userId: null, userActivationToken, userAdmin, userAllowContact, userEmail, userFirstName, userHash, userLastName, userPhone, userProfileImage, userStartDate, userTotalHours, userZipCode};
-        const message = await insertUser(user);
-        return response.json({status: 200, message, data: 0});
-    } catch (error){
-        console.error(error)
-        return response.json({status:500, data:null, message: error})
-    }
-}
-
 export async function getAllUsersController(request: Request, response: Response) : Promise<Response> {
     try {
         const data = await selectAllUsers();
