@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {NextFunction, Request, Response} from 'express';
 import "express-session";
 import passport from 'passport';
@@ -16,10 +17,22 @@ export async function signInController(request: Request, response: Response, nex
         const {userPassword} = request.body;
 
 
+=======
+import {NextFunction} from "express";
+import passport from "passport";
+import {User} from "../../utils/interfaces/User";
+import {v4 as uuidv4} from 'uuid'
+
+export async function signInController(request: Request, response: Response, nextFunction: NextFunction) {
+    try {
+        const {userPassword} = request.body;
+
+>>>>>>> develop
         passport.authenticate(
             'local',
             {session: false},
             async (err: any, passportUser: User) => {
+<<<<<<< HEAD
                 console.log(passportUser)
                 const {userId, userProfileImage, userEmail} = passportUser;
                 const signature: string = uuidv4();
@@ -80,3 +93,14 @@ export const  passportStrategy: Strategy = new LocalStrategy(
         }
     }
 );
+=======
+                console.log(passportUser);
+                const {userAllowContact, userEmail, userFirstName, userLastName, userZipCode, userPassword} = passportUser;
+                const signature: string = uuidv4();
+            }
+        )
+    } catch(e: any) {
+
+    }
+}
+>>>>>>> develop

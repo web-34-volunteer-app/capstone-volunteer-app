@@ -9,7 +9,8 @@ export async function updateUser(user: User) {
 
         const [rows] = await mysqlConnection.execute(query, user);
         return 'User successfully updated'
+
     } catch (e: any) {
-       throw new Error(e.message)
+        throw new Error(e.message)
     }
 }

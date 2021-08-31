@@ -14,12 +14,12 @@ const passportStrategy : Strategy = new LocalStrategy(
     async (email, password, done) => {
         try {
 
-            const user : User | undefined = await selectUserByUserEmail(email);
-            return user ? done(null, user) : done(undefined, undefined, { message: 'Incorrect username or password'});
+            const profile : User | undefined = await selectUserByUserEmail(email);
+            return profile ? done(null, profile) : done(undefined, undefined, { message: 'Incorrect username or password'});
         }
         catch (error) {
             return done(error);
         }
     });
-
 export const  passportMiddleware = passport.use(passportStrategy);
+

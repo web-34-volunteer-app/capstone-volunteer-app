@@ -5,6 +5,7 @@ export interface PartialUser {
     userEmail: string,
     userFirstName: string| null,
     userLastName: string| null,
+    userPhone: string,
     userProfileImage: string,
     userStartDate: string,
     userTotalHours: string,
@@ -12,16 +13,17 @@ export interface PartialUser {
 }
 
 export interface User {
-    userId: string|null,
-    userActivationToken: string| null,
-    userAdmin: boolean | null,
-    userAllowContact: boolean | null,
+    userId: string | null,
+    userActivationToken: string | null,
+    userAdmin: boolean,
+    userAllowContact: boolean,
     userEmail: string,
-    userFirstName: string| null,
+    userFirstName: string,
     userHash: string,
-    userLastName: string| null,
-    userProfileImage: string,
-    userStartDate: string,
-    userTotalHours: string,
-    userZipCode: string
+    userLastName: string,
+    userPhone: string | null,
+    userProfileImage: string | null,
+    userStartDate: string | null,
+    userTotalHours: number | null,
+    userZipCode: string | null
 }

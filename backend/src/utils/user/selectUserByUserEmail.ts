@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
 import {connect} from "../database.utils";
 
 export async function selectUserByUserEmail(userActivationToken: string) {
