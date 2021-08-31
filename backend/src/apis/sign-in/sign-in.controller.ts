@@ -3,7 +3,7 @@ import "express-session";
 import passport from 'passport';
 import passportLocal, {Strategy} from 'passport-local';
 
-import uuid from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import {generateJwt, validatePassword} from "../../utils/auth.utils";
 import {User} from "../../utils/interfaces/User";
 import {selectUserByUserEmail} from "../../utils/user/selectUserByUserEmail";
@@ -22,7 +22,7 @@ export async function signInController(request: Request, response: Response, nex
             async (err: any, passportUser: User) => {
                 console.log(passportUser)
                 const {userId, userProfileImage, userEmail} = passportUser;
-                const signature: string = uuid();
+                const signature: string = uuidv4();
                 const authorization: string = generateJwt({userId, userProfileImage, userEmail}, signature);
 
                 const signInFailed = (message: string) => response.json({
@@ -56,7 +56,7 @@ export async function signInController(request: Request, response: Response, nex
 
                 return isPasswordValid ? signInSuccessful() : signInFailed("Invalid email or password");
             })(request, response, nextFunction)
-    } catch (error) {
+    } catch (error: any) {
         return response.json({status: 500, data: null, message: error.message})
     }
 }

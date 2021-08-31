@@ -8,8 +8,8 @@ import {updateUser} from "../../utils/user/updateUser";
 export async function putUserController(request: Request, response: Response) : Promise<Response>{
     try {
         const {userId} = request.params
-        //Anything that can be edited
-        const {userEmail,userProfileImage} = request.body
+        //Anything that can be viewed/edited
+        const {userAdmin, userAllowContact, userEmail, userFirstName, userLastName, userProfileImage, userStartDate, userTotalHours,userZipCode} = request.body
         // @ts-ignore
         const userIdFromSession: string = <string>request.session?.user.userId
 
@@ -25,10 +25,10 @@ export async function putUserController(request: Request, response: Response) : 
         }
 
         return userId === userIdFromSession
-            //Anything that can be edited
-            ? preFormUpdate({userId, userEmail})
+            //Anything that can be viewed/edited
+            ? preFormUpdate({userId, userAdmin, userAllowContact, userEmail, userFirstName, userLastName, userProfileImage, userStartDate, userTotalHours,userZipCode})
             : updateFailed("you are not allowed to perform this action")
-    } catch (error) {
+    } catch (error: any) {
         return response.json( {status:400, data: null, message: error.message})
     }
 }
@@ -42,7 +42,7 @@ export async function getUserByUserId(request: Request, response: Response) : Pr
         const status: Status = {status: 200, data, message: null}
         return response.json(status)
 
-    } catch (error) {
+    } catch (error: any) {
         return(response.json({status: 400, data: null, message: error.message}))
 
     }

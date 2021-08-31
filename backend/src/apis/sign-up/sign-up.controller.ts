@@ -18,7 +18,7 @@ export async function signupUserController(request: Request, response: Response)
         const {userEmail, userPassword} = request.body;
         const userHash = await setHash(userPassword);
         const userActivationToken = setActivationToken();
-        const userProfileImage = "http://www.fillmurray.com/100/150"
+        const userProfileImage = "https://www.fillmurray.com/100/150"
         const basePath = `${request.protocol}://${request.get('host')}${request.originalUrl}activation/${userActivationToken}`
         console.log(userActivationToken)
 
@@ -35,6 +35,7 @@ export async function signupUserController(request: Request, response: Response)
             html: message
         }
 
+        // @ts-ignore
         const user: User = {
             userId: null,
             userActivationToken,

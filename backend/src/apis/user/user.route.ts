@@ -12,7 +12,7 @@ UserRoute.route('/')
 UserRoute.route("/:userId")
     .get(
         asyncValidatorController([
-            check("userId", "please provide a valid userId").isUUID()
+            check("userId", "Please provide a valid userId").isUUID()
         ])
         , getUserByUserId
     )

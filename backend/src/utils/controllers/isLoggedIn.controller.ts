@@ -7,9 +7,11 @@ export function isLoggedIn(request: Request, response: Response, next: NextFunct
 
     let status : Status = {status: 400, message: "Please login", data: null};
 
+    // @ts-ignore
     const sessionUser  = (request : Request): User | undefined => request.session?.user ?? undefined;
     console.log(request.sessionID)
 
+    // @ts-ignore
     const signature = (request : Request) : string => request.session?.signature ?? "no signature"
 
     const isSessionActive = (isUserActive: User| undefined) : boolean => isUserActive ? true : false;
