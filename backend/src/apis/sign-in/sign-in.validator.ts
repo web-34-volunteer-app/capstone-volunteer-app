@@ -1,5 +1,5 @@
 export const signInValidator = {
-    profilePassword: {
+    userPassword: {
         isLength: {
             errorMessage: 'Password must be at least eight characters',
             options: { min: 8 }
@@ -7,7 +7,7 @@ export const signInValidator = {
         trim: true,
         escape: true
     },
-    profileEmail: {
+    userEmail: {
         isEmail: {
             errorMessage: 'Please provide a valid email'
         },
