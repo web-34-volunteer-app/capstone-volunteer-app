@@ -29,8 +29,7 @@ export async function activationController(request: Request, response: Response,
 
         user ? await activationSucceeded(user) : activationFailed()
 
-    } catch (error) {
-        // @ts-ignore
+    } catch (error: any) {
         return response.json({status: 500, data: null, message: error.message})
     }
 }

@@ -14,16 +14,17 @@ export async function signupUserController(request: Request, response: Response)
     try {
 
 
-        const {userAllowContact, userEmail, userFirstName, userLastName, userPhone, userProfileImage, userZipCode, userPassword} = request.body;
+        const {userAllowContact, userEmail, userFirstName, userLastName, userZipCode, userPassword} = request.body;
         const userHash = await setHash(userPassword);
         const userActivationToken = setActivationToken();
-        const userStartDate = Date.now().toString();
+        let date = new Date();
+        const userStartDate = date.toISOString().slice(0, 19).replace('T', ' ');
         const userAdmin = false;
-        const basePath = `${request.protocol}://${request.get('host')}${request.originalUrl}activation/${userActivationToken}`
+        const basePath = `${request.protocol}://${request.get('host')}${request.originalUrl}/activation/${userActivationToken}`
         console.log(userActivationToken)
 
-        const message = `<h2>Welcome to DDCTwitter.</h2>
-<p>In order to start posting tweets of cats you must confirm your account </p>
+        const message = `<h2>Welcome to MissionCitizen.</h2>
+<p>In order to get started, you must confirm your account </p>
 <p><a href="${basePath}">${basePath}</a></p>`
 
         const mailgunMessage = {
@@ -43,8 +44,8 @@ export async function signupUserController(request: Request, response: Response)
             userFirstName,
             userHash,
             userLastName,
-            userPhone,
-            userProfileImage,
+            userPhone: null,
+            userProfileImage: null,
             userStartDate,
             userTotalHours: 0.00,
             userZipCode
@@ -56,8 +57,7 @@ export async function signupUserController(request: Request, response: Response)
 
         emailComposer.compile().build((error: any, message: Buffer) => {
             const mg = mailgun({apiKey: process.env.MAILGUN_API_KEY, domain: process.env.MAILGUN_DOMAIN});
-
-            console.log(message.toString("ascii"))
+            //console.log(message.toString("ascii"))
             const compiledEmail = {
                 to: userEmail,
                 message: message.toString("ascii")
@@ -75,8 +75,7 @@ export async function signupUserController(request: Request, response: Response)
                 return response.json(status);
             });
         })
-    } catch (error) {
-        // @ts-ignore
+    } catch (error: any) {
         return response.json({status: 500, message: error.message, data: null});
     }
 }

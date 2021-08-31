@@ -19,7 +19,7 @@ export interface User {
     userAllowContact: boolean,
     userEmail: string,
     userFirstName: string,
-    userHash: string | null,
+    userHash: string,
     userLastName: string,
     userPhone: string | null,
     userProfileImage: string | null,
