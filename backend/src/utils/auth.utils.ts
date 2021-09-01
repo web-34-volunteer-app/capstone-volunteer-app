@@ -1,4 +1,4 @@
-import * as argon2 from 'argon2'
+import * as argon2 from 'argon2';
 
 const crypto = require('crypto')
 const { sign } = require('jsonwebtoken')
@@ -39,8 +39,4 @@ export async function validatePassword (hash: string, password: string): Promise
             memoryCost: 2 ** 16,
             hashLength: 32
         })
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> develop
