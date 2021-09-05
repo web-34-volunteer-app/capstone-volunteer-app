@@ -15,7 +15,7 @@ export function isLoggedIn(request: Request, response: Response, next: NextFunct
     // @ts-ignore
     const signature = (request : Request) : string => request.session?.signature ?? "no signature"
 
-    const isSessionActive = (isUserActive: User| undefined) : boolean => isUserActive ? true : false;
+    const isSessionActive = (isUserActive: User| undefined) : boolean => !!isUserActive;
 
 
     const getJwtTokenFromHeader  = (headers: any): string => {
@@ -28,7 +28,7 @@ export function isLoggedIn(request: Request, response: Response, next: NextFunct
             unverifiedJwtToken,
             signature(request),
             {maxAge: "3hr"},
-            (error: any, decoded: any) => error ? false : true
+            (error: any, decoded: any) => !error
         )
         : false;
 

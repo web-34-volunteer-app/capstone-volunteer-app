@@ -2,6 +2,7 @@ import { App } from './App'
 import {User} from "./utils/interfaces/User";
 
 
+
 declare module 'express-session' {
     export interface SessionData {
         user: User|undefined;
@@ -23,4 +24,4 @@ async function main () {
     }
 }
 
-main()
+main().catch(error => console.error(error) );
