@@ -1,7 +1,7 @@
 export const eventValidator = {
     eventUserId: {
         isUUID: {
-            errorMessage: 'please provide a valid TweetProfileId'
+            errorMessage: 'please provide a valid eventUserId'
         }
     },
     eventAddress: {
