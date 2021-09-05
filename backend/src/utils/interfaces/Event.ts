@@ -1,17 +1,18 @@
 export interface Event {
     eventId: string|null;
-    eventUserId: string|null;
+    eventUserId: string;
+    eventAddress: string;
     eventDate: Date|null;
-    eventDescription: string|null;
-    eventDescriptionSkillsRequired: string;
-    eventDescriptionTransportation: boolean|null;
+    eventDescription: string;
+    eventDescriptionSkillsRequired: string|null;
+    eventDescriptionTransportation: boolean;
     eventDescriptionTypeOfWork: string|null;
-    eventEndTime: number|null;
-    eventFlag: boolean;
+    eventEndTime: number;
+    eventFlag: boolean|null;
     eventLatitude: string|null;
     eventLongitude: string|null;
-    eventOrganization: string|null;
-    eventStartTime: number|null;
+    eventOrganization: string;
+    eventStartTime: number;
 }
 
 

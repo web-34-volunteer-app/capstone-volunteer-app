@@ -10,7 +10,7 @@ const session = require("express-session");
 import passport = require('passport');
 const MemoryStore = require('memorystore')(session);
 import {passportStrategy} from "./apis/sign-in/sign-in.controller";
-import EventRoute from './apis/event/event.route';
+import {EventRouter} from './apis/event/event.route';
 
 
 
@@ -59,7 +59,7 @@ export class App {
         this.app.use('/apis/user', UserRoute)
         this.app.use('/apis/sign-in', SignInRouter)
         this.app.use('/apis/sign-up', signUpRouter);
-        this.app.use('/apis/event', EventRoute)
+        this.app.use('/apis/event', EventRouter)
     }
 
     // starts the server and tells the terminal to post a message that the server is running and on what port

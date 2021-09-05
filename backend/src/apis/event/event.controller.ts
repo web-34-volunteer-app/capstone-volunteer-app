@@ -9,25 +9,29 @@ const {validationResult} = require('express-validator');
 
 export async function postEvent(request:Request, response:Response){
     try {
-        const {eventDescription, eventDescriptionSkillsRequired, eventFlag, eventOrganization,} = request.body;
+        console.log(request.body)
+        const {eventAddress,eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,eventEndTime,eventFlag, eventOrganization,eventStartTime} = request.body;
 
         const eventUserId = <string>request.session?.user?.userId
 
         const event: Event = {
             eventId: null,
             eventUserId,
+            eventAddress,
             eventDate: null,
             eventDescription,
             eventDescriptionSkillsRequired,
-            eventDescriptionTransportation: null,
+            eventDescriptionTransportation,
             eventDescriptionTypeOfWork: null,
-            eventEndTime: null,
+            eventEndTime,
             eventFlag,
             eventLatitude: null,
             eventLongitude: null,
             eventOrganization,
-            eventStartTime: null
+            eventStartTime
         }
+        console.log(event)
+
         const result = await insertEvent(event)
         const status: Status = {
             status:200,

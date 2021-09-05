@@ -1,8 +1,16 @@
 export const eventValidator = {
     eventUserId: {
-        isUUID: {
-            errorMessage: 'please provide a valid eventUserId'
+        isString: {
+            errorMessage: 'Please provide a valid eventUserId'
         }
+    },
+    eventAddress: {
+        isString: {
+            errorMessage: 'please provide an address',
+            options: true
+        },
+        trim: true,
+        escape: true
     },
     eventDate: {
         toDate: true,
@@ -12,6 +20,7 @@ export const eventValidator = {
             },
         },
     },
+
     eventDescription: {
         isString: {
             errorMessage: 'please add event description',
@@ -33,14 +42,7 @@ export const eventValidator = {
             loose: false,
         },
     },
-    eventDescriptionTypeOfWork:{
-        isString: true,
-        optional: {
-            options: {
-                nullable:true,
-            },
-        },
-    },
+
     eventEndTime:{
         isDate:true,
         optional: {
@@ -57,24 +59,6 @@ export const eventValidator = {
                     nullable:true,
                 },
             },
-        },
-    },
-    eventLatitude:{
-        optional: {
-            nullable: true,
-        },
-        isNumeric: {
-            errorMessage: "please use numbers only",
-            options: { min: 5 },
-        },
-    },
-    eventLongitude:{
-        optional: {
-            nullable: true,
-        },
-        isNumeric: {
-            errorMessage: "please use numbers only",
-            options: { min: 5 },
         },
     },
     eventOrganization:{
