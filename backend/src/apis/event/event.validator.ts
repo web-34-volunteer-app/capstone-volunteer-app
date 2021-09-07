@@ -33,7 +33,7 @@ export const eventValidator = {
         isString: true,
         optional: {
             options: {
-            nullable:true,
+                nullable:true,
             },
         },
     },

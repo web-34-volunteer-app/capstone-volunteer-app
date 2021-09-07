@@ -12,15 +12,15 @@ export const UserRoute = Router();
 UserRoute.route('/')
     .get( getAllUsersController )
 
-/*
-UserRoute.route("/:userId")
-    .get(
-        asyncValidatorController([
-            check("userId", "please provide a valid userId").isUUID()
-        ])
-        , getUserByUserId
-    )
-    .put(isLoggedIn, asyncValidatorController(checkSchema(userValidator)), putUserController)
 
- */
+// UserRoute.route("/:userId")
+//     .get(
+//         asyncValidatorController([
+//             check("userId", "please provide a valid userId").isUUID()
+//         ])
+//
+//     )
+//     .put(isLoggedIn, asyncValidatorController(checkSchema(userValidator)))
+
+
 

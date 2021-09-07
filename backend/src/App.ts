@@ -3,7 +3,7 @@ import morgan from 'morgan'
 // Routes
 import { indexRoute } from './apis/index.route'
 import { UserRoute } from './apis/user/user.route'
-
+import {SignOutRoute} from "./apis/sign-out/sign-out.route";
 import {SignInRouter} from "./apis/sign-in/sign-in.route";
 import {signUpRouter} from "./apis/sign-up/signup.route";
 const session = require("express-session");
@@ -55,11 +55,12 @@ export class App {
     // private method for setting up routes in their basic sense (ie. any route that performs an action on profiles starts with /profiles)
     private routes () :void {
         // TODO add "/apis"
-        this.app.use('/apis', indexRoute)
-        this.app.use('/apis/user', UserRoute)
-        this.app.use('/apis/sign-in', SignInRouter)
+        this.app.use('/apis', indexRoute);
+        this.app.use('/apis/user', UserRoute);
+        this.app.use('/apis/sign-in', SignInRouter);
         this.app.use('/apis/sign-up', signUpRouter);
-        this.app.use('/apis/event', EventRouter)
+        this.app.use('/apis/event', EventRouter);
+        this.app.use('/apis/sign-out', SignOutRoute)
     }
 
     // starts the server and tells the terminal to post a message that the server is running and on what port

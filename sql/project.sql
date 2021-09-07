@@ -78,3 +78,4 @@ CREATE TABLE bookmarkedEvent
     foreign key (bookmarkedEventEventId) references event (eventId),
     foreign key (bookmarkedEventUserId) references user (userId)
 );
+

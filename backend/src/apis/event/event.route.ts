@@ -9,6 +9,8 @@ export const EventRouter = Router();
 
 
 EventRouter.route('/')
-.post(isLoggedIn, asyncValidatorController(checkSchema(eventValidator))
- ,postEvent);
+.post(
+    isLoggedIn,
+    asyncValidatorController(checkSchema(eventValidator)),
+ postEvent);
 
