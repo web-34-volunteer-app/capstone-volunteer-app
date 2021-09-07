@@ -27,19 +27,19 @@ CREATE TABLE user
 create table event
 (
     eventId                        BINARY(16)   NOT NULL,
-    eventUserId                    BINARY       NOT NULL,
+    eventUserId                    BINARY(16)   NOT NULL,
     eventAddress                   VARCHAR(256) NOT NULL,
     eventDate                      DATETIME(6)  NOT NULL,
     eventDescription               blob         NOT NULL,
     eventDescriptionSkillsRequired VARCHAR(256),
     eventDescriptionTransportation boolean      NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128),
-    eventEndTime                   TIME(4)      NOT NULL,
+    eventEndTime                   DATETIME(6)  NOT NULL,
     eventFlag                      boolean,
     eventLatitude                  VARCHAR(32)  NOT NULL,
     eventLongitude                 VARCHAR(32)  NOT NULL,
     eventOrganization              VARCHAR(64)  NOT NULL,
-    eventStartTime                 TIME(4)      NOT NULL,
+    eventStartTime                 DATETIME(6)  NOT NULL,
     INDEX (eventUserId),
     FOREIGN KEY (eventUserId) references user (userId),
     PRIMARY KEY (eventId)

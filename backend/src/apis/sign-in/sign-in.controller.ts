@@ -22,7 +22,7 @@ export async function signInController(request: Request, response: Response, nex
             {session: false},
             async (err: any, passportUser: User) => {
 
-                console.log(passportUser)
+                //console.log(passportUser)
                 const {userId, userProfileImage, userEmail} = passportUser;
                 const signature: string = uuidv4();
                 const authorization: string = generateJwt({userId, userProfileImage, userEmail}, signature);
@@ -45,15 +45,12 @@ export async function signInController(request: Request, response: Response, nex
                         request.session.jwt = authorization;
                         request.session.signature = signature;
                     }
-
                     response.header({
                         authorization
                     });
 
                     return response.json({status: 200, data: null, message: "sign in successful"})
                 };
-
-
                 const isPasswordValid: boolean = passportUser && await validatePassword(passportUser.userHash, userPassword);
 
                 return isPasswordValid ? signInSuccessful() : signInFailed("Invalid email or password");

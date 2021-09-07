@@ -8,14 +8,22 @@ export function signOutController(request: Request, response : Response) {
 
     const executeSignOut = () => {
         // @ts-ignore: broken typing is requiring a callback function that is optional.
-        session?.destroy()
-
+        //console.log("Destroying session.");
+        session?.destroy();
     };
 
     const signOutFailed = () => {
         status.status = 400;
         status.message = "you are not signed in";
     };
+
+    let isSession;
+    if(session) {
+        isSession = true;
+    } else {
+        isSession = false;
+    }
+    console.log("Session: ", isSession);
 
     session ? executeSignOut() : signOutFailed();
 

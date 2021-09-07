@@ -1,9 +1,4 @@
 export const eventValidator = {
-    eventUserId: {
-        isUUID: {
-            errorMessage: 'please provide a valid eventUserId'
-        }
-    },
     eventAddress: {
         isString: {
             errorMessage: 'please provide an address',
@@ -16,11 +11,11 @@ export const eventValidator = {
         toDate: true,
         optional: {
             options: {
+                errorMessage: 'please provide a date',
                 nullable:true,
             },
         },
     },
-
     eventDescription: {
         isString: {
             errorMessage: 'please add event description',
@@ -33,45 +28,54 @@ export const eventValidator = {
         isString: true,
         optional: {
             options: {
+                errorMessage: 'eventDescriptionSkillsRequired',
                 nullable:true,
             },
         },
     },
     eventDescriptionTransportation:{
         isBoolean: {
+            errorMessage: 'eventDescriptionTransportation',
             loose: false,
         },
     },
 
     eventEndTime:{
-        isDate:true,
+        toDate: true,
         optional: {
             options: {
-                nullable: true,
-            },
-        }
-    },
-    eventFlag:{
-        isBoolean: {
-            loose: false,
-            optional: {
-                options: {
-                    nullable:true,
-                },
+                errorMessage: 'please provide an end date',
+                nullable:true,
             },
         },
     },
-    eventOrganization:{
-        isString:true
-    },
-    eventStartTime:{
 
-        isDate:true,
+    // eventFlag:{
+    //     isBoolean: {
+    //         errorMessage: 'eventFlag',
+    //         loose: false,
+    //         optional: {
+    //             options: {
+    //                 nullable:true,
+    //             },
+    //         },
+    //     },
+    // },
+
+    eventOrganization:{
+        isString: {
+            options: true,
+            errorMessage: 'eventOrganization'
+        }
+    },
+
+    eventStartTime:{
+        toDate: true,
         optional: {
             options: {
-                nullable: true,
+                errorMessage: 'please provide a start date',
+                nullable:true,
             },
-        }
+        },
     }
-
 };

@@ -11,23 +11,26 @@ const {validationResult} = require('express-validator');
 export async function postEvent(request:Request, response:Response){
     try {
         console.log("request.body",request.body)
-        const {eventAddress,eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,eventEndTime,eventFlag, eventOrganization,eventStartTime} = request.body;
+        const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime} = request.body;
 
         const eventUserId = <string>request.session?.user?.userId
-console.log("eventUserId: ",eventUserId)
+
+        const eventLatitude = "36.793230";
+        const eventLongitude = "-76.111660";
+
         const event: Event = {
             eventId: null,
             eventUserId,
             eventAddress,
-            eventDate: null,
+            eventDate,
             eventDescription,
             eventDescriptionSkillsRequired,
             eventDescriptionTransportation,
-            eventDescriptionTypeOfWork: null,
+            eventDescriptionTypeOfWork,
             eventEndTime,
-            eventFlag,
-            eventLatitude: null,
-            eventLongitude: null,
+            eventFlag: false,
+            eventLatitude,
+            eventLongitude,
             eventOrganization,
             eventStartTime
         };
