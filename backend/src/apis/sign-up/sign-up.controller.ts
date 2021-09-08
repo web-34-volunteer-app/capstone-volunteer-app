@@ -44,8 +44,8 @@ export async function signupUserController(request: Request, response: Response)
             userFirstName,
             userHash,
             userLastName,
-            userPhone: null,
-            userProfileImage: null,
+            userPhone: "",
+            userProfileImage: "",
             userStartDate,
             userTotalHours: 0.00,
             userZipCode

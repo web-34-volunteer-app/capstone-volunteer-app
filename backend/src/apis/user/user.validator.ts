@@ -38,9 +38,9 @@ export const userValidator : Schema = {
                 nullable: true
             }
         },
-        isURL: {
-            errorMessage: "user image is malformed please upload a new image"
-        },
+        // isURL: {
+        //     errorMessage: "user image is malformed please upload a new image"
+        // },
     },
 
     userZipCode: {

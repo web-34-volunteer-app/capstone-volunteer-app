@@ -1,14 +1,14 @@
 export interface PartialUser {
     userId: string|null,
-    userAdmin: boolean | null,
-    userAllowContact: boolean | null,
+    userAdmin: boolean,
+    userAllowContact: boolean,
     userEmail: string,
-    userFirstName: string| null,
-    userLastName: string| null,
+    userFirstName: string,
+    userLastName: string,
     userPhone: string,
     userProfileImage: string,
     userStartDate: string,
-    userTotalHours: string,
+    userTotalHours: number,
     userZipCode: string
 }
 
@@ -21,9 +21,9 @@ export interface User {
     userFirstName: string,
     userHash: string,
     userLastName: string,
-    userPhone: string | null,
-    userProfileImage: string | null,
-    userStartDate: string | null,
-    userTotalHours: number | null,
-    userZipCode: string | null
+    userPhone: string,
+    userProfileImage: string,
+    userStartDate: string,
+    userTotalHours: number,
+    userZipCode: string
 }

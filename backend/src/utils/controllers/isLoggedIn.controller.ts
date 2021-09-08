@@ -33,7 +33,4 @@ export function isLoggedIn(request: Request, response: Response, next: NextFunct
         : false;
 
     return isJwtValid && isSessionActive(sessionUser(request)) ? next() : response.json(status);
-
 }
-
-

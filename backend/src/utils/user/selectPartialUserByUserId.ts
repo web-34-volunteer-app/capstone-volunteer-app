@@ -1,16 +1,15 @@
 import {connect} from "../database.utils";
-import {User} from "../interfaces/User";
+import {PartialUser, User} from "../interfaces/User";
+import {RowDataPacket} from "mysql2";
 
-export async function selectPartialUserByUserId(userId: string) {
+export async function selectPartialUserByUserId(userId: string) : Promise<PartialUser|null> {
     try {
         const mysqlConnection = await connect();
-
-        const [rows] = await mysqlConnection.execute('SELECT BIN_TO_UUID(userId) as userId, userEmail ,userProfileImage  FROM user WHERE userId = UUID_TO_BIN(:userId)', {userId});
-
-        // @ts-ignore is required so that rows can be interacted with like the array it is
-        return rows.length !== 0 ? {...rows[0]} : undefined;
+        const mysqlQuery : string = 'SELECT BIN_TO_UUID(userId) as userId, userAdmin, userAllowContact, userEmail, userFirstName, userLastName, userPhone, userProfileImage, userStartDate, userTotalHours, userZipCode  FROM user WHERE userId = UUID_TO_BIN(:userId)';
+        const result: RowDataPacket[] = await mysqlConnection.execute(mysqlQuery, {userId}) as RowDataPacket[];
+        const rows: PartialUser[] = result[0] as PartialUser[];
+        return rows.length !== 0 ? {...rows[0]} : null;
     } catch (e) {
-        console.error(e)
-        return undefined
+        throw e;
     }
 }
