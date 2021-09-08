@@ -3,7 +3,7 @@ import {
     deleteEventByIdController,
     getAllEventsController,
     getEventbyEventIdController, getEventByEventOrganizationController,
-    postEvent
+    postEvent, putEventController
 } from "./event.controller";
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
 import {eventValidator} from "./event.validator";
@@ -17,10 +17,10 @@ EventRouter.route('/')
     .get(getAllEventsController)
     .post( isLoggedIn, asyncValidatorController(checkSchema(eventValidator)), postEvent)
 
-
     EventRouter.route('/:eventId')
     .delete(isLoggedIn, deleteEventByIdController)
         .get(getEventbyEventIdController)
+        .put(putEventController)
 
 EventRouter.route('/organization/:eventOrganization')
     .get(getEventByEventOrganizationController)

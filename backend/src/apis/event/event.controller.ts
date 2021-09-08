@@ -1,12 +1,15 @@
 import {Request, Response, NextFunction} from "express";
 import {Event} from "../../utils/interfaces/Event";
 import {Status} from "../../utils/interfaces/Status";
-import {User} from "../../utils/interfaces/User";
+import {PartialUser, User} from "../../utils/interfaces/User";
 import {insertEvent} from "../../utils/event/insertEvent";
 import {selectAllEvents} from "../../utils/event/selectAllEvents";
 import {deleteEvent} from "../../utils/event/deleteEvent";
 import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectEventByEventOrganization} from "../../utils/event/selectEventByEventOrganization";
+import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
+import {updateUser} from "../../utils/user/updateUser";
+import {updateEvent} from "../../utils/event/updateEvent";
 
 // const {validationResult} = require('express-validator');
 export async function getAllEventsController(request: Request, response: Response): Promise<Response<Status>> {
@@ -117,5 +120,39 @@ export async function postEvent(request:Request, response:Response){
     }catch (error){
         console.log(error)
     }
+}
 
+export async function putEventController(request: Request, response: Response) : Promise<Response>{
+    try {
+        const {eventId} = request.params
+        //Anything that can be viewed/edited
+        const {eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime} = request.body
+
+        //const userIdFromSession: string = <string>request.session?.user?.userId
+
+        //console.log("userId: ", userId);
+        //console.log("userIdFromSession: ", userIdFromSession);
+        const preFormUpdate = async (thisEvent: Event) : Promise<Response> => {
+            const previousEvent: Event|null = await selectEventByEventId(<string>eventId)
+            const newEvent: Event|null = {...previousEvent, ...thisEvent}
+
+            for(let key in newEvent) {
+                //@ts-ignore
+                newEvent[key] = thisEvent[key] ?? previousEvent[key];
+            }
+            await updateEvent(newEvent)
+            return response.json({status: 200, data: null, message: "Event successfully updated"})
+        }
+        //console.log("After preFormUpdate");
+        const updateFailed = (message: string) : Response => {
+            return response.json({status: 400, data: null, message})
+        }
+        let pass = true;
+        return pass
+            //Anything that can be viewed/edited
+            ? preFormUpdate({eventId, eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime})
+            : updateFailed("you are not allowed to pre-form this action")
+    } catch (error : any) {
+        return response.json( {status:400, data: null, message: error.message})
+    }
 }
