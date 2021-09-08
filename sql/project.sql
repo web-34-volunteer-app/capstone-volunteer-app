@@ -30,7 +30,7 @@ create table event
     eventUserId                    BINARY(16)   NOT NULL,
     eventAddress                   VARCHAR(256) NOT NULL,
     eventDate                      DATETIME(6)  NOT NULL,
-    eventDescription               blob         NOT NULL,
+    eventDescription               VARCHAR(1024) NOT NULL,
     eventDescriptionSkillsRequired VARCHAR(256),
     eventDescriptionTransportation boolean      NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128),
@@ -62,7 +62,7 @@ CREATE TABLE flag
 (
     flagEventId binary(16) NOT NULL,
     flagUserId  binary(16) NOT NULL,
-    flagMessage blob       NOT NULL,
+    flagMessage varchar(1024)       NOT NULL,
     index (flagEventId),
     index (flagUserId),
     foreign key (flagEventId) references event (eventId),

@@ -49,7 +49,6 @@ export const eventValidator = {
             },
         },
     },
-
     // eventFlag:{
     //     isBoolean: {
     //         errorMessage: 'eventFlag',
@@ -61,7 +60,6 @@ export const eventValidator = {
     //         },
     //     },
     // },
-
     eventOrganization:{
         isString: {
             options: true,
