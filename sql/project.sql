@@ -26,10 +26,10 @@ CREATE TABLE user
 
 CREATE TABLE event
 (
-    eventId                        BINARY(16)   NOT NULL,
-    eventUserId                    BINARY(16)   NOT NULL,
-    eventAddress                   VARCHAR(256) NOT NULL,
-    eventDate                      DATETIME(6)  NOT NULL,
+    eventId                        BINARY(16)    NOT NULL,
+    eventUserId                    BINARY(16)    NOT NULL,
+    eventAddress                   VARCHAR(256)  NOT NULL,
+    eventDate                      DATETIME(6)   NOT NULL,
     eventDescription               VARCHAR(1024) NOT NULL,
     eventDescriptionSkillsRequired VARCHAR(256),
     eventDescriptionTransportation BOOLEAN      NOT NULL,
@@ -55,18 +55,22 @@ CREATE TABLE volunteer
     INDEX (volunteerEventId),
     INDEX (volunteerUserId),
     FOREIGN KEY (volunteerEventId) REFERENCES event (eventId),
-    FOREIGN KEY (volunteerUserId) REFERENCES user (userId)
+    FOREIGN KEY (volunteerUserId) REFERENCES user (userId),
+    PRIMARY KEY (volunteerEventId, volunteerUserId)
 );
 
 CREATE TABLE flag
 (
-    flagEventId BINARY(16) NOT NULL,
-    flagUserId  BINARY(16) NOT NULL,
-    flagMessage varchar(1024)       NOT NULL,
+
+    flagEventId BINARY(16)    NOT NULL,
+    flagUserId  BINARY(16)    NOT NULL,
+    flagMessage varchar(1024) NOT NULL,
     INDEX (flagEventId),
     INDEX (flagUserId),
     FOREIGN KEY (flagEventId) REFERENCES event (eventId),
-    FOREIGN KEY (flagUserId) REFERENCES user (userId)
+    FOREIGN KEY (flagUserId) REFERENCES user (userId),
+    PRIMARY KEY (flagEventId, flagUserId)
+
 );
 
 
@@ -79,6 +83,6 @@ CREATE TABLE `bookmarkedEvent`
     INDEX (bookmarkedEventUserId),
     FOREIGN KEY (bookmarkedEventEventId) REFERENCES event (eventId),
     FOREIGN KEY (bookmarkedEventUserId) REFERENCES user (userId),
-    PRIMARY KEY(bookmarkedEventUserId, bookmarkedEventEventId)
+    PRIMARY KEY (bookmarkedEventEventId, bookmarkedEventUserId)
 );
 

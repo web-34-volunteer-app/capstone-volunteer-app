@@ -1,14 +1,11 @@
 import {Request, Response, NextFunction} from "express";
 import {Event} from "../../utils/interfaces/Event";
 import {Status} from "../../utils/interfaces/Status";
-import {PartialUser, User} from "../../utils/interfaces/User";
 import {insertEvent} from "../../utils/event/insertEvent";
 import {selectAllEvents} from "../../utils/event/selectAllEvents";
 import {deleteEvent} from "../../utils/event/deleteEvent";
 import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectEventByEventOrganization} from "../../utils/event/selectEventByEventOrganization";
-import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
-import {updateUser} from "../../utils/user/updateUser";
 import {updateEvent} from "../../utils/event/updateEvent";
 
 // const {validationResult} = require('express-validator');
@@ -64,7 +61,7 @@ export async function getEventByEventOrganizationController(request: Request, re
 
 export async function deleteEventByIdController(request: Request, response: Response): Promise <Response<string>>{
     try {
-        const {eventId} = request.params
+        const {eventId} = request.params;
         const result = await selectEventByEventId(eventId) as Event
             await deleteEvent(result);
 
@@ -83,7 +80,6 @@ export async function deleteEventByIdController(request: Request, response: Resp
 
 export async function postEvent(request:Request, response:Response){
     try {
-        console.log("request.body",request.body)
         const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,
             eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime} = request.body;
 
@@ -151,7 +147,7 @@ export async function putEventController(request: Request, response: Response) :
         return pass
             //Anything that can be viewed/edited
             ? preFormUpdate({eventId, eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime})
-            : updateFailed("you are not allowed to pre-form this action")
+            : updateFailed("you are not allowed to pre-form this action");
     } catch (error : any) {
         return response.json( {status:400, data: null, message: error.message})
     }
