@@ -26,22 +26,22 @@ CREATE TABLE user
 
 create table event
 (
-    eventId                        BINARY(16)   NOT NULL,
-    eventUserId                    BINARY(16)   NOT NULL,
-    eventAddress                   VARCHAR(256) NOT NULL,
-    eventDate                      DATETIME(6)  NOT NULL,
+    eventId                        BINARY(16)    NOT NULL,
+    eventUserId                    BINARY(16)    NOT NULL,
+    eventAddress                   VARCHAR(256)  NOT NULL,
+    eventDate                      DATETIME(6)   NOT NULL,
     eventDescription               VARCHAR(1024) NOT NULL,
     eventDescriptionSkillsRequired VARCHAR(256),
-    eventDescriptionTransportation boolean      NOT NULL,
+    eventDescriptionTransportation boolean       NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128),
-    eventEndTime                   DATETIME(6)  NOT NULL,
+    eventEndTime                   DATETIME(6)   NOT NULL,
     eventFlag                      boolean,
-    eventLatitude                  VARCHAR(32)  NOT NULL,
-    eventLongitude                 VARCHAR(32)  NOT NULL,
-    eventOrganization              VARCHAR(64)  NOT NULL,
-    eventStartTime                 DATETIME(6)  NOT NULL,
+    eventLatitude                  VARCHAR(32)   NOT NULL,
+    eventLongitude                 VARCHAR(32)   NOT NULL,
+    eventOrganization              VARCHAR(64)   NOT NULL,
+    eventStartTime                 DATETIME(6)   NOT NULL,
     INDEX (eventUserId),
-    FOREIGN KEY (eventUserId) references user (userId),
+    FOREIGN KEY (eventUserId) REFERENCES user (userId),
     PRIMARY KEY (eventId)
 );
 
@@ -55,27 +55,30 @@ CREATE TABLE volunteer
     INDEX (volunteerEventId),
     INDEX (volunteerUserId),
     FOREIGN KEY (volunteerEventId) REFERENCES event (eventId),
-    FOREIGN KEY (volunteerUserId) REFERENCES user (userId)
+    FOREIGN KEY (volunteerUserId) REFERENCES user (userId),
+    PRIMARY KEY (volunteerEventId, volunteerUserId)
 );
 
 CREATE TABLE flag
 (
-    flagEventId binary(16) NOT NULL,
-    flagUserId  binary(16) NOT NULL,
-    flagMessage varchar(1024)       NOT NULL,
-    index (flagEventId),
-    index (flagUserId),
-    foreign key (flagEventId) references event (eventId),
-    foreign key (flagUserId) references user (userId)
+    flagEventId BINARY(16)    NOT NULL,
+    flagUserId  BINARY(16)    NOT NULL,
+    flagMessage varchar(1024) NOT NULL,
+    INDEX (flagEventId),
+    INDEX (flagUserId),
+    FOREIGN KEY (flagEventId) REFERENCES event (eventId),
+    FOREIGN KEY (flagUserId) REFERENCES user (userId),
+    PRIMARY KEY (flagEventId, flagUserId)
 );
 
 CREATE TABLE bookmarkedEvent
 (
-    bookMarkedEventEventId binary(16) NOT NULL,
-    bookMarkedEventUserId  binary(16) NOT NULL,
-    index (bookmarkedEventEventId),
-    index (bookmarkedEventUserId),
-    foreign key (bookmarkedEventEventId) references event (eventId),
-    foreign key (bookmarkedEventUserId) references user (userId)
+    bookMarkedEventEventId BINARY(16) NOT NULL,
+    bookMarkedEventUserId  BINARY(16) NOT NULL,
+    INDEX (bookmarkedEventEventId),
+    INDEX (bookmarkedEventUserId),
+    FOREIGN KEY (bookmarkedEventEventId) REFERENCES event (eventId),
+    FOREIGN KEY (bookmarkedEventUserId) REFERENCES user (userId),
+    PRIMARY KEY (bookmarkedEventEventId, bookmarkedEventUserId)
 );
 

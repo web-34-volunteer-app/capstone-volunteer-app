@@ -61,7 +61,7 @@ export async function getEventByEventOrganizationController(request: Request, re
 
 export async function deleteEventByIdController(request: Request, response: Response): Promise <Response<string>>{
     try {
-        const {eventId} = request.params
+        const {eventId} = request.params;
         const result = await selectEventByEventId(eventId) as Event
             await deleteEvent(result);
 
@@ -147,7 +147,7 @@ export async function putEventController(request: Request, response: Response) :
         return pass
             //Anything that can be viewed/edited
             ? preFormUpdate({eventId, eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime})
-            : updateFailed("you are not allowed to pre-form this action")
+            : updateFailed("you are not allowed to pre-form this action");
     } catch (error : any) {
         return response.json( {status:400, data: null, message: error.message})
     }
