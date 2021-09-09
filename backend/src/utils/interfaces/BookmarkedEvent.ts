@@ -1,4 +1,4 @@
 export interface BookmarkedEvent {
-    bookmarkedEventId: string | null,
-    bookmarkedUserId: string | null,
+    bookmarkedEventEventId: string | null,
+    bookmarkedEventUserId: string | null,
 }

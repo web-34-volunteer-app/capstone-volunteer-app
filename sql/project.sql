@@ -19,12 +19,12 @@ CREATE TABLE user
     userStartDate       DATETIME(6)  NOT NULL,
     userTotalHours      DECIMAL(6, 2),
     userZipCode         VARCHAR(10),
-    unique (userEmail),
+    UNIQUE (userEmail),
     INDEX (userEmail),
     PRIMARY KEY (userID)
 );
 
-create table event
+CREATE TABLE event
 (
     eventId                        BINARY(16)   NOT NULL,
     eventUserId                    BINARY(16)   NOT NULL,
@@ -32,16 +32,16 @@ create table event
     eventDate                      DATETIME(6)  NOT NULL,
     eventDescription               VARCHAR(1024) NOT NULL,
     eventDescriptionSkillsRequired VARCHAR(256),
-    eventDescriptionTransportation boolean      NOT NULL,
+    eventDescriptionTransportation BOOLEAN      NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128),
     eventEndTime                   DATETIME(6)  NOT NULL,
-    eventFlag                      boolean,
+    eventFlag                      BOOLEAN,
     eventLatitude                  VARCHAR(32)  NOT NULL,
     eventLongitude                 VARCHAR(32)  NOT NULL,
     eventOrganization              VARCHAR(64)  NOT NULL,
     eventStartTime                 DATETIME(6)  NOT NULL,
     INDEX (eventUserId),
-    FOREIGN KEY (eventUserId) references user (userId),
+    FOREIGN KEY (eventUserId) REFERENCES user (userId),
     PRIMARY KEY (eventId)
 );
 
@@ -60,22 +60,25 @@ CREATE TABLE volunteer
 
 CREATE TABLE flag
 (
-    flagEventId binary(16) NOT NULL,
-    flagUserId  binary(16) NOT NULL,
+    flagEventId BINARY(16) NOT NULL,
+    flagUserId  BINARY(16) NOT NULL,
     flagMessage varchar(1024)       NOT NULL,
-    index (flagEventId),
-    index (flagUserId),
-    foreign key (flagEventId) references event (eventId),
-    foreign key (flagUserId) references user (userId)
+    INDEX (flagEventId),
+    INDEX (flagUserId),
+    FOREIGN KEY (flagEventId) REFERENCES event (eventId),
+    FOREIGN KEY (flagUserId) REFERENCES user (userId)
 );
 
-CREATE TABLE bookmarkedEvent
+
+
+CREATE TABLE `bookmarkedEvent`
 (
-    bookMarkedEventEventID binary(16) NOT NULL,
-    bookMarkedEventUserID  binary(16) NOT NULL,
-    index (bookmarkedEventEventId),
-    index (bookmarkedEventUserId),
-    foreign key (bookmarkedEventEventId) references event (eventId),
-    foreign key (bookmarkedEventUserId) references user (userId)
+    bookmarkedEventEventId BINARY(16) NOT NULL,
+    bookmarkedEventUserId  BINARY(16) NOT NULL,
+    INDEX (bookmarkedEventEventId),
+    INDEX (bookmarkedEventUserId),
+    FOREIGN KEY (bookmarkedEventEventId) REFERENCES event (eventId),
+    FOREIGN KEY (bookmarkedEventUserId) REFERENCES user (userId),
+    PRIMARY KEY(bookmarkedEventUserId, bookmarkedEventEventId)
 );
 
