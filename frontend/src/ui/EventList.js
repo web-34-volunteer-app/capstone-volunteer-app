@@ -13,8 +13,6 @@ export function EventList(props){
                     {events.map(event => <EventItem event={event} key={event.eventId}/>) }
                 </Accordion>
             </Col>
-
-
         </>
     )
 }
