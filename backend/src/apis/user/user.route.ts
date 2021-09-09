@@ -1,4 +1,9 @@
-import {getAllUsersController, getUserByUserIdController, putUserController} from "./user.controller";
+import {
+    deleteUserByIdController,
+    getAllUsersController,
+    getUserByUserIdController,
+    putUserController
+} from "./user.controller";
 import {Router} from "express";
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
 import {check, checkSchema} from "express-validator";
@@ -12,6 +17,7 @@ UserRoute.route('/')
     .get( getAllUsersController )
 
 UserRoute.route('/:userId')
+    .delete(isLoggedIn,deleteUserByIdController)
     .get(
         asyncValidatorController([
             check("userId",

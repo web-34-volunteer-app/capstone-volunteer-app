@@ -9,6 +9,10 @@ import {selectPartialUserByUserId} from "../../utils/user/selectPartialUserByUse
 import {Status} from "../../utils/interfaces/Status";
 import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 import {updateUser} from "../../utils/user/updateUser";
+import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
+import {Event} from "../../utils/interfaces/Event";
+import {deleteEvent} from "../../utils/event/deleteEvent";
+import {deleteUser} from "../../utils/user/deleteUser";
 //import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 //import {updateUser} from "../../utils/user/updateUser";
 
@@ -69,6 +73,23 @@ export async function putUserController(request: Request, response: Response) : 
             : updateFailed("you are not allowed to pre-form this action")
     } catch (error : any) {
         return response.json( {status:400, data: null, message: error.message})
+    }
+}
+export async function deleteUserByIdController(request: Request, response: Response): Promise <Response<string>>{
+    try {
+        const {userId} = request.params;
+        const result = await selectWholeUserByUserId(userId) as User
+        await deleteUser(result);
+
+        const status: Status = {
+            status:200,
+            message: 'User successfully deleted',
+            data:null
+        };
+        return response.json(status);
+
+    }catch(error:any) {
+        return(response.json({status: 500, data: null, message: error.message}))
     }
 }
 
