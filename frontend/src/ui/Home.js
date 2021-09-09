@@ -6,8 +6,17 @@ import {Map} from "./Map";
 import {Accordion} from "react-bootstrap";
 import {EventList} from "./EventList";
 import {SearchField} from "./SearchField";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchAllEvents} from "../store/event";
 
 export function Home() {
+    const dispatch = useDispatch();
+    const initialEffect = () => {
+        dispatch(fetchAllEvents());
+    }
+    React.useEffect(initialEffect, [dispatch])
+    const events = useSelector(state => state.events ? state.events : []);
+    console.log(events);
     return (
         <>
             <Container>
@@ -63,7 +72,7 @@ export function Home() {
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <EventList/>
+                    <EventList events={events}/>
                 </Row>
             </Container>
         </>

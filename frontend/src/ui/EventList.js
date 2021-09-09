@@ -1,33 +1,35 @@
 import React from "react";
 import {Accordion, Col} from "react-bootstrap";
 
-export function EventList(){
+export function EventList(props){
+    const {events} = props;
+
+
+
     return(
         <>
             <Col md={6} className="d-block mx-auto">
                 <Accordion>
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>Volunteer Opportunity Event 1</Accordion.Header>
-                        <Accordion.Body>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            est laborum.
-                        </Accordion.Body>
-                    </Accordion.Item>
-                    <Accordion.Item eventKey="1">
-                        <Accordion.Header>Volunteer Opportunity Event 2</Accordion.Header>
-                        <Accordion.Body>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            est laborum.
-                        </Accordion.Body>
-                    </Accordion.Item>
+                    {events.map(event => <EventItem event={event} key={event.eventId}/>) }
                 </Accordion>
             </Col>
 
 
         </>
     )
+}
+
+function EventItem(props) {
+    const {event} = props;
+
+    return (
+        <>
+            <Accordion.Item eventKey={event.eventId}>
+                <Accordion.Header>{event.eventOrganization}</Accordion.Header>
+                <Accordion.Body>
+                    {event.eventAddress}
+                </Accordion.Body>
+            </Accordion.Item>
+        </>
+    );
 }

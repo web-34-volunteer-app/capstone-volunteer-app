@@ -18,6 +18,7 @@ src/ui/.env.local
 .env.development.local
 .env.test.local
 .env.production.local
+*/setupProxy.js
 
 npm-debug.log*
 yarn-debug.log*
