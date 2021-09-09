@@ -10,7 +10,7 @@ export async function insertUser(user: User) {
 
         const [rows] = await mySqlConnection.execute(query, user);
 
-        return "Profile successfully created"
+        return "User successfully created"
     }
     catch (e: any) {
         console.error(e)

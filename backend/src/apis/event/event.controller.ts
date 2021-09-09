@@ -1,14 +1,11 @@
 import {Request, Response, NextFunction} from "express";
 import {Event} from "../../utils/interfaces/Event";
 import {Status} from "../../utils/interfaces/Status";
-import {PartialUser, User} from "../../utils/interfaces/User";
 import {insertEvent} from "../../utils/event/insertEvent";
 import {selectAllEvents} from "../../utils/event/selectAllEvents";
 import {deleteEvent} from "../../utils/event/deleteEvent";
 import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectEventByEventOrganization} from "../../utils/event/selectEventByEventOrganization";
-import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
-import {updateUser} from "../../utils/user/updateUser";
 import {updateEvent} from "../../utils/event/updateEvent";
 
 // const {validationResult} = require('express-validator');
@@ -83,7 +80,6 @@ export async function deleteEventByIdController(request: Request, response: Resp
 
 export async function postEvent(request:Request, response:Response){
     try {
-        console.log("request.body",request.body)
         const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,
             eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime} = request.body;
 

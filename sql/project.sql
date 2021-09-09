@@ -71,8 +71,8 @@ CREATE TABLE flag
 
 CREATE TABLE bookmarkedEvent
 (
-    bookMarkedEventEventID binary(16) NOT NULL,
-    bookMarkedEventUserID  binary(16) NOT NULL,
+    bookMarkedEventEventId binary(16) NOT NULL,
+    bookMarkedEventUserId  binary(16) NOT NULL,
     index (bookmarkedEventEventId),
     index (bookmarkedEventUserId),
     foreign key (bookmarkedEventEventId) references event (eventId),
