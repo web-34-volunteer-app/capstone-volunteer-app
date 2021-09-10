@@ -63,6 +63,11 @@ export async function deleteEventByIdController(request: Request, response: Resp
     try {
         const {eventId} = request.params;
         const result = await selectEventByEventId(eventId) as Event
+
+        //Delete all volunteers on this event
+        //Delete all bookmarks from this event
+        //Possibly delete all flags for this event
+
             await deleteEvent(result);
 
         const status: Status = {

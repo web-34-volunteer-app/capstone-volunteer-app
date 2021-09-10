@@ -6,6 +6,7 @@ import {
     putVolunteerController
 } from "./volunteer.controller";
 import {isLoggedIn} from "../../utils/controllers/isLoggedIn.controller";
+import {isNotRegisteredForEvent} from "../../utils/controllers/isNotRegisteredForEvent";
 
 export const VolunteerRouter = Router();
 
@@ -23,7 +24,7 @@ VolunteerRouter.route('/event/:volunteerEventId')
 
 //One user volunteers for an event
 VolunteerRouter.route('/:volunteerEventId')
-    .post(isLoggedIn, postVolunteerController)
+    .post(isLoggedIn, isNotRegisteredForEvent, postVolunteerController)
 
 //Update a particular user's hours, or hours verification for a particular event
 VolunteerRouter.route('/update/:volunteerUserId/:volunteerEventId')

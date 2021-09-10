@@ -56,7 +56,7 @@ export async function getAllVolunteersController(request: Request, response: Res
 export async function getVolunteerByVolunteerUserIdController(request: Request, response: Response): Promise<Response<Status>> {
     try {
         const {volunteerUserId} = request.params;
-        const data = await selectVolunteerByUserId(volunteerUserId) as Volunteer;
+        const data = await selectVolunteerByUserId(volunteerUserId) as Volunteer[];
         const status: Status = {status: 200, message: null, data};
         return response.json(status);
     } catch(e) {
@@ -71,7 +71,7 @@ export async function getVolunteerByVolunteerUserIdController(request: Request, 
 export async function getVolunteerByVolunteerEventIdController(request: Request, response: Response): Promise<Response<Status>> {
     try {
         const {volunteerEventId} = request.params;
-        const data = await selectVolunteerByEventId(volunteerEventId) as Volunteer;
+        const data = await selectVolunteerByEventId(volunteerEventId) as Volunteer[];
         const status: Status = {status: 200, message: null, data};
         return response.json(status);
     } catch (e) {

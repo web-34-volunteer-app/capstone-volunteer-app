@@ -13,6 +13,8 @@ import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {Event} from "../../utils/interfaces/Event";
 import {deleteEvent} from "../../utils/event/deleteEvent";
 import {deleteUser} from "../../utils/user/deleteUser";
+import {selectVolunteerByUserId} from "../../utils/volunteer/selectVolunteerByUserId";
+import {Volunteer} from "../../utils/interfaces/Volunteer";
 //import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 //import {updateUser} from "../../utils/user/updateUser";
 
@@ -79,6 +81,12 @@ export async function deleteUserByIdController(request: Request, response: Respo
     try {
         const {userId} = request.params;
         const result = await selectWholeUserByUserId(userId) as User
+
+        //delete all volunteers made by user
+        //const volunteers = await selectVolunteerByUserId(userId) as Volunteer
+        //possibly delete all flags made by user
+        //delete all events made by user
+
         await deleteUser(result);
 
         const status: Status = {
