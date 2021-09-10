@@ -5,16 +5,12 @@ import {RegisterForm} from "./RegisterForm";
 import {LoginForm} from "./LoginForm";
 import {CreateEventForm} from "./CreateEventForm";
 import {Link} from "react-router-dom";
-import {Formik} from "formik";
 
 
 
 
 let offcanvasTitle = "";
 let offcanvasForm = <></>;
-let formValues=null
-let submitForm=null
-let validator=null
 
 export function Navigation() {
     const [show, setShow] = useState(false);
@@ -30,8 +26,6 @@ export function Navigation() {
             case("register"):
                 offcanvasTitle = "Register Account";
                 offcanvasForm = <RegisterForm/>;
-                // formValues = {}
-
                 break;
             case("login"):
                 offcanvasTitle = "Log In";
@@ -89,15 +83,7 @@ export function Navigation() {
                     <Offcanvas.Title>{offcanvasTitle}</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    <Formik
-                        initialValues={formValues}
-                        onSubmit={submitForm}
-                        validationSchema={validator}>
                         {offcanvasForm}
-
-                    </Formik>
-
-
                 </Offcanvas.Body>
             </Offcanvas>
         </>

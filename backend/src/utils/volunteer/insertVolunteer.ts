@@ -9,7 +9,8 @@ export async function insertVolunteer(volunteer:Volunteer) {
         const [rows] = await mySqlConnection.execute(query, volunteer);
 
         return "Volunteer successfully created"
-    } catch(e) {
-        throw e;
+    } catch(e: any) {
+        console.error(e);
+        return null
     }
 }
