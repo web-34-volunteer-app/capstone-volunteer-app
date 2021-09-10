@@ -40,7 +40,7 @@ CREATE TABLE event
     eventLongitude                 VARCHAR(32)  NOT NULL,
     eventOrganization              VARCHAR(64)  NOT NULL,
     eventStartTime                 DATETIME(6)  NOT NULL,
-    eventTitle                      VARCHAR(256),
+    eventTitle              VARCHAR(64)  NOT NULL,
     INDEX (eventUserId),
     FOREIGN KEY (eventUserId) REFERENCES user (userId),
     PRIMARY KEY (eventId)

@@ -81,7 +81,7 @@ export async function deleteEventByIdController(request: Request, response: Resp
 export async function postEvent(request:Request, response:Response){
     try {
         const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,
-            eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime} = request.body;
+            eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime, eventTitle} = request.body;
 
         const eventUserId = <string>request.session?.user?.userId
 
@@ -102,7 +102,8 @@ export async function postEvent(request:Request, response:Response){
             eventLatitude,
             eventLongitude,
             eventOrganization,
-            eventStartTime
+            eventStartTime,
+            eventTitle
         };
         console.log("event:", event)
         const result = await insertEvent(event)
@@ -122,7 +123,7 @@ export async function putEventController(request: Request, response: Response) :
     try {
         const {eventId} = request.params
         //Anything that can be viewed/edited
-        const {eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime} = request.body
+        const {eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime, eventTitle} = request.body
 
         //const userIdFromSession: string = <string>request.session?.user?.userId
 
@@ -146,7 +147,7 @@ export async function putEventController(request: Request, response: Response) :
         let pass = true;
         return pass
             //Anything that can be viewed/edited
-            ? preFormUpdate({eventId, eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime})
+            ? preFormUpdate({eventId, eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime, eventTitle})
             : updateFailed("you are not allowed to pre-form this action");
     } catch (error : any) {
         return response.json( {status:400, data: null, message: error.message})
