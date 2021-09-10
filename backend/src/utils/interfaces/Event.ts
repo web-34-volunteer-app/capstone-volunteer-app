@@ -13,6 +13,7 @@ export interface Event {
     eventLongitude: string|null;
     eventOrganization: string;
     eventStartTime: Date;
+    eventTitle: string;
 }
 
 
