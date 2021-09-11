@@ -1,18 +1,28 @@
 import {createSlice} from "@reduxjs/toolkit";
+import { fetchAuth } from './auth'
+import {httpConfig} from "../utils/httpConfig";
 
-// Define reducer and action
 const userSlice = createSlice({
-   name: "user",
-   initialState: [],
-   reducers: {
-       getAllUsers: (users, action) => {
-           return action.payload;
-       }
-   }
-});
+    name: "users",
+    initialState: null,
+    reducers: {
+        getUserByUserId: (user, action) => {
+            return action.payload
+        }
+    }
+})
 
-//Make actions callable as functions
-export const {getAllUsers} = userSlice.actions;
+export const {getUserByUserId} = userSlice.actions
 
-//Use export default so that if something imports this file, they will get it by default
 export default userSlice.reducer
+
+export const fetchUserByUserId = () => async (dispatch, getState) => {
+    await dispatch(fetchAuth())
+    const {auth} = getState()
+    console.log(auth)
+    if(auth !== null) {
+        const {data} = await httpConfig.get(`/apis/user/${auth.userId}`)
+        console.log(data)
+        dispatch(getUserByUserId(data))
+    }
+}

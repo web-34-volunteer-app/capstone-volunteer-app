@@ -1,23 +1,34 @@
 import React from 'react';
 import {Col, Container, Image, Row} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchUserByUserId} from "../store/user";
 
-export function UserOverview () {
+export const  UserOverview =()=> {
+    const dispatch = useDispatch()
+    const user = useSelector(state => {return state.users ? state.users : null})
+console.log(user)
+    const sideEffects = () => {
+        dispatch(fetchUserByUserId())
+    }
+
+    React.useEffect(sideEffects, [])
     return (
         <>
-        <Container className={"py-4"}>
-            <div className={"d-flex justify-content-center"}>
-                <Col fill md={2} sm={6} className={"justify-content-center me-3"}>
-                    <Image src="https://picsum.photos/200/200" alt="Profile Image Placeholder" fluid roundedCircle></Image>
-                </Col>
+            <Container className={"py-4"}>
+                <div className={"d-flex justify-content-center"}>
+                    <Col fill md={2} sm={6} className={"justify-content-center me-3"}>
+                        <Image src="https://picsum.photos/200/200" alt="Profile Image Placeholder" fluid roundedCircle></Image>
+                    </Col>
+                    {user && <><Col user={user} userkey={user.userId} md={4} sm={6} className={"my-auto"}>
 
-                <Col md={4} sm={6} className={"my-auto"}>
-                    <h1>User Name</h1>
-                    <h5>Location</h5>
-                    <h5>Logged Hours</h5>
-                </Col>
+                        <h1>{user.userFirstName} {user.userLastName}</h1>
+                        <h5>{user.userZipCode}</h5>
+                        <h5>{user.userTotalHours}</h5>
+                    </Col></>}
 
-            </div>
-        </Container>
+
+                </div>
+            </Container>
         </>
     )
 }

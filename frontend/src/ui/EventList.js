@@ -23,10 +23,11 @@ function EventItem(props) {
     return (
         <>
             <Accordion.Item eventKey={event.eventId}>
-                <Accordion.Header>{event.eventTitle}</Accordion.Header>
+                <Accordion.Header><h6>{event.eventOrganization}: {event.eventTitle}</h6> </Accordion.Header>
                 <Accordion.Body>
-                    {event.eventAddress}
+                    <h6>Location: {event.eventAddress}  </h6>
                     {event.eventDescription}
+                    <h6>Transportation provided? {event.eventDescriptionTransportation}</h6>
                 </Accordion.Body>
             </Accordion.Item>
         </>

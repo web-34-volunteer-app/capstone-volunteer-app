@@ -75,5 +75,12 @@ export const eventValidator = {
                 nullable:true,
             },
         },
-    }
+    },
+    eventTitle:{
+        isString: {
+            options: true,
+            errorMessage: 'eventTitle'
+        }
+    },
+
 };
