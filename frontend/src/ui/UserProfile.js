@@ -6,6 +6,7 @@ import {CreateEventForm} from "./CreateEventForm";
 
 import {Col, Container, FormControl, InputGroup, Row} from "react-bootstrap";
 import {Map} from "./Map";
+import {BookmarkedEvents} from "./BookmarkedEvents";
 import {EventList} from "./EventList";
 import {SearchField} from "./SearchField";
 import {EventsAttending} from "./EventsAttending";
@@ -30,6 +31,7 @@ export function UserProfile () {
             <Container>
                 <UserOverview/>
                 <EventsAttending/>
+                <BookmarkedEvents/>
                 <EventApprovalTable/>
                 <SearchField/>
                 <Row g={3} className="my-4">

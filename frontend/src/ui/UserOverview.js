@@ -22,8 +22,8 @@ console.log(user)
                     {user && <><Col user={user} userkey={user.userId} md={4} sm={6} className={"my-auto"}>
 
                         <h1>{user.userFirstName} {user.userLastName}</h1>
-                        <h5>{user.userZipCode}</h5>
-                        <h5>{user.userTotalHours}</h5>
+                        <h5>Zip Code: {user.userZipCode}</h5>
+                        <h5>Total Volunteer Hours: {user.userTotalHours}</h5>
                     </Col></>}
 
 

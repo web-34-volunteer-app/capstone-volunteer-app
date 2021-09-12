@@ -6,7 +6,7 @@ export function EventApprovalTable() {
     return(
         <>
             <div className={"border border-2 text-center py-1"}><h5>Pending Administration Action</h5></div>
-        <Table striped bordered hover>
+        <Table responsive="sm" striped bordered hover>
             <thead>
             <tr>
                 <th>#</th>

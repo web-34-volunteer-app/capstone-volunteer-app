@@ -14,7 +14,7 @@ export async function toggleBookMarkController(request: Request, response: Respo
     try {
         const {bookmarkedEventEventId} = request.params;
         const bookmarkedEventUserId = <string>request?.session?.user?.userId
-        console.log("Eventid:",bookmarkedEventEventId)
+        console.log("EventId:",bookmarkedEventEventId)
         console.log("SessionUser:",bookmarkedEventUserId)
         const bookmarkedEvent: BookmarkedEvent = {
             bookmarkedEventEventId,

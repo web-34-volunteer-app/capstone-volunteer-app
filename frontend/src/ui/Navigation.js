@@ -5,6 +5,9 @@ import {RegisterForm} from "./RegisterForm";
 import {LoginForm} from "./LoginForm";
 import {CreateEventForm} from "./CreateEventForm";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {httpConfig} from "../utils/httpConfig";
+import {getAuth} from "../store/auth";
 
 
 
@@ -43,6 +46,19 @@ export function Navigation() {
 
         setShow((s) => !s);
     }
+    const dispatch = useDispatch()
+    const signOut = () => {
+        httpConfig.get('/apis/sign-out/').then(reply => {
+
+            if (reply.status === 200) {
+                window.localStorage.removeItem('authorization')
+                dispatch(getAuth(null))
+                window.location = '/'
+
+            }
+        })
+    }
+
 
     return (
         <>
@@ -69,7 +85,9 @@ export function Navigation() {
 
                             <Nav.Link href="#" onClick={() => {toggleShow("register event");}}>Register Event</Nav.Link>
                             <Nav.Link href="#">Contact</Nav.Link>
-                            <Nav.Link href="#">Log Out</Nav.Link>
+                            <Nav.Link href="#" onClick={signOut}>Log Out</Nav.Link>
+
+
                             <Nav.Link href="#">Privacy Settings</Nav.Link>
                             <Nav.Link href="#">Community Guidelines</Nav.Link>
                             <Nav.Link href= "/user-profile">User Profile</Nav.Link>

@@ -3,10 +3,10 @@ import {httpConfig} from "../utils/httpConfig";
 
 // Define reducer and action
 const eventSlice = createSlice({
-    name: "events",
+    name: "event",
     initialState: [],
     reducers: {
-        setAllEvents: (events, action) => {
+        setAllBookmarkedEvents: (events, action) => {
             return action.payload;
         }
     }
@@ -18,8 +18,8 @@ export const {setAllEvents} = eventSlice.actions;
 //Use export default so that if something imports this file, they will get it by default
 export default eventSlice.reducer
 
-export const fetchAllEvents = () => async dispatch => {
-    const {data} = await httpConfig.get(`/apis/event`);
+export const fetchBookmarkedEventsByUserId = () => async dispatch => {
+    const {data} = await httpConfig.get(`/apis/bookmarkedEvent`);
 
     dispatch(setAllEvents(data));
 }

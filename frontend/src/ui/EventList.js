@@ -1,5 +1,5 @@
 import React from "react";
-import {Accordion, Col} from "react-bootstrap";
+import {Accordion, Button, Col} from "react-bootstrap";
 
 export function EventList(props){
     const {events} = props;
@@ -28,6 +28,20 @@ function EventItem(props) {
                     <h6>Location: {event.eventAddress}  </h6>
                     {event.eventDescription}
                     <h6>Transportation provided? {event.eventDescriptionTransportation}</h6>
+                    <Button
+                        className={"me-2 mt-3"}
+                        id="registerFormSubmit"
+                        variant="primary"
+                        type="submit">
+                        Volunteer for Event
+                    </Button>
+                    <Button
+                        className={"me-2 mt-3"}
+                        id="registerFormSubmit"
+                        variant="primary"
+                        type="submit">
+                        Bookmark Event
+                    </Button>
                 </Accordion.Body>
             </Accordion.Item>
         </>
