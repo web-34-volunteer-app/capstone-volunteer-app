@@ -15,3 +15,4 @@ export async function selectEventByEventUserId(userId: string) : Promise<Event[]
         throw error
     }
 }
+
