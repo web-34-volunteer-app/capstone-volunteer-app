@@ -67,7 +67,6 @@ export function Map(inputs) {
         setViewport(() => {
             viewport.latitude = currentLat;
             viewport.longitude = currentLong;
-            console.log(screenWidth);
             if(screenWidth > 750) {
                 //console.log("Screenwidth > 750");
                 viewport.width = inputs.width;
