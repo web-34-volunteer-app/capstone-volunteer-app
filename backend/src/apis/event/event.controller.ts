@@ -7,6 +7,8 @@ import {deleteEvent} from "../../utils/event/deleteEvent";
 import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectEventByEventOrganization} from "../../utils/event/selectEventByEventOrganization";
 import {updateEvent} from "../../utils/event/updateEvent";
+import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
+import {User} from "../../utils/interfaces/User";
 
 // const {validationResult} = require('express-validator');
 export async function getAllEventsController(request: Request, response: Response): Promise<Response<Status>> {
@@ -57,6 +59,30 @@ export async function getEventByEventOrganizationController(request: Request, re
         })
     }
 }
+
+//Untested function
+export async function getEventByEventUserIdController(request: Request, response: Response): Promise<Response<Status>> {
+    console.log('an event controller')
+    try {
+        console.log('trying in controller')
+        const user : User = request.session.user as User
+        const userId : string = <string>user.userId
+        const data = await selectEventByEventUserId(userId) as Event[]
+        //return the response
+        const status: Status = {status: 200, message: null, data};
+        return response.json(status);
+    } catch(error){
+        console.log("error in controller")
+        return response.json({
+            status:500,
+            message:"",
+            data:[]
+        })
+    }
+}
+
+// end of untested function
+
 
 
 export async function deleteEventByIdController(request: Request, response: Response): Promise <Response<string>>{
