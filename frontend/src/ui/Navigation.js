@@ -1,31 +1,35 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
 import HeaderImage from "./images/MC3NAV.svg";
 import {RegisterForm} from "./RegisterForm";
 import {LoginForm} from "./LoginForm";
 import {CreateEventForm} from "./CreateEventForm";
 import {Link} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {httpConfig} from "../utils/httpConfig";
-import {getAuth} from "../store/auth";
-
-
+import {fetchAuth, getAuth} from "../store/auth";
 
 
 let offcanvasTitle = "";
 let offcanvasForm = <></>;
 
+
 export function Navigation() {
     const [show, setShow] = useState(false);
-
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+    const effects = () => {
+        dispatch(fetchAuth());
+    }
+    useEffect(effects, [dispatch]);
     const handleClose = () => setShow(false);
 
     const toggleShow = (option) => {
-        if(show) {
+        if (show) {
             handleClose();
             return;
         }
-        switch(option) {
+        switch (option) {
             case("register"):
                 offcanvasTitle = "Register Account";
                 offcanvasForm = <RegisterForm/>;
@@ -46,7 +50,7 @@ export function Navigation() {
 
         setShow((s) => !s);
     }
-    const dispatch = useDispatch()
+
     const signOut = () => {
         httpConfig.get('/apis/sign-out/').then(reply => {
 
@@ -54,11 +58,36 @@ export function Navigation() {
                 window.localStorage.removeItem('authorization')
                 dispatch(getAuth(null))
                 window.location = '/'
-
+                alert("Log out successful.");
             }
         })
     }
 
+    const registerLink = <Nav.Link href="#" onClick={() => {
+        toggleShow("register");
+    }}>Register</Nav.Link>;
+    const logInLink = <Nav.Link href="#" onClick={() => {
+        toggleShow("login");
+    }}>Log In</Nav.Link>;
+    const createEventLink = <Nav.Link href="#" onClick={() => {
+        toggleShow("register event");
+    }}>Create Event</Nav.Link>;
+    const logOutLink = <Nav.Link href="#" onClick={signOut}>Log Out</Nav.Link>;
+    const contactLink = <Nav.Link href="#">Contact</Nav.Link>;
+    const privacyLink = <Nav.Link href="#">Privacy Settings</Nav.Link>;
+    const communityGuidelinesLink = <Nav.Link href="#">Community Guidelines</Nav.Link>;
+    const userProfileLink = <Nav.Link href="/user-profile">User Profile</Nav.Link>;
+
+    const visitorNavigation = [registerLink, logInLink];
+    const userNavigation = [createEventLink, logOutLink];
+
+    let navigationItems;
+
+    if (auth) {
+        navigationItems = userNavigation;
+    } else {
+        navigationItems = visitorNavigation;
+    }
 
     return (
         <>
@@ -76,21 +105,8 @@ export function Navigation() {
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
 
-
-
                         <Nav className="ms-auto">
-
-                            <Nav.Link href="#" onClick={() => {toggleShow("register");}}>Register</Nav.Link>
-                            <Nav.Link href="#" onClick={() => {toggleShow("login");}}>Log In</Nav.Link>
-
-                            <Nav.Link href="#" onClick={() => {toggleShow("register event");}}>Register Event</Nav.Link>
-                            <Nav.Link href="#">Contact</Nav.Link>
-                            <Nav.Link href="#" onClick={signOut}>Log Out</Nav.Link>
-
-
-                            <Nav.Link href="#">Privacy Settings</Nav.Link>
-                            <Nav.Link href="#">Community Guidelines</Nav.Link>
-                            <Nav.Link href= "/user-profile">User Profile</Nav.Link>
+                            {navigationItems}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>
@@ -101,11 +117,10 @@ export function Navigation() {
                     <Offcanvas.Title>{offcanvasTitle}</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                        {offcanvasForm}
+                    {offcanvasForm}
                 </Offcanvas.Body>
             </Offcanvas>
         </>
-
     )
 
 }

@@ -39,9 +39,9 @@ const history = useHistory()
                     window.localStorage.removeItem("authorization");
                     window.localStorage.setItem("authorization", reply.headers["authorization"]);
                     resetForm();
-                    let jwtToken = jwt_decode(reply.headers["authorization"])
-                    dispatch(getAuth(jwtToken))
-                    history.push("/user-profile")
+                    let jwtToken = jwt_decode(reply.headers["authorization"]);
+                    dispatch(getAuth(jwtToken));
+                    history.push("/user-profile");
                 }
                 setStatus({message, type});
             });

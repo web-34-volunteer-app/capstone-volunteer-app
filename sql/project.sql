@@ -36,7 +36,7 @@ CREATE TABLE event
     eventDescriptionSkillsRequired VARCHAR(256),
     eventDescriptionTransportation BOOLEAN      NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128),
-    eventEndTime                   VARCHAR(32)  NOT NULL,
+    eventEndTime                   DATETIME(6)  NOT NULL,
     eventFlag                      BOOLEAN,
     eventLatitude                  VARCHAR(32)  NOT NULL,
     eventLongitude                 VARCHAR(32)  NOT NULL,

@@ -17,12 +17,13 @@ export function RegisterForm(props) {
 
     const validator = Yup.object().shape({})
     const submitForm = (values, {resetForm, setStatus}) => {
-        alert(JSON.stringify(values));
+
         const formValues = {...values};
         httpConfig.post("/apis/sign-up/", formValues).then(reply => {
             let {message, type} = reply;
 
             if (reply.status === 200) {
+                alert("Registration Successful.");
                 resetForm();
             }
             setStatus({message, type});

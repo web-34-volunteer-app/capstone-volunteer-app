@@ -69,11 +69,11 @@ export function Map(inputs) {
             viewport.longitude = currentLong;
             console.log(screenWidth);
             if(screenWidth > 750) {
-                console.log("Screenwidth > 750");
+                //console.log("Screenwidth > 750");
                 viewport.width = inputs.width;
                 viewport.height = inputs.height;
             } else {
-                console.log("Screendwidth is mobile");
+                //console.log("Screendwidth is mobile");
                 viewport.width = "93vw";
                 viewport.height = "65vh";
             }

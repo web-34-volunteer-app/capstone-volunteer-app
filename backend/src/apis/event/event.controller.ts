@@ -109,7 +109,7 @@ export async function deleteEventByIdController(request: Request, response: Resp
 }
 
 
-export async function postEvent(request:Request, response:Response){
+export async function postEvent(request:Request, response : Response){
     try {
         const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,
             eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime, eventTitle} = request.body;

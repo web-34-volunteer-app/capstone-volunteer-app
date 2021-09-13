@@ -14,7 +14,7 @@ export function CreateEventForm(props) {
         eventDescriptionSkillsRequired: "",
         eventDescriptionTransportation: false,
         eventDescriptionTypeOfWork: "",
-        eventEndTime: Date,
+        eventEndTime: "",
         eventFlag: false,
         eventLatitude: "",
         eventLongitude: "",
@@ -25,8 +25,12 @@ export function CreateEventForm(props) {
 
     const validator = Yup.object().shape({})
     const submitForm = (values, {resetForm, setStatus}) => {
+
         alert(JSON.stringify(values));
         const formValues = {...values};
+        formValues.eventStartTime = formValues.eventDate + " " + formValues.eventStartTime + ":00.000"
+        formValues.eventEndTime = formValues.eventDate + " " + formValues.eventEndTime + ":00.000"
+        alert(JSON.stringify(formValues));
         httpConfig.post("/apis/event/", formValues).then(reply => {
             let {message, type} = reply;
 
@@ -132,7 +136,7 @@ const CreateEventFormContent = (props) => {
                         <Form.Control
                             id="eventStartTime"
                             name="eventStartTime"
-                            type="date"
+                            type="time"
                             value={values.eventStartTime}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -143,8 +147,7 @@ const CreateEventFormContent = (props) => {
                         <Form.Control
                             id="eventEndTime"
                             name="eventEndTime"
-                            type="text"
-
+                            type="time"
                             value={values.eventEndTime}
                             onChange={handleChange}
                             onBlur={handleBlur}

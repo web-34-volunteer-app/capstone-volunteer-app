@@ -7,7 +7,7 @@ export interface Event {
     eventDescriptionSkillsRequired: string|null;
     eventDescriptionTransportation: boolean;
     eventDescriptionTypeOfWork: string|null;
-    eventEndTime: string;
+    eventEndTime: Date;
     eventFlag: boolean|null;
     eventLatitude: string|null;
     eventLongitude: string|null;
