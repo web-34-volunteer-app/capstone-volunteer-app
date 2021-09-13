@@ -143,7 +143,8 @@ const CreateEventFormContent = (props) => {
                         <Form.Control
                             id="eventEndTime"
                             name="eventEndTime"
-                            type="date"
+                            type="text"
+
                             value={values.eventEndTime}
                             onChange={handleChange}
                             onBlur={handleBlur}

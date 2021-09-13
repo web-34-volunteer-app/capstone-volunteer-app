@@ -11,7 +11,7 @@ export function EventApprovalTable() {
             <tr>
                 <th>#</th>
                 <th>Event Name</th>
-                <th>Event Description</th>
+                <th>Event Comments/ Complaints</th>
                 <th>Pending Action</th>
             </tr>
             </thead>
@@ -28,26 +28,8 @@ export function EventApprovalTable() {
 
                         <Dropdown.Menu>
                             <Dropdown.Item href="#/action-1">Approve</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Deny</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Contact</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Paint Local Shelter</td>
-                <td>Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</td>
-                <td>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            Action
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Approve</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Deny</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Contact</Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">Remove Event</Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">Contact Organizer</Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
                 </td>

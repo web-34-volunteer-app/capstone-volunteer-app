@@ -40,7 +40,7 @@ export const eventValidator = {
         },
     },
 
-    eventEndTime:{
+    isString:{
         toDate: true,
         optional: {
             options: {

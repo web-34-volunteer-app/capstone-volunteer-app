@@ -24,6 +24,8 @@ CREATE TABLE user
     PRIMARY KEY (userID)
 );
 
+
+
 CREATE TABLE event
 (
     eventId                        BINARY(16)    NOT NULL,
@@ -34,7 +36,7 @@ CREATE TABLE event
     eventDescriptionSkillsRequired VARCHAR(256),
     eventDescriptionTransportation BOOLEAN      NOT NULL,
     eventDescriptionTypeOfWork     VARCHAR(128),
-    eventEndTime                   DATETIME(6)  NOT NULL,
+    eventEndTime                   VARCHAR(32)  NOT NULL,
     eventFlag                      BOOLEAN,
     eventLatitude                  VARCHAR(32)  NOT NULL,
     eventLongitude                 VARCHAR(32)  NOT NULL,

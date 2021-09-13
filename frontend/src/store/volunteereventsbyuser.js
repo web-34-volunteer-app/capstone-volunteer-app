@@ -22,7 +22,7 @@ export const fetchVolunteerByVolunteerUserId = () => async (dispatch, getState) 
     const {auth} = getState()
     console.log(auth)
     if(auth !== null) {
-        const {data} = await httpConfig.get(`/apis/volunteer/${auth.UserId}`)
+        const {data} = await httpConfig.get(`/apis/volunteer/${auth.volunteerUserId}`)
         console.log(data)
         dispatch(getVolunteerByVolunteerUserId(data))
     }
