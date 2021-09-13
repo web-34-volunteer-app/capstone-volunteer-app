@@ -5,6 +5,8 @@ import {Button} from "react-bootstrap";
 import * as Yup from "yup";
 import {httpConfig} from "../utils/httpConfig";
 import {Formik} from "formik";
+import {useDispatch} from "react-redux";
+import {fetchAllEvents} from "../store/event";
 
 export function CreateEventForm(props) {
     const formValues = {
@@ -22,20 +24,22 @@ export function CreateEventForm(props) {
         eventStartTime: "",
         eventTitle: "",
     }
-
+    const dispatch =useDispatch()
     const validator = Yup.object().shape({})
     const submitForm = (values, {resetForm, setStatus}) => {
 
-        alert(JSON.stringify(values));
+        // alert(JSON.stringify(values));
         const formValues = {...values};
         formValues.eventStartTime = formValues.eventDate + " " + formValues.eventStartTime + ":00.000"
         formValues.eventEndTime = formValues.eventDate + " " + formValues.eventEndTime + ":00.000"
-        alert(JSON.stringify(formValues));
+        // alert(JSON.stringify(formValues));
         httpConfig.post("/apis/event/", formValues).then(reply => {
             let {message, type} = reply;
 
             if (reply.status === 200) {
+                dispatch(fetchAllEvents());
                 resetForm();
+
             }
             setStatus({message, type});
             return (reply);
@@ -200,7 +204,9 @@ const CreateEventFormContent = (props) => {
 
 <Row className={"mt-3"}>
 
-                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                <Form.Group className="mb-3"
+                            // controlId="exampleForm.ControlTextarea1"
+                    >
                     <Form.Label>Event Description</Form.Label>
                     <Form.Control
                         as="textarea"
