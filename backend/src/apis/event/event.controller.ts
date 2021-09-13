@@ -60,7 +60,6 @@ export async function getEventByEventOrganizationController(request: Request, re
     }
 }
 
-//Untested function
 export async function getEventByEventUserIdController(request: Request, response: Response): Promise<Response<Status>> {
     console.log('an event controller')
     try {
@@ -80,9 +79,6 @@ export async function getEventByEventUserIdController(request: Request, response
         })
     }
 }
-
-// end of untested function
-
 
 
 export async function deleteEventByIdController(request: Request, response: Response): Promise <Response<string>>{
