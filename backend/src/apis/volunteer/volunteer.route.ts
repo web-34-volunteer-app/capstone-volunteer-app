@@ -1,5 +1,6 @@
 import {Router} from "express";
 import {
+    deleteVolunteerBySelfController,
     deleteVolunteerController,
     getAllVolunteersController, getVolunteerByVolunteerEventIdController, getVolunteerByVolunteerUserIdController,
     postVolunteerController,
@@ -16,7 +17,7 @@ VolunteerRouter.route('/')
 
 //Get all events one user volunteered for
 VolunteerRouter.route('/:volunteerUserId')
-    .get(getVolunteerByVolunteerUserIdController)
+    .get(isLoggedIn, getVolunteerByVolunteerUserIdController)
 
 //Get all volunteers for one event
 VolunteerRouter.route('/event/:volunteerEventId')
@@ -33,3 +34,6 @@ VolunteerRouter.route('/update/:volunteerUserId/:volunteerEventId')
 //Delete a volunteer
 VolunteerRouter.route('/delete/:volunteerUserId/:volunteerEventId')
     .delete(deleteVolunteerController)
+
+VolunteerRouter.route('/deleteSelf/:volunteerEventId')
+    .delete(isLoggedIn, deleteVolunteerBySelfController)

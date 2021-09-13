@@ -1,8 +1,21 @@
 import React from 'react';
 import {Button, Table} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchEventByUserId} from "../store/registeredeventsbyuser";
+import {EventAttendingRow} from "./EventAttendingRow";
 
 
 export function EventsAttending() {
+    const dispatch = useDispatch()
+    const registered = useSelector(state => {return state.registered ? state.registered : null})
+    console.log(registered)
+    const sideEffects = () => {
+        dispatch(fetchEventByUserId())
+    }
+
+    React.useEffect(sideEffects, [dispatch])
+console.log(registered)
+
     return(
         <>
             <div className={"border border-2 text-center py-1"}><h5>Registered Events</h5></div>
@@ -19,27 +32,18 @@ export function EventsAttending() {
                 </tr>
                 </thead>
                 <tbody>
+                {eventRows(registered)}
 
-                <tr>
-
-                    <td>Food Drive</td>
-                    <td>USO</td>
-                    <td>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. </td>
-                    <td>555 Jordan Street, NY, New York</td>
-                    <td>18 November, 2021 5:30 EST</td>
-                    <td>
-                        <Button
-                            className={"me-2 mt-3"}
-                            id="registerFormSubmit"
-                            variant="danger"
-                            type="submit">
-                            Unregister
-                        </Button>
-                    </td>
-                </tr>
                 </tbody>
             </Table>
         </>
     )
 
 }
+const eventRows = (registered)=>{
+    if (registered){
+        return registered.map(event=> <EventAttendingRow event={event}/>)
+
+    }
+    return null
+    }

@@ -139,3 +139,24 @@ export async function deleteVolunteerController(request: Request, response: Resp
         })
     }
 }
+
+export async function deleteVolunteerBySelfController(request: Request, response: Response) : Promise<Response> {
+    try{
+        const {volunteerEventId} = request.params;
+        const volunteerUserId = <string>request.session?.user?.userId
+        const result = await selectVolunteerByUserIdEventId(volunteerUserId, volunteerEventId) as Volunteer;
+        await deleteVolunteer(result);
+        const status: Status = {
+            status:200,
+            message: 'Volunteer successfully deleted',
+            data:null
+        };
+        return response.json(status);
+    } catch(e : any) {
+        return response.json( {
+            status:400,
+            data: null,
+            message: e.message
+        })
+    }
+}
