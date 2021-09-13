@@ -1,5 +1,3 @@
-//Untested function
-
 import {connect} from "../database.utils";
 import {RowDataPacket} from "mysql2";
 import {Event} from "../interfaces/Event";
