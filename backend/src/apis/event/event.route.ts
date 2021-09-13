@@ -2,7 +2,7 @@ import { Router} from "express";
 import {
     deleteEventByIdController,
     getAllEventsController,
-    getEventbyEventIdController, getEventByEventOrganizationController,
+    getEventbyEventIdController, getEventByEventOrganizationController, getEventByEventUserIdController,
     postEvent, putEventController
 } from "./event.controller";
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
@@ -17,7 +17,10 @@ EventRouter.route('/')
     .get(getAllEventsController)
     .post( isLoggedIn, asyncValidatorController(checkSchema(eventValidator)), postEvent)
 
-    EventRouter.route('/:eventId')
+EventRouter.route('/registered/')
+    .get(isLoggedIn,getEventByEventUserIdController)
+
+    EventRouter.route('/eventId/:eventId')
     .delete(isLoggedIn, deleteEventByIdController)
         .get(getEventbyEventIdController)
         .put(putEventController)
