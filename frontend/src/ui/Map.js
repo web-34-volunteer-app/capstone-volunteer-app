@@ -3,22 +3,19 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import GPS_cursor from "./images/Map_pin_icon.svg";
 import "./style.css";
+import {useSelector} from "react-redux";
 
 let currentLat = 0;
 let currentLong = 0;
 let init = true;
-let eventData = [
-    {
-        id: 0,
-        name: "home",
-        address: "3713 Fieldstone Circle",
-        description: "The place that I live",
-        latitude: 36.7932057,
-        longitude: -76.1117332
-    }
-];
+
+
+
+
 
 export function Map(inputs) {
+    const events = useSelector(state => state.events ? state.events : [])
+console.log(events)
     const [viewport, setViewport] = useState(() => {
         return {
             latitude: currentLat,
@@ -91,9 +88,13 @@ export function Map(inputs) {
                 }}
             >
 
-                {eventData.map(place => (
-                    <Marker key={place.id} latitude={place.latitude} longitude={place.longitude} offsetLeft={-25.5}
-                            offsetTop={-36}>
+                {events.map(place => (
+                    <Marker key={place.eventId}
+                            latitude={Number(place.eventLatitude)}
+                            longitude={Number(place.eventLongitude)}
+                            offsetLeft={-25.5}
+                            offsetTop={-36}
+                    >
                         <button className="marker-btn"
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -105,15 +106,14 @@ export function Map(inputs) {
                 ))}
                 {selectedPlace ? (
                     <Popup
-                        latitude={selectedPlace.latitude}
-                        longitude={selectedPlace.longitude}
+                        latitude={Number(selectedPlace.eventLatitude)}
+                        longitude={Number(selectedPlace.eventLongitude)}
                         onClose={() => {
                             setSelectedPlace(null);
                         }}>
                         <div>
-                            <h2>{selectedPlace.name}</h2>
-                            <p>{selectedPlace.address}</p>
-                            <p>{selectedPlace.description}</p>
+                            <h2>{selectedPlace.eventTitle}</h2>
+                            <p>{selectedPlace.eventAddress}</p>
                         </div>
                     </Popup>
                 ) : null}
