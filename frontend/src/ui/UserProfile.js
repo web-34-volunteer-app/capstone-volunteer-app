@@ -10,22 +10,7 @@ import {BookmarkedEvents} from "./BookmarkedEvents";
 import {EventList} from "./EventList";
 import {SearchField} from "./SearchField";
 import {EventsAttending} from "./EventsAttending";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllEvents} from "../store/event";
-
-
-
-
 export function UserProfile () {
-    const dispatch = useDispatch();
-    const initialEffect = () => {
-        dispatch(fetchAllEvents());
-    }
-    React.useEffect(initialEffect, [dispatch])
-    const events = useSelector(state => state.events ? state.events : []);
-    console.log(events);
-
-
     return (
         <>
             <Container>
@@ -40,7 +25,7 @@ export function UserProfile () {
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <EventList events={events}/>
+                    <EventList/>
                 </Row>
             </Container>
         </>

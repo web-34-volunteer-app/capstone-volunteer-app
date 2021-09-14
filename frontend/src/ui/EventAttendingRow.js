@@ -33,6 +33,8 @@ const dispatch =useDispatch()
             <td>{event.eventDescription}</td>
             <td>{event.eventAddress}</td>
             <td>{event.eventDate}</td>
+            <td>{event.eventStartTime} </td>
+            <td>{event.eventEndTime}</td>
             <td>
                 <Button
                     className={"me-2 mt-3"}

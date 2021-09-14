@@ -1,25 +1,28 @@
 import {createSlice} from "@reduxjs/toolkit";
+import { fetchAuth } from './auth'
 import {httpConfig} from "../utils/httpConfig";
 
-// Define reducer and action
-const eventSlice = createSlice({
-    name: "event",
-    initialState: [],
+const bookmarkedSlice = createSlice({
+    name: "bookmarked",
+    initialState: null,
     reducers: {
-        setAllBookmarkedEvents: (events, action) => {
-            return action.payload;
+        getBookedMarkedEventByUserId: (bookmarked, action) => {
+            return action.payload
         }
     }
-});
+})
 
-//Make actions callable as functions
-export const {setAllEvents} = eventSlice.actions;
+export const {getBookedMarkedEventByUserId} = bookmarkedSlice.actions
 
-//Use export default so that if something imports this file, they will get it by default
-export default eventSlice.reducer
+export default bookmarkedSlice.reducer
 
-export const fetchBookmarkedEventsByUserId = () => async dispatch => {
-    const {data} = await httpConfig.get(`/apis/bookmarkedEvent`);
-
-    dispatch(setAllEvents(data));
+export const fetchBookedMarkedEventByUserId = () => async (dispatch, getState) => {
+    await dispatch(fetchAuth())
+    const {auth} = getState()
+    console.log(auth)
+    if(auth !== null) {
+        const {data} = await httpConfig.get(`/apis/bookmarkedEvent/bookmarked/`)
+        console.log(data)
+        dispatch(getBookedMarkedEventByUserId(data))
+    }
 }
