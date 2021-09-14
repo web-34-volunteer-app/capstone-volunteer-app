@@ -28,6 +28,8 @@ console.log(registered)
                     <th>Event Description</th>
                     <th>Event Address</th>
                     <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
                     <th>Take Action</th>
                 </tr>
                 </thead>

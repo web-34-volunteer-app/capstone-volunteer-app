@@ -3,26 +3,26 @@ import React from "react";
 import {useDispatch} from "react-redux";
 import {httpConfig} from "../utils/httpConfig";
 import {fetchEventByUserId} from "../store/registeredeventsbyuser";
+import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
 
 
-export const EventAttendingRow =({event})=> {
-const dispatch =useDispatch()
-    const unRegisterEvent = () =>{
+export const BookMarkedEventsRow =({event})=> {
+    const dispatch =useDispatch()
+    const removeBookmark = () =>{
         console.log("EventId", event)
-    httpConfig.delete(`/apis/volunteer/deleteSelf/${event.eventId}`)
-        .then(reply => {
-            if(reply.status === 200) {
+        console.log("Did it make it here?")
+        httpConfig.post(`/apis/bookmarkedEvent/${event.eventId}`)
+            .then(reply => {
+                if(reply.status === 200) {
+                    console.log(reply)
+                    dispatch(fetchBookedMarkedEventByUserId())
+
+                }
                 console.log(reply)
-                dispatch(fetchEventByUserId())
-
-            }
-            console.log(reply)
-        })
+            })
 
 
-}
-
-
+    }
 
 
     return (
@@ -39,10 +39,19 @@ const dispatch =useDispatch()
                 <Button
                     className={"me-2 mt-3"}
                     id="registerFormSubmit"
-                    variant="danger"
-                    onClick={unRegisterEvent}
+                    variant="primary"
+                    // onClick={unRegisterEvent}
                     type="submit">
-                    Unregister
+                    Register
+
+                </Button>
+                <Button
+                    className={"me-2 mt-3"}
+                    id="registerFormSubmit"
+                    variant="danger"
+                    onClick={removeBookmark}
+                    type="submit">
+                    Remove
 
                 </Button>
             </td>
