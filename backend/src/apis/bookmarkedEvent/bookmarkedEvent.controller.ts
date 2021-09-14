@@ -30,7 +30,7 @@ export async function getAllBookmarkedEventsController (request: Request, respon
 }
 
 
-export async function getBookmarkedEventsByUserIdController (request: Request, response: Response): Promise<Response<Status>> {
+export async function getBookmarkedEventsByUserIdController(request: Request, response: Response): Promise<Response<Status>> {
     try {
         console.log('trying to display bookmarks')
         const user : User = request.session.user as User

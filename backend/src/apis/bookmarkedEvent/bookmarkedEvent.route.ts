@@ -14,7 +14,7 @@ bookMarkedEventRoute.route
 ('/')
     .get(getAllBookmarkedEventsController)
 
-bookMarkedEventRoute.route('/bookmarkedEventEventId/:bookmarkedEventEventId')
+bookMarkedEventRoute.route('/:bookmarkedEventEventId')
     .post(isLoggedIn, toggleBookMarkController);
 
 bookMarkedEventRoute.route('/bookmarked/')
