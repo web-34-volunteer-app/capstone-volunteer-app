@@ -2,8 +2,8 @@ import {Button} from "react-bootstrap";
 import React from "react";
 import {useDispatch} from "react-redux";
 import {httpConfig} from "../utils/httpConfig";
-import {fetchEventByUserId} from "../store/registeredeventsbyuser";
 import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
+import {fetchEventByUserId} from "../store/registeredeventsbyuser";
 
 
 export const BookMarkedEventsRow =({event})=> {
@@ -16,6 +16,21 @@ export const BookMarkedEventsRow =({event})=> {
                 if(reply.status === 200) {
                     console.log(reply)
                     dispatch(fetchBookedMarkedEventByUserId())
+
+                }
+                console.log(reply)
+            })
+
+
+    }
+    const registerEvent = () =>{
+        console.log("EventId", event)
+        console.log("Did it make it here?")
+        httpConfig.post(`/apis/volunteer/${event.eventId}`)
+            .then(reply => {
+                if(reply.status === 200) {
+                    console.log(reply)
+                    dispatch(fetchEventByUserId())
 
                 }
                 console.log(reply)
@@ -40,7 +55,7 @@ export const BookMarkedEventsRow =({event})=> {
                     className={"me-2 mt-3"}
                     id="registerFormSubmit"
                     variant="primary"
-                    // onClick={unRegisterEvent}
+                    onClick={registerEvent}
                     type="submit">
                     Register
 
