@@ -18,8 +18,6 @@ export const EventListInfo =({event})=>{
                 }
                 console.log(reply)
             })
-
-
     }
     const registerThisEvent = () =>{
         httpConfig.post(`/apis/volunteer/${event.eventId}`)
@@ -30,18 +28,7 @@ export const EventListInfo =({event})=>{
                 }
                 console.log(reply)
             })
-
-
     }
-
-
-
-
-
-
-
-
-
 
     return(
         <Accordion.Item eventKey={event.eventId}>
