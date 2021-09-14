@@ -10,9 +10,12 @@ import {updateEvent} from "../../utils/event/updateEvent";
 import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
 import {User} from "../../utils/interfaces/User";
 
+
+const Geocodio = require('geocodio-library-node');
+
 // const {validationResult} = require('express-validator');
 export async function getAllEventsController(request: Request, response: Response): Promise<Response<Status>> {
-
+console.log("trying to get all events")
     try {
         const data = await selectAllEvents()
         //return the response
@@ -104,17 +107,22 @@ export async function deleteEventByIdController(request: Request, response: Resp
     }
 }
 
+export async function postEvent(request:Request, response:Response){
 
-export async function postEvent(request:Request, response : Response){
     try {
         const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,
             eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime, eventTitle} = request.body;
 
         const eventUserId = <string>request.session?.user?.userId
+// const {eventLatitude, eventLongitude}=await latLong(eventAddress)
+        const geocoder = new Geocodio('19c32666b5656c113a62f9f5f9f563bafba3fc2')
+        let eventLatitude:string="0.00";
+        let eventLongitude:string="0.00";
+        const geoResponse = await geocoder.geocode(eventAddress)
 
-        const eventLatitude = "36.793230";
-        const eventLongitude = "-76.111660";
-
+        eventLatitude = geoResponse.results[0].location.lat
+        eventLongitude = geoResponse.results[0].location.lng
+        console.log(eventLatitude);
         const event: Event = {
             eventId: null,
             eventUserId,
@@ -132,19 +140,45 @@ export async function postEvent(request:Request, response : Response){
             eventStartTime,
             eventTitle
         };
-        console.log("event:", event)
-        const result = await insertEvent(event)
-        const status: Status = {
-            status:200,
-            message: result ?? 'Event created successfully',
-            data:null
-        };
-        return response.json(status);
+
+
+                console.log("event:", event)
+                const result = await insertEvent(event)
+                const status: Status = {
+                    status:200,
+                    message: result ?? 'Event created successfully',
+                    data:null
+                };
+                return response.json(status);
+
+
+
+
 
     }catch (error){
         console.log(error)
     }
 }
+
+async function latLong (address: string) {
+    const geocoder = new Geocodio('19c32666b5656c113a62f9f5f9f563bafba3fc2')
+    let eventLatitude:string="0.00";
+    let eventLongitude:string="0.00";
+    geocoder
+        .geocode(address)
+        .then((response:any) => {
+            eventLatitude = response.results[0].location.lat
+            eventLongitude = response.results[0].location.lng
+            console.log(eventLatitude);
+        })
+        .catch((error:any) => {
+            console.error(error);
+        });
+    return {eventLatitude, eventLongitude}
+}
+
+
+
 
 export async function putEventController(request: Request, response: Response) : Promise<Response>{
     try {
@@ -180,3 +214,4 @@ export async function putEventController(request: Request, response: Response) :
         return response.json( {status:400, data: null, message: error.message})
     }
 }
+
