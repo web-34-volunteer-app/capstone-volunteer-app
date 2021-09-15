@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Table} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchEventByUserId} from "../store/registeredeventsbyuser";
 import {EventAttendingRow} from "./EventAttendingRow";
@@ -8,13 +8,11 @@ import {EventAttendingRow} from "./EventAttendingRow";
 export function EventsAttending() {
     const dispatch = useDispatch()
     const registered = useSelector(state => {return state.registered ? state.registered : null})
-    console.log(registered)
     const sideEffects = () => {
         dispatch(fetchEventByUserId())
     }
 
     React.useEffect(sideEffects, [dispatch])
-console.log(registered)
 
     return(
         <>
@@ -44,7 +42,7 @@ console.log(registered)
 }
 const eventRows = (registered)=>{
     if (registered){
-        return registered.map(event=> <EventAttendingRow event={event}/>)
+        return registered.map(event=> <EventAttendingRow key={event.eventId} event={event}/>)
 
     }
     return null

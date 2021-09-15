@@ -1,6 +1,5 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllEvents} from "../store/event";
+import {useDispatch} from "react-redux";
 import {Accordion, Button} from "react-bootstrap";
 import {httpConfig} from "../utils/httpConfig";
 import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
@@ -14,20 +13,16 @@ export const EventListInfo =({event})=>{
         httpConfig.post(`/apis/bookmarkedEvent/${event.eventId}`)
             .then(reply => {
                 if(reply.status === 200) {
-                    console.log(reply)
                     dispatch(fetchBookedMarkedEventByUserId())
                 }
-                console.log(reply)
             })
     }
     const registerThisEvent = () =>{
         httpConfig.post(`/apis/volunteer/${event.eventId}`)
             .then(reply => {
                 if(reply.status === 200) {
-                    console.log(reply)
                     dispatch(fetchEventByUserId())
                 }
-                console.log(reply)
             })
     }
 
@@ -71,9 +66,5 @@ export const EventListInfo =({event})=>{
             </Button>
         </Accordion.Body>
         </Accordion.Item>
-
-
-
-
     )
 }

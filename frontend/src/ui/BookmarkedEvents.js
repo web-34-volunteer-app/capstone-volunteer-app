@@ -1,20 +1,18 @@
 import React from 'react';
-import {Button, Table} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {BookMarkedEventsRow} from "./BookMarkedEventsRow";
-import bookmarked, {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
+import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
 
 
 export function BookmarkedEvents() {
     const dispatch = useDispatch()
     const bookmarked = useSelector(state => {return state.bookmarked ? state.bookmarked : null})
-    console.log(bookmarked)
     const sideEffects = () => {
         dispatch(fetchBookedMarkedEventByUserId())
     }
 
     React.useEffect(sideEffects, [dispatch])
-    console.log(bookmarked)
 
     return(
         <>
@@ -44,7 +42,7 @@ export function BookmarkedEvents() {
 }
 const eventRows = (bookmarked)=>{
     if (bookmarked){
-        return bookmarked.map(event=> <BookMarkedEventsRow event={event}/>)
+        return bookmarked.map(event=> <BookMarkedEventsRow key={event.eventId} event={event}/>)
 
     }
     return null

@@ -64,12 +64,12 @@ function LoginFormContent(props){
         values,
         errors,
         touched,
-        dirty,
-        isSubmitting,
+        // dirty,
+        // isSubmitting,
         handleChange,
         handleBlur,
         handleSubmit,
-        handleReset
+        // handleReset
     } = props;
 
 

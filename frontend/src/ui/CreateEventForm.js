@@ -61,14 +61,14 @@ const CreateEventFormContent = (props) => {
     const {
         status,
         values,
-        errors,
-        touched,
-        dirty,
-        isSubmitting,
+        // errors,
+        // touched,
+        // dirty,
+        // isSubmitting,
         handleChange,
         handleBlur,
         handleSubmit,
-        handleReset
+        // handleReset
     } = props;
     return(
         <>

@@ -1,8 +1,6 @@
 import React from "react";
-import {Accordion, Button, Col} from "react-bootstrap";
+import {Accordion, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {httpConfig} from "../utils/httpConfig";
-import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
 import {fetchAllEvents} from "../store/event";
 import {EventListInfo} from "./EventListInfo";
 
@@ -13,9 +11,6 @@ export function EventList(){
     }
     React.useEffect(initialEffect, [dispatch])
     const events = useSelector(state => state.events ? state.events : []);
-    console.log(events);
-
-
 
     return(
         <>

@@ -47,7 +47,7 @@ export function Map(inputs) {
         return () => {
             window.removeEventListener('resize', updateMap);
         }
-    }, []);
+    });
 
 
     if (init) {

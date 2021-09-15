@@ -29,7 +29,7 @@ console.log("trying to get all events")
             })
         }
     }
-    export async function getEventbyEventIdController(request: Request, response: Response): Promise<Response<Status>> {
+    export async function getEventByEventIdController(request: Request, response: Response): Promise<Response<Status>> {
 
         try {
             const {eventId} = request.params
