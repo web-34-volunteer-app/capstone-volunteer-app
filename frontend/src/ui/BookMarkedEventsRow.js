@@ -10,37 +10,21 @@ import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
 export const BookMarkedEventsRow =({event})=> {
     const dispatch =useDispatch()
     const removeBookmark = () =>{
-        console.log("EventId", event)
-        console.log("Did it make it here?")
         httpConfig.post(`/apis/bookmarkedEvent/${event.eventId}`)
             .then(reply => {
                 if(reply.status === 200) {
-                    console.log(reply)
                     dispatch(fetchBookedMarkedEventByUserId())
-
                 }
-                console.log(reply)
             })
-
-
     }
     const registerEvent = () =>{
-        console.log("EventId", event)
-        console.log("Did it make it here?")
         httpConfig.post(`/apis/volunteer/${event.eventId}`)
             .then(reply => {
                 if(reply.status === 200) {
-                    console.log(reply)
                     dispatch(fetchEventByUserId())
-
                 }
-                console.log(reply)
             })
-
-
     }
-
-
     return (
         <tr>
 
@@ -59,7 +43,6 @@ export const BookMarkedEventsRow =({event})=> {
                     onClick={registerEvent}
                     type="submit">
                     Register
-
                 </Button>
                 <Button
                     className={"me-2 mt-3"}
@@ -68,7 +51,6 @@ export const BookMarkedEventsRow =({event})=> {
                     onClick={removeBookmark}
                     type="submit">
                     Remove
-
                 </Button>
             </td>
         </tr>

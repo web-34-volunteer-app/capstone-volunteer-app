@@ -23,6 +23,7 @@ export function RegisterForm(props) {
             let {message, type} = reply;
 
             if (reply.status === 200) {
+                props.handleClose();
                 alert("Registration Successful.");
                 resetForm();
             }
@@ -45,16 +46,16 @@ export function RegisterForm(props) {
 
 const SignUpFormContent = (props) => {
     const {
-        status,
+        //status,
         values,
-        errors,
-        touched,
-        dirty,
-        isSubmitting,
+        //errors,
+        //touched,
+        //dirty,
+        //isSubmitting,
         handleChange,
         handleBlur,
         handleSubmit,
-        handleReset
+        //handleReset
     } = props;
 
     return (<Form onSubmit={handleSubmit}>

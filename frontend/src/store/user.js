@@ -19,10 +19,8 @@ export default userSlice.reducer
 export const fetchUserByUserId = () => async (dispatch, getState) => {
     await dispatch(fetchAuth())
     const {auth} = getState()
-    console.log(auth)
     if(auth !== null) {
         const {data} = await httpConfig.get(`/apis/user/${auth.userId}`)
-        console.log(data)
         dispatch(getUserByUserId(data))
     }
 }

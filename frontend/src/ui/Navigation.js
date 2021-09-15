@@ -32,15 +32,15 @@ export function Navigation() {
         switch (option) {
             case("register"):
                 offcanvasTitle = "Register Account";
-                offcanvasForm = <RegisterForm/>;
+                offcanvasForm = <RegisterForm handleClose={handleClose}/>;
                 break;
             case("login"):
                 offcanvasTitle = "Log In";
-                offcanvasForm = <LoginForm/>;
+                offcanvasForm = <LoginForm handleClose={handleClose}/>;
                 break;
             case("register event"):
                 offcanvasTitle = "Register Event";
-                offcanvasForm = <CreateEventForm/>;
+                offcanvasForm = <CreateEventForm handleClose={handleClose}/>;
                 break;
             default:
                 offcanvasTitle = "";
@@ -63,20 +63,20 @@ export function Navigation() {
         })
     }
 
-    const registerLink = <Nav.Link href="#" onClick={() => {
+    const registerLink = <Nav.Link key={"RegisterLink"} href="#" onClick={() => {
         toggleShow("register");
     }}>Register</Nav.Link>;
-    const logInLink = <Nav.Link href="#" onClick={() => {
+    const logInLink = <Nav.Link key={"LogInLink"} href="#" onClick={() => {
         toggleShow("login");
     }}>Log In</Nav.Link>;
-    const createEventLink = <Nav.Link href="#" onClick={() => {
+    const createEventLink = <Nav.Link key={"CreateEventLink"} href="#" onClick={() => {
         toggleShow("register event");
     }}>Create Event</Nav.Link>;
-    const logOutLink = <Nav.Link href="#" onClick={signOut}>Log Out</Nav.Link>;
-    const contactLink = <Nav.Link href="#">Contact</Nav.Link>;
-    const privacyLink = <Nav.Link href="#">Privacy Settings</Nav.Link>;
-    const communityGuidelinesLink = <Nav.Link href="#">Community Guidelines</Nav.Link>;
-    const userProfileLink = <Nav.Link href="/user-profile">User Profile</Nav.Link>;
+    const logOutLink = <Nav.Link key={"LogOutLink"} href="#" onClick={signOut}>Log Out</Nav.Link>;
+    // const contactLink = <Nav.Link href="#">Contact</Nav.Link>;
+    // const privacyLink = <Nav.Link href="#">Privacy Settings</Nav.Link>;
+    // const communityGuidelinesLink = <Nav.Link href="#">Community Guidelines</Nav.Link>;
+    // const userProfileLink = <Nav.Link href="/user-profile">User Profile</Nav.Link>;
 
     const visitorNavigation = [registerLink, logInLink];
     const userNavigation = [createEventLink, logOutLink];
@@ -122,5 +122,4 @@ export function Navigation() {
             </Offcanvas>
         </>
     )
-
 }

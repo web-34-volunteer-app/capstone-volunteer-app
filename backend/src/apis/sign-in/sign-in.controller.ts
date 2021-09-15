@@ -15,8 +15,6 @@ export async function signInController(request: Request, response: Response, nex
 
         const {userPassword} = request.body;
 
-
-
         passport.authenticate(
             'local',
             {session: false},
@@ -35,7 +33,7 @@ export async function signInController(request: Request, response: Response, nex
 
                 const signInSuccessful = () => {
 
-                    // commented out for testing purposes
+                    //commented out for testing purposes
                     // if(passportUser.userActivationToken !== null) {
                     // 	signInFailed("please activate your account")
                     // }

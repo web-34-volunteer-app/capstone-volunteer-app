@@ -1,13 +1,10 @@
 import React from "react";
 import HeaderImage from "./images/MC5.svg"
-import {Image, Carousel, Container, InputGroup, FormControl, Row, Col} from "react-bootstrap";
+import {Image, Carousel, Container, Row, Col} from "react-bootstrap";
 import PLaceHolderImage from "./images/PlaceHolder.svg"
 import {Map} from "./Map";
-import {Accordion} from "react-bootstrap";
 import {EventList} from "./EventList";
 import {SearchField} from "./SearchField";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllEvents} from "../store/event";
 
 export function Home() {
 
@@ -55,7 +52,7 @@ export function Home() {
                         MissionCitizen today!</p>
                 </div>
                 <div>
-                    <h3 id="MissionHours">PLACEHOLDER: volunteer hours </h3>
+                    {/*<h3 id="MissionHours">PLACEHOLDER: volunteer hours </h3>*/}
                 </div>
                 <SearchField/>
             </Container>
@@ -71,5 +68,4 @@ export function Home() {
             </Container>
         </>
     )
-
 }

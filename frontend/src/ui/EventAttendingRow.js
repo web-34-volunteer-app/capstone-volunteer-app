@@ -9,23 +9,13 @@ import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
 export const EventAttendingRow =({event})=> {
 const dispatch =useDispatch()
     const unRegisterEvent = () =>{
-        console.log("EventId", event)
     httpConfig.delete(`/apis/volunteer/deleteSelf/${event.eventId}`)
         .then(reply => {
             if(reply.status === 200) {
-                console.log(reply)
                 dispatch(fetchEventByUserId())
-
             }
-            console.log(reply)
         })
-
-
 }
-
-
-
-
     return (
         <tr>
 
