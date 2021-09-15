@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
-import GPS_cursor from "./images/Map_pin_icon.svg";
+import GPS_cursor from "./images/MC3YellowNoText.svg";
 import "./style.css";
 import {useSelector} from "react-redux";
 
@@ -82,7 +82,7 @@ export function Map(inputs) {
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                mapStyle="mapbox://styles/akpowers1986/cks64jxs869f317qpopvvckls"
+                mapStyle="mapbox://styles/amartinezguzman/cktlm0pv01zdb17o3ceu4qfa7"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}
@@ -112,7 +112,7 @@ export function Map(inputs) {
                             setSelectedPlace(null);
                         }}>
                         <div>
-                            <h2>{selectedPlace.eventTitle}</h2>
+                            <h6>{selectedPlace.eventTitle}</h6>
                             <p>{selectedPlace.eventAddress}</p>
                         </div>
                     </Popup>

@@ -7,6 +7,7 @@ import {httpConfig} from "../utils/httpConfig";
 import {Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {fetchAllEvents} from "../store/event";
+import './style.css'
 
 export function CreateEventForm(props) {
     const formValues = {
@@ -74,19 +75,18 @@ const CreateEventFormContent = (props) => {
         <>
             <Form onSubmit={handleSubmit}>
                 <Row className={"p-2"}>
-                    <Form.Label column="lg" className="bg-dark text-white">
+                    <Form.Label column="lg" className="EventInfo text-white">
                         Event Information
                     </Form.Label>
                 </Row>
                 <Row className={"mt-3"}>
                     <Col>
-                        <Form.Label>Event Title</Form.Label>
+                        <Form.Label>Title</Form.Label>
                         <Form.Control
                             id="eventTitle"
                             name="eventTitle"
                             size="text"
                             type="text"
-                            placeholder="Event Name"
                             value={values.eventTitle}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -99,7 +99,6 @@ const CreateEventFormContent = (props) => {
                             name="eventOrganization"
                             size="text"
                             type="text"
-                            placeholder="Organization"
                             value={values.eventOrganization}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -108,7 +107,7 @@ const CreateEventFormContent = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                        <Form.Label>Event Address</Form.Label>
+                        <Form.Label>Address</Form.Label>
                         <Form.Control
                             id="eventAddress"
                             name="eventAddress"
@@ -205,10 +204,9 @@ const CreateEventFormContent = (props) => {
                 <Form.Group className="mb-3"
                             // controlId="exampleForm.ControlTextarea1"
                     >
-                    <Form.Label>Event Description</Form.Label>
+                    <Form.Label>Description</Form.Label>
                     <Form.Control
                         as="textarea"
-                        placeholder="Event Description"
                         id="eventDescription"
                         name="eventDescription"
                         value={values.eventDescription}
@@ -218,8 +216,8 @@ const CreateEventFormContent = (props) => {
                 </Form.Group>
 </Row>
                 <Button
-                    variant="outline-success"
-                    className={"align-content-center"}
+                    variant="primary"
+                    className={"registerButton align-content-center"}
                     type="submit"
                 >Create</Button>
                 {status && (<div className={status.type}>{status.message}</div>)}
