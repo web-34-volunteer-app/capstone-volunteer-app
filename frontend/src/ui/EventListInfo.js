@@ -5,6 +5,7 @@ import {Accordion, Button} from "react-bootstrap";
 import {httpConfig} from "../utils/httpConfig";
 import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
 import {fetchEventByUserId} from "../store/registeredeventsbyuser";
+import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
 
 
 export const EventListInfo =({event})=>{
@@ -30,6 +31,15 @@ export const EventListInfo =({event})=>{
             })
     }
 
+    function transportation() {
+        if(event.eventDescriptionTransportation) {
+            return "Yes"
+        }
+        else {
+            return "No"
+        }
+    }
+
     return(
         <Accordion.Item eventKey={event.eventId}>
             <Accordion.Header><h6>Event Title: {event.eventTitle} |  Organization:{event.eventOrganization}</h6> </Accordion.Header>
@@ -37,11 +47,11 @@ export const EventListInfo =({event})=>{
 
             Description: {event.eventDescription}
             <br/>
-            <h6>Date: {event.eventDate}</h6>
-            <h6>Start Time: {event.eventStartTime} | End Time: {event.eventEndTime}</h6>
+            <h6>Date: {dateTimeToDate(event.eventDate)}</h6>
+            <h6>Start Time: {dateTimeToTime(event.eventStartTime)} | End Time: {dateTimeToTime(event.eventEndTime)}</h6>
             <br/>
             <h6>Location: {event.eventAddress}  </h6>
-            <h6>Transportation provided? {event.eventDescriptionTransportation}</h6>
+            <h6>Transportation provided? {transportation()}</h6>
 
             <Button
                 className={"me-2 mt-3"}

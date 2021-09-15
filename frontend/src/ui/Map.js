@@ -15,7 +15,7 @@ let init = true;
 
 export function Map(inputs) {
     const events = useSelector(state => state.events ? state.events : [])
-console.log(events)
+//console.log(events)
     const [viewport, setViewport] = useState(() => {
         return {
             latitude: currentLat,
