@@ -42,32 +42,30 @@ export const EventListInfo =({event})=>{
 
     return(
         <Accordion.Item eventKey={event.eventId}>
-            <Accordion.Header><h6>Event Title: {event.eventTitle} |  Organization:{event.eventOrganization}</h6> </Accordion.Header>
-        <Accordion.Body>
+            <Accordion.Header><h6 className={"col-7"}><strong>{event.eventTitle}</strong> | {event.eventOrganization}</h6> <h6 className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(event.eventDate)}</h6></Accordion.Header>
+            <Accordion.Body>
 
-            Description: {event.eventDescription}
-            <br/>
-            <h6>Date: {dateTimeToDate(event.eventDate)}</h6>
-            <h6>Start Time: {dateTimeToTime(event.eventStartTime)} | End Time: {dateTimeToTime(event.eventEndTime)}</h6>
-            <br/>
-            <h6>Location: {event.eventAddress}  </h6>
-            <h6>Transportation provided? {transportation()}</h6>
+                <p><strong>Description: </strong>{event.eventDescription}</p>
+                <p><strong>Start Time: </strong> {dateTimeToTime(event.eventStartTime)} | <strong>End Time:</strong> {dateTimeToTime(event.eventEndTime)}</p>
+
+                <p><strong>Address:</strong>  {event.eventAddress}  </p>
+                <p><strong>Transportation provided?</strong> {transportation()}</p>
 
             <Button
-                className={"me-2 mt-3"}
+                className={"registerButton me-2 mt-3 btn-sm"}
                 id="registerFormSubmit"
                 variant="primary"
                 onClick={registerThisEvent}
                 type="submit">
-                Volunteer for Event
+                Register
             </Button>
             <Button
-                className={"me-2 mt-3"}
+                className={"registerButton me-2 mt-3 btn-sm"}
                 id="registerFormSubmit"
                 variant="primary"
                 onClick={removeAddBookmark}
                 type="submit">
-                Bookmark Event
+                Bookmark
             </Button>
         </Accordion.Body>
         </Accordion.Item>

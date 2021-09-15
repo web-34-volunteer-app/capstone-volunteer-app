@@ -1,7 +1,7 @@
 import React from "react";
 import HeaderImage from "./images/MC5.svg"
 import {Image, Carousel, Container, InputGroup, FormControl, Row, Col} from "react-bootstrap";
-import PLaceHolderImage from "./images/PlaceHolder.svg"
+import PLaceHolderImage from "./images/MissionCitizenCousel.jpg"
 import {Map} from "./Map";
 import {Accordion} from "react-bootstrap";
 import {EventList} from "./EventList";
@@ -14,11 +14,7 @@ export function Home() {
     return (
         <>
             <Container>
-                <div className="col-8 col-lg-3 mx-auto my-5">
-
-                    <Image src={HeaderImage} alt="headerImage" className="d-block"/>
-                </div>
-                <div className="col-12 col-lg-8 mx-auto">
+                <div className="col-12 col-lg-12 mx-auto mt-4">
                     <Carousel variant="dark">
                         <Carousel.Item>
                             <Image
@@ -28,31 +24,11 @@ export function Home() {
                             />
 
                         </Carousel.Item>
-                        <Carousel.Item>
-                            <Image
-                                className="d-block w-100"
-                                src={PLaceHolderImage}
-                                alt="Second slide"
-                            />
 
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <Image
-                                className="d-block w-100"
-                                src={PLaceHolderImage}
-                                alt="Third slide"
-                            />
-
-                        </Carousel.Item>
                     </Carousel>
                 </div>
                 <div className="mt-3">
-                    <h4>
-                        Mission Statement:
-                    </h4>
-                    <p>Thank you for visiting MissionCitizen, a site dedicated to making volunteerism easy! Here at
-                        MissionCitizen, we believe giving back is our mission and civic duty. Consider becoming a
-                        MissionCitizen today!</p>
+
                 </div>
                 <div>
                     <h3 id="MissionHours">PLACEHOLDER: volunteer hours </h3>

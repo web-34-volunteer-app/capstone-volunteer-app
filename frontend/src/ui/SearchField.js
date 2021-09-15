@@ -1,6 +1,6 @@
 import React from "react";
 import {FormControl, InputGroup} from "react-bootstrap";
-
+import './style.css'
 
 export function SearchField (){
     return(

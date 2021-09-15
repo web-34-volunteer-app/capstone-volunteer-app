@@ -106,7 +106,7 @@ function LoginFormContent(props){
                     <div className="alert alert-danger">{errors.userPassword}</div>
                 )}
             </Row>
-            <Button id="LoginForm" variant="primary" type="submit">
+            <Button className="registerButton" id="LoginForm" variant="primary" type="submit">
                 Log In
             </Button>
             {status && (<div className={status.type}>{status.message}</div>)}

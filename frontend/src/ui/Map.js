@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
-import GPS_cursor from "./images/Map_pin_icon.svg";
+import GPS_cursor from "./images/MC3YellowNoText.svg";
 import "./style.css";
 import {useSelector} from "react-redux";
 

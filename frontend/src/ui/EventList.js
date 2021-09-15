@@ -19,7 +19,8 @@ export function EventList(){
 
     return(
         <>
-            <Col md={6} className="d-block mx-auto">
+
+            <Col md={6} className="d-block mx-auto"><div className={"eventAttending text-center py-1"}><h5>Nearby Opportunities</h5></div>
                 <Accordion>
                     {events.map(event => <EventListInfo event={event} key={event.eventId}/>) }
                 </Accordion>

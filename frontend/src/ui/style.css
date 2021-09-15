@@ -16,10 +16,62 @@
 .Burgundy { color: #73351F; }
 .Light-burgundy {color: #A65233; }
 
-#navbar1 {background-color: #3B4014;
+.navbar {
+    background-color: #0477BF !important;
+    color: white !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white !important;
+}
+
+.accordion-button::after {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-left: 2em;
+}
+footer {
+    background-color: #0477BF !important;
+    color: white;
+}
+a{
+    color: white;
+    text-decoration: none;
+}
+.eventAttending{
+    background-color: #67A4CA;
     color: white;
 
 }
-.Nav-link {
+.bookMarks{
+    background-color: #67A4CA;
     color: white;
+
+}
+.unregisteredButton{
+    background-color: #F3B709;
+    color: white !important;
+
+
+}
+
+.removeButton{
+    background-color: #F3B709;
+    color: white !important;
+}
+
+.registerButton{
+    background-color: #0477BF;
+    color: white !important;
+
+}
+.EventInfo{
+    background-color: #0477BF;
+
+}
+span#inputGroup-sizing-default{
+    background-color: #0477BF;
+    color: white !important;
+
 }
