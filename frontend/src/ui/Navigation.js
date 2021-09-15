@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
-import HeaderImage from "./images/MC3NAV.svg";
+import HeaderImage from "./images/MC3YellowWhite.svg";
 import {RegisterForm} from "./RegisterForm";
 import {LoginForm} from "./LoginForm";
 import {CreateEventForm} from "./CreateEventForm";
@@ -8,7 +8,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {httpConfig} from "../utils/httpConfig";
 import {fetchAuth, getAuth} from "../store/auth";
-
+import './style.css'
 
 let offcanvasTitle = "";
 let offcanvasForm = <></>;
@@ -39,8 +39,10 @@ export function Navigation() {
                 offcanvasForm = <LoginForm handleClose={handleClose}/>;
                 break;
             case("register event"):
-                offcanvasTitle = "Register Event";
-                offcanvasForm = <CreateEventForm handleClose={handleClose}/>;
+
+                offcanvasTitle = "Create Event";
+                offcanvasForm = <CreateEventForm/>;
+
                 break;
             default:
                 offcanvasTitle = "";
@@ -91,7 +93,7 @@ export function Navigation() {
 
     return (
         <>
-            <Navbar bg="light" expand="lg">
+            <Navbar expand="lg">
                 <Container>
                     <Navbar.Brand><Link to={"/"}>
                         <img

@@ -62,7 +62,7 @@ const SignUpFormContent = (props) => {
         <Row className="mb-3">
             <Form.Group as={Col}>
                 <Form.Label>First Name</Form.Label>
-                <Form.Control id="registerFormFirstName" type="text" placeholder="First Name"
+                <Form.Control id="registerFormFirstName" type="text"
                               name="userFirstName"
                               value={values.userFirstName}
                               onChange={handleChange}
@@ -72,7 +72,7 @@ const SignUpFormContent = (props) => {
 
             <Form.Group as={Col}>
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control id="registerFormLastName" type="text" placeholder="Last Name"
+                <Form.Control id="registerFormLastName" type="text"
                               name="userLastName"
                               value={values.userLastName}
                               onChange={handleChange}
@@ -85,7 +85,7 @@ const SignUpFormContent = (props) => {
         <Row className="mb-3">
             <Form.Group as={Col}>
                 <Form.Label>Email</Form.Label>
-                <Form.Control id="registerFormEmail" type="email" placeholder="Enter email"
+                <Form.Control id="registerFormEmail" type="email"
                               name="userEmail"
                               value={values.userEmail}
                               onChange={handleChange}
@@ -95,7 +95,7 @@ const SignUpFormContent = (props) => {
 
             <Form.Group as={Col}>
                 <Form.Label>Confirm Email</Form.Label>
-                <Form.Control id="registerFormEmailConfirm" type="email" placeholder="Confirm Email"
+                <Form.Control id="registerFormEmailConfirm" type="email"
                               name="confirmUserEmail"
                 />
             </Form.Group>
@@ -106,7 +106,7 @@ const SignUpFormContent = (props) => {
         <Row className="mb-3">
             <Form.Group as={Col}>
                 <Form.Label>Password</Form.Label>
-                <Form.Control id="registerFormPassword" type="password" placeholder="Password"
+                <Form.Control id="registerFormPassword" type="password"
                               name="userPassword"
                               value={values.userPassword}
                               onChange={handleChange}
@@ -117,7 +117,7 @@ const SignUpFormContent = (props) => {
             <Form.Group as={Col}>
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control id="registerFormPasswordConfirm" type="password"
-                              placeholder="Confirm Password"
+
                               name="userPasswordConfirm"
                               value={values.userPasswordConfirm}
                               onChange={handleChange}
@@ -142,8 +142,8 @@ const SignUpFormContent = (props) => {
             {/*</Form.Group>*/}
 
             <Form.Group as={Col}>
-                <Form.Label>Zip</Form.Label>
-                <Form.Control id="registerFormZip" type="text" placeholder="Zip Code"
+                <Form.Label>Zip Code</Form.Label>
+                <Form.Control id="registerFormZip" type="text"
                               name="userZipCode"
                               value={values.userZipCode}
                               onChange={handleChange}
