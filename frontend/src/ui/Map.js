@@ -112,7 +112,7 @@ console.log(events)
                             setSelectedPlace(null);
                         }}>
                         <div>
-                            <h2>{selectedPlace.eventTitle}</h2>
+                            <h6>{selectedPlace.eventTitle}</h6>
                             <p>{selectedPlace.eventAddress}</p>
                         </div>
                     </Popup>
