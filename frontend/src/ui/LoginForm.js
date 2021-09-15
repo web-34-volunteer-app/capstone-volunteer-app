@@ -8,7 +8,7 @@ import jwt_decode from "jwt-decode"
 import {getAuth} from "../store/auth";
 import { useHistory } from "react-router-dom"
 
-export function LoginForm(){
+export function LoginForm(props){
 
 const history = useHistory()
 
@@ -38,6 +38,7 @@ const history = useHistory()
                 if(reply.status === 200 && reply.headers["authorization"]) {
                     window.localStorage.removeItem("authorization");
                     window.localStorage.setItem("authorization", reply.headers["authorization"]);
+                    props.handleClose();
                     resetForm();
                     let jwtToken = jwt_decode(reply.headers["authorization"]);
                     dispatch(getAuth(jwtToken));

@@ -24,7 +24,7 @@ export function CreateEventForm(props) {
         eventStartTime: "",
         eventTitle: "",
     }
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
     const validator = Yup.object().shape({})
     const submitForm = (values, {resetForm, setStatus}) => {
 
@@ -38,8 +38,9 @@ export function CreateEventForm(props) {
 
             if (reply.status === 200) {
                 dispatch(fetchAllEvents());
+                props.handleClose();
+                alert("Event Successfully Created");
                 resetForm();
-
             }
             setStatus({message, type});
             return (reply);
@@ -69,9 +70,6 @@ const CreateEventFormContent = (props) => {
         handleSubmit,
         handleReset
     } = props;
-
-
-
     return(
         <>
             <Form onSubmit={handleSubmit}>

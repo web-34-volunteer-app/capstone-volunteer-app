@@ -23,6 +23,7 @@ export function RegisterForm(props) {
             let {message, type} = reply;
 
             if (reply.status === 200) {
+                props.handleClose();
                 alert("Registration Successful.");
                 resetForm();
             }

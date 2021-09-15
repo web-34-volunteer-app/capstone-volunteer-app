@@ -32,15 +32,15 @@ export function Navigation() {
         switch (option) {
             case("register"):
                 offcanvasTitle = "Register Account";
-                offcanvasForm = <RegisterForm/>;
+                offcanvasForm = <RegisterForm handleClose={handleClose}/>;
                 break;
             case("login"):
                 offcanvasTitle = "Log In";
-                offcanvasForm = <LoginForm/>;
+                offcanvasForm = <LoginForm handleClose={handleClose}/>;
                 break;
             case("register event"):
                 offcanvasTitle = "Register Event";
-                offcanvasForm = <CreateEventForm/>;
+                offcanvasForm = <CreateEventForm handleClose={handleClose}/>;
                 break;
             default:
                 offcanvasTitle = "";
@@ -122,5 +122,4 @@ export function Navigation() {
             </Offcanvas>
         </>
     )
-
 }
