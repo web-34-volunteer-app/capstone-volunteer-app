@@ -1,0 +1,20 @@
+.container {
+    display: block;
+    width: 48em;
+    margin: 2em auto 0 auto;
+}
+footer {
+    margin: 3em 0;
+    text-align: center;
+    font-size: 1em;
+}
+
+.landing-page {
+    line-height: 2rem;
+}
+.name {
+    font-weight: bold;
+}
+#ConceptModel img {
+    width: 70rem;
+}

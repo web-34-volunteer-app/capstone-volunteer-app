@@ -8,3 +8,10 @@ footer {
     text-align: center;
     font-size: 1em;
 }
+
+.landing-page {
+    line-height: 2rem;
+}
+.name {
+    font-weight: bold;
+}
