@@ -82,7 +82,7 @@ export function Map(inputs) {
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-                mapStyle="mapbox://styles/akpowers1986/cks64jxs869f317qpopvvckls"
+                mapStyle="mapbox://styles/amartinezguzman/cktlm0pv01zdb17o3ceu4qfa7"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}

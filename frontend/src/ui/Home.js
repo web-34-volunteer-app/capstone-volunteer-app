@@ -10,18 +10,12 @@ export function Home() {
     return (
         <>
             <Container>
-                <div className="col-12 col-lg-12 mx-auto mt-4">
-                    <Carousel variant="dark">
-                        <Carousel.Item>
-                            <Image
-                                className="d-block w-100"
-                                src={PLaceHolderImage}
-                                alt="First slide"
-                            />
+                <div className="col-12 col-lg-12 mx-auto mt-4"><Image
+                    className="d-block w-100"
+                    src={PLaceHolderImage}
+                    alt="First slide"
+                />
 
-                        </Carousel.Item>
-
-                    </Carousel>
                 </div>
                 <div className="mt-3">
 
