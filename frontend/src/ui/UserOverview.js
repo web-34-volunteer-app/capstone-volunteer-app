@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Container, Image, Row} from "react-bootstrap";
+import {Col, Container, Image} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchUserByUserId} from "../store/user";
 
@@ -11,7 +11,7 @@ console.log(user)
         dispatch(fetchUserByUserId())
     }
 
-    React.useEffect(sideEffects, [])
+    React.useEffect(sideEffects, [dispatch])
     return (
         <>
             <Container className={"py-4"}>
@@ -25,8 +25,6 @@ console.log(user)
                         <h5>Zip Code: {user.userZipCode}</h5>
                         <h5>Total Volunteer Hours: {user.userTotalHours}</h5>
                     </Col></>}
-
-
                 </div>
             </Container>
         </>

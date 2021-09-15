@@ -1,10 +1,9 @@
 
 import React from "react";
 import {UserOverview} from "./UserOverview";
-import {EventApprovalTable} from "./EventApprovalTable";
-import {CreateEventForm} from "./CreateEventForm";
+// import {EventApprovalTable} from "./EventApprovalTable";
 
-import {Col, Container, FormControl, InputGroup, Row} from "react-bootstrap";
+import {Col, Container, Row} from "react-bootstrap";
 import {Map} from "./Map";
 import {BookmarkedEvents} from "./BookmarkedEvents";
 import {EventList} from "./EventList";
@@ -17,7 +16,7 @@ export function UserProfile () {
                 <UserOverview/>
                 <EventsAttending/>
                 <BookmarkedEvents/>
-                <EventApprovalTable/>
+                {/*<EventApprovalTable/>*/}
                 <SearchField/>
                 <Row g={3} className="my-4">
                     <Col md={6}>

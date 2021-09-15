@@ -4,6 +4,7 @@ import {useDispatch} from "react-redux";
 import {httpConfig} from "../utils/httpConfig";
 import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
 import {fetchEventByUserId} from "../store/registeredeventsbyuser";
+import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
 
 
 export const BookMarkedEventsRow =({event})=> {
@@ -47,9 +48,9 @@ export const BookMarkedEventsRow =({event})=> {
             <td>{event.eventOrganization}</td>
             <td>{event.eventDescription}</td>
             <td>{event.eventAddress}</td>
-            <td>{event.eventDate}</td>
-            <td>{event.eventStartTime} </td>
-            <td>{event.eventEndTime}</td>
+            <td>{dateTimeToDate(event.eventDate)}</td>
+            <td>{dateTimeToTime(event.eventStartTime)} </td>
+            <td>{dateTimeToTime(event.eventEndTime)}</td>
             <td>
                 <Button
                     className={"me-2 mt-3"}
