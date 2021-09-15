@@ -41,7 +41,7 @@ export function Navigation() {
             case("register event"):
 
                 offcanvasTitle = "Create Event";
-                offcanvasForm = <CreateEventForm/>;
+                offcanvasForm = <CreateEventForm handleClose={handleClose}/>;
 
                 break;
             default:
