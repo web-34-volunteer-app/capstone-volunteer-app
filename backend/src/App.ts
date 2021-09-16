@@ -1,5 +1,6 @@
 import express, { Application } from 'express'
 import morgan from 'morgan'
+import helmet from 'helmet';
 // Routes
 import { indexRoute } from './apis/index.route'
 import { UserRoute } from './apis/user/user.route'
