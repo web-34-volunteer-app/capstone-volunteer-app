@@ -1,17 +1,16 @@
-
+import mapboxgl from "mapbox-gl"
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import GPS_cursor from "./images/MC3YellowNoText.svg";
 import "./style.css";
 import {useSelector} from "react-redux";
 
-let currentLat = 0;
-let currentLong = 0;
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
+
+let currentLat = 35.0841034;
+let currentLong = -106.650985;
 let init = true;
-
-
-
-
 
 export function Map(inputs) {
     const events = useSelector(state => state.events ? state.events : [])

@@ -48,6 +48,7 @@ export class App {
         };
         this.app.use(morgan('dev'))
         this.app.use(express.json())
+        this.app.use(helmet())
         this.app.use(session(sessionConfig));
         this.app.use(passport.initialize());
         this.app.use(passport.session());
