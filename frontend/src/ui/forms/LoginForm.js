@@ -1,11 +1,11 @@
 import React from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import * as Yup from "yup";
-import {httpConfig} from "../utils/httpConfig";
+import {httpConfig} from "../../utils/httpConfig";
 import {Formik} from "formik";
 import {useDispatch} from "react-redux";
 import jwt_decode from "jwt-decode"
-import {getAuth} from "../store/auth";
+import {getAuth} from "../../store/auth";
 import { useHistory } from "react-router-dom"
 
 export function LoginForm(props){

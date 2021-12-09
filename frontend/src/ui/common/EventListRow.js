@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {Accordion, Button} from "react-bootstrap";
 import {httpConfig} from "../../utils/httpConfig";
@@ -9,7 +9,7 @@ import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
 
 export const EventListRow = (props) => {
     const dispatch = useDispatch();
-    let bookmarkButtonText = "Bookmark";
+    const [bookmarkButtonText, setBookmarkButtonText] = useState("Bookmark");
 
     const registerThisEvent = () => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
@@ -39,7 +39,9 @@ export const EventListRow = (props) => {
             .then(reply => {
                 if(reply.status === 200) {
                     dispatch(fetchBookedMarkedEventByUserId());
-                    bookmarkButtonText = (bookmarkButtonText === "Bookmark") ? "Unbookmark" : "Bookmark";
+                    setBookmarkButtonText(() => {
+                        return (bookmarkButtonText === "Bookmark") ? "Unbookmark" : "Bookmark";
+                    })
                 }
             })
     }

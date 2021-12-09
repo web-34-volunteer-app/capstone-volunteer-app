@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import * as Yup from "yup";
-import {httpConfig} from "../utils/httpConfig";
+import {httpConfig} from "../../utils/httpConfig";
 import {Formik} from "formik";
 
 export function RegisterForm(props) {
