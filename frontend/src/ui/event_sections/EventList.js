@@ -3,7 +3,6 @@ import {Accordion, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchAllEvents} from "../../store/event";
 import {EventListRow} from "../common/EventListRow";
-import {EventListInfo} from "../deprecated/EventListInfo";
 
 export function EventList(){
     const dispatch = useDispatch();

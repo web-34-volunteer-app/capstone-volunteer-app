@@ -1,6 +1,5 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {BookMarkedEventsRow} from "../deprecated/BookMarkedEventsRow";
 import {EventListRow} from "../common/EventListRow";
 import {fetchBookedMarkedEventByUserId} from "../../store/bookmarkevent";
 import {Accordion,Col} from "react-bootstrap";

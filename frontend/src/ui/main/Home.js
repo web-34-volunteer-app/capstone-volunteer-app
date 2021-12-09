@@ -1,6 +1,6 @@
 import React from "react";
-import {Image, Carousel, Container, Row, Col} from "react-bootstrap";
-import PLaceHolderImage from "../images/MissionCitizenCousel.jpg"
+import {Image, Container, Row, Col} from "react-bootstrap";
+import PlaceHolderImage from "../images/MissionCitizenCousel.jpg"
 import {Map} from "../Map";
 import {EventList} from "../event_sections/EventList";
 import {SearchField} from "../SearchField";
@@ -12,7 +12,7 @@ export function Home() {
             <Container>
                 <div className="col-12 col-lg-12 mx-auto mt-4"><Image
                     className="d-block w-100"
-                    src={PLaceHolderImage}
+                    src={PlaceHolderImage}
                     alt="First slide"
                 />
 
