@@ -1,8 +1,9 @@
 import React from 'react';
 import {Accordion, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchEventByUserId} from "../store/registeredeventsbyuser";
-import {EventAttendingRow} from "./EventAttendingRow";
+import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
+import {EventListRow} from "../common/EventListRow";
+import {EventAttendingRow} from "../deprecated/EventAttendingRow";
 
 
 export function EventsAttending() {
@@ -27,8 +28,12 @@ export function EventsAttending() {
 }
 const eventRows = (registered)=>{
     if (registered){
-        return registered.map(event=> <EventAttendingRow key={event.eventId} event={event}/>)
-
+        return registered.map(event=>
+            <EventListRow
+                key={event.eventId}
+                event={event}
+                unregisterButton={true}
+            />)
     }
     return null
     }

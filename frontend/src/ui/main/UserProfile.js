@@ -1,14 +1,14 @@
 
 import React from "react";
-import {UserOverview} from "./UserOverview";
+import {UserOverview} from "../UserOverview";
 // import {EventApprovalTable} from "./EventApprovalTable";
 
 import {Col, Container, Row} from "react-bootstrap";
-import {Map} from "./Map";
-import {BookmarkedEvents} from "./BookmarkedEvents";
-import {EventList} from "./EventList";
-import {SearchField} from "./SearchField";
-import {EventsAttending} from "./EventsAttending";
+import {Map} from "../Map";
+import {BookmarkedEvents} from "../event_sections/BookmarkedEvents";
+import {EventList} from "../event_sections/EventList";
+import {SearchField} from "../SearchField";
+import {EventsAttending} from "../event_sections/EventsAttending";
 export function UserProfile () {
     return (
         <>

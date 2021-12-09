@@ -1,14 +1,14 @@
 import React from "react";
 import {useDispatch} from "react-redux";
 import {Accordion, Button} from "react-bootstrap";
-import {httpConfig} from "../utils/httpConfig";
-import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
-import {fetchEventByUserId} from "../store/registeredeventsbyuser";
-import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
+import {httpConfig} from "../../utils/httpConfig";
+import {fetchBookedMarkedEventByUserId} from "../../store/bookmarkevent";
+import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
+import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
 
 
-export const EventListInfo =({event})=>{
-    const dispatch =useDispatch()
+export const EventListInfo = ({event}) => {
+    const dispatch = useDispatch();
     const removeAddBookmark = () =>{
         httpConfig.post(`/apis/bookmarkedEvent/${event.eventId}`)
             .then(reply => {

@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {Container, Nav, Navbar, Offcanvas} from "react-bootstrap";
-import HeaderImage from "./images/MC3YellowWhite.svg";
-import {RegisterForm} from "./RegisterForm";
-import {LoginForm} from "./LoginForm";
-import {CreateEventForm} from "./CreateEventForm";
+import HeaderImage from "../images/MC3YellowWhite.svg";
+import {RegisterForm} from "../forms/RegisterForm";
+import {LoginForm} from "../forms/LoginForm";
+import {CreateEventForm} from "../forms/CreateEventForm";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {httpConfig} from "../utils/httpConfig";
-import {fetchAuth, getAuth} from "../store/auth";
-import './style.css'
+import {httpConfig} from "../../utils/httpConfig";
+import {fetchAuth, getAuth} from "../../store/auth";
+import '../style.css'
 
 let offcanvasTitle = "";
 let offcanvasForm = <></>;

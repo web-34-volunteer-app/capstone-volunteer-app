@@ -1,11 +1,11 @@
 import {Accordion, Button} from "react-bootstrap";
 import React from "react";
 import {useDispatch} from "react-redux";
-import {httpConfig} from "../utils/httpConfig";
-import {fetchBookedMarkedEventByUserId} from "../store/bookmarkevent";
-import {fetchEventByUserId} from "../store/registeredeventsbyuser";
-import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
-import './style.css'
+import {httpConfig} from "../../utils/httpConfig";
+import {fetchBookedMarkedEventByUserId} from "../../store/bookmarkevent";
+import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
+import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
+import '../style.css'
 
 export const BookMarkedEventsRow =({event})=> {
     const dispatch =useDispatch()

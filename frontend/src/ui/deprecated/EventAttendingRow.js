@@ -1,13 +1,13 @@
 import {Accordion, Button} from "react-bootstrap";
 import React from "react";
 import {useDispatch} from "react-redux";
-import {httpConfig} from "../utils/httpConfig";
-import {fetchEventByUserId} from "../store/registeredeventsbyuser";
-import {dateTimeToDate, dateTimeToTime} from "./dateFormat";
-import './style.css'
+import {httpConfig} from "../../utils/httpConfig";
+import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
+import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
+import '../style.css'
 
 export const EventAttendingRow =({event})=> {
-const dispatch =useDispatch()
+const dispatch = useDispatch()
     const unRegisterEvent = () =>{
     httpConfig.delete(`/apis/volunteer/deleteSelf/${event.eventId}`)
         .then(reply => {
@@ -47,7 +47,6 @@ const dispatch =useDispatch()
                     variant="warning"
                     type="submit">
                     Unregister
-
                 </Button>
 
             </Accordion.Body>

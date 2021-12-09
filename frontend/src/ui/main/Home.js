@@ -1,9 +1,9 @@
 import React from "react";
 import {Image, Carousel, Container, Row, Col} from "react-bootstrap";
-import PLaceHolderImage from "./images/MissionCitizenCousel.jpg"
-import {Map} from "./Map";
-import {EventList} from "./EventList";
-import {SearchField} from "./SearchField";
+import PLaceHolderImage from "../images/MissionCitizenCousel.jpg"
+import {Map} from "../Map";
+import {EventList} from "../event_sections/EventList";
+import {SearchField} from "../SearchField";
 
 export function Home() {
 

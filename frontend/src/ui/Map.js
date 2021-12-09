@@ -9,10 +9,6 @@ let currentLat = 0;
 let currentLong = 0;
 let init = true;
 
-
-
-
-
 export function Map(inputs) {
     const events = useSelector(state => state.events ? state.events : [])
 //console.log(events)
@@ -99,6 +95,7 @@ export function Map(inputs) {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setSelectedPlace(place);
+                                    console.log("selectedPlace: " + JSON.stringify(selectedPlace));
                                 }}>
                             <img src={GPS_cursor} alt="gps pin"/>
                         </button>

@@ -2,10 +2,10 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.css';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {Route, BrowserRouter, Switch} from "react-router-dom";
-import {Home} from "./Home";
-import {Navigation} from "./Navigation";
-import {UserProfile} from "./UserProfile";
-import {PageFooter} from "./PageFooter";
+import {Home} from "./main/Home";
+import {Navigation} from "./main/Navigation";
+import {UserProfile} from "./main/UserProfile";
+import {PageFooter} from "./main/PageFooter";
 import {Provider} from "react-redux";
 
 export function App(store) {

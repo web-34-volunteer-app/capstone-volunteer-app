@@ -3,11 +3,11 @@ import {Col, Row} from "react-bootstrap";
 import {Form} from "react-bootstrap";
 import {Button} from "react-bootstrap";
 import * as Yup from "yup";
-import {httpConfig} from "../utils/httpConfig";
+import {httpConfig} from "../../utils/httpConfig";
 import {Formik} from "formik";
 import {useDispatch} from "react-redux";
-import {fetchAllEvents} from "../store/event";
-import './style.css'
+import {fetchAllEvents} from "../../store/event";
+import '../style.css'
 
 export function CreateEventForm(props) {
     const formValues = {
