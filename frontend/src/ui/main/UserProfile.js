@@ -15,6 +15,7 @@ export function UserProfile () {
             <Container>
                 <UserOverview/>
                 <EventsAttending/>
+                {/*<EventList option={'registeredEvents'}/>*/}
                 <BookmarkedEvents/>
                 {/*<EventApprovalTable/>*/}
                 <SearchField/>
@@ -24,7 +25,7 @@ export function UserProfile () {
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <EventList/>
+                    <EventList option={'allEvents'}/>
                 </Row>
             </Container>
         </>

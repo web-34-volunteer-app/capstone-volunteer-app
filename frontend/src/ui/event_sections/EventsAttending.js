@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
 import {EventListRow} from "../common/EventListRow";
 
-
 export function EventsAttending() {
     const dispatch = useDispatch()
     const registered = useSelector(state => {return state.registered ? state.registered : null})
@@ -25,6 +24,7 @@ export function EventsAttending() {
         </>
     )
 }
+
 const eventRows = (registered)=>{
     if (registered){
         return registered.map(event=>

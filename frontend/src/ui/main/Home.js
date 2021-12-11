@@ -32,7 +32,7 @@ export function Home() {
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <EventList/>
+                    <EventList option={'allEvents'}/>
                 </Row>
             </Container>
         </>

@@ -6,8 +6,6 @@ import {Accordion,Col} from "react-bootstrap";
 
 import '../style.css';
 
-
-
 export function BookmarkedEvents() {
     const dispatch = useDispatch()
     const bookmarked = useSelector(state => {return state.bookmarked ? state.bookmarked : null})
@@ -28,6 +26,7 @@ export function BookmarkedEvents() {
         </>
     )
 }
+
 const bookMarkedRows = (bookmarked)=>{
     if (bookmarked){
         return bookmarked.map(event=>
