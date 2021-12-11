@@ -16,7 +16,7 @@ export const {getBookedMarkedEventByUserId} = bookmarkedSlice.actions
 
 export default bookmarkedSlice.reducer
 
-export const fetchBookedMarkedEventByUserId = () => async (dispatch, getState) => {
+export const fetchBookmarkedEventByUserId = () => async (dispatch, getState) => {
     await dispatch(fetchAuth())
     const {auth} = getState()
     if(auth !== null) {

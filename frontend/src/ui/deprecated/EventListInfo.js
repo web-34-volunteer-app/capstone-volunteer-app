@@ -2,7 +2,7 @@ import React from "react";
 import {useDispatch} from "react-redux";
 import {Accordion, Button} from "react-bootstrap";
 import {httpConfig} from "../../utils/httpConfig";
-import {fetchBookedMarkedEventByUserId} from "../../store/bookmarkevent";
+import {fetchBookmarkedEventByUserId} from "../../store/bookmarkevent";
 import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
 import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
 
@@ -13,7 +13,7 @@ export const EventListInfo = ({event}) => {
         httpConfig.post(`/apis/bookmarkedEvent/${event.eventId}`)
             .then(reply => {
                 if(reply.status === 200) {
-                    dispatch(fetchBookedMarkedEventByUserId())
+                    dispatch(fetchBookmarkedEventByUserId())
                 }
             })
     }

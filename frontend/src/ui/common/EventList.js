@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {EventListRow} from "./EventListRow";
 import {fetchAllEvents} from "../../store/event";
 import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
-import {fetchBookedMarkedEventByUserId} from "../../store/bookmarkevent";
+import {fetchBookmarkedEventByUserId} from "../../store/bookmarkevent";
 
 export function EventList(props) {
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export function EventList(props) {
 
     //Set up store for Bookmarked Events
     const bookmarkedEventsEffect = () => {
-        dispatch(fetchBookedMarkedEventByUserId());
+        dispatch(fetchBookmarkedEventByUserId());
     }
     React.useEffect(bookmarkedEventsEffect, [dispatch]);
     const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
@@ -34,15 +34,13 @@ export function EventList(props) {
         switch (props.option) {
             case 'allEvents':
                 return eventRows('allEvents', allEvents);
-                break;
             case 'registeredEvents':
                 return eventRows('registeredEvents', registeredEvents);
-                break;
             case 'bookmarkedEvents':
                 return eventRows('bookmarkedEvents', bookmarkedEvents);
-                break;
+            default:
+                return null;
         }
-        return null;
     }
 
     return (
@@ -68,7 +66,6 @@ const eventRows = (option, selector) => {
                         registerButton={true}
                         bookmarkButton={true}
                     />);
-                break;
             case 'registeredEvents':
                 return selector.map(event =>
                     <EventListRow
@@ -76,7 +73,6 @@ const eventRows = (option, selector) => {
                         event={event}
                         unregisterButton={true}
                     />);
-                break;
             case 'bookmarkedEvents':
                 return selector.map(event =>
                     <EventListRow
@@ -85,7 +81,8 @@ const eventRows = (option, selector) => {
                         registerBookmarkButton={true}
                         unbookmarkButton={true}
                     />);
-                break;
+            default:
+                return null;
         }
     }
     return null;

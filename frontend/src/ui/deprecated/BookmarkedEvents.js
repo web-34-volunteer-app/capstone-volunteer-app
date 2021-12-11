@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {EventListRow} from "../common/EventListRow";
-import {fetchBookedMarkedEventByUserId} from "../../store/bookmarkevent";
+import {fetchBookmarkedEventByUserId} from "../../store/bookmarkevent";
 import {Accordion,Col} from "react-bootstrap";
 
 import '../style.css';
@@ -10,7 +10,7 @@ export function BookmarkedEvents() {
     const dispatch = useDispatch()
     const bookmarked = useSelector(state => {return state.bookmarked ? state.bookmarked : null})
     const sideEffects = () => {
-        dispatch(fetchBookedMarkedEventByUserId())
+        dispatch(fetchBookmarkedEventByUserId())
     }
 
     React.useEffect(sideEffects, [dispatch])
