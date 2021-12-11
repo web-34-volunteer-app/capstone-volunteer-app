@@ -46,7 +46,7 @@ export function EventList(props) {
     return (
         <>
             <Col md={props.colSize} className={"d-block mx-auto " + props.colClass}>
-                <div className={"eventAttending text-center py-1"}><h5>Nearby Opportunities</h5></div>
+                <div className={"eventAttending text-center py-1"}><h5>{props.header}</h5></div>
                 <Accordion defaultActiveKey={0}>
                     {eventList()}
                 </Accordion>

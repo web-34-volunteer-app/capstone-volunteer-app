@@ -13,8 +13,8 @@ export const EventListRow = (props) => {
     //Set up store for Bookmarked Events
     const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
 
-    //Handle bookmark toggle
-    const handleBookmarkToggle = () => {
+    const initButtonText = () => {
+        //Find initial value of buttonText
         let buttonText = "Bookmark";
         if (bookmarkedEvents) {
             bookmarkedEvents.forEach(bookmark => {
@@ -25,13 +25,35 @@ export const EventListRow = (props) => {
                 }
             })
         }
+        console.log("Init buttonText of " + props.event.eventTitle + ": " + buttonText);
 
-        console.log("Setting button text to: " + buttonText);
         return buttonText;
     }
 
+
     //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
-    const [bookmarkButtonText, setBookmarkButtonText] = useState(handleBookmarkToggle());
+    const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
+    //setBookmarkButtonText(buttonText);
+
+    //Handle bookmark toggle
+    const handleBookmarkToggle = () => {
+        let valueSet = false;
+        if (bookmarkedEvents) {
+            bookmarkedEvents.forEach(bookmark => {
+                console.log("Comparing " + bookmark.eventTitle + " to " + props.event.eventTitle);
+                if (bookmark.eventId === props.event.eventId) {
+                    setBookmarkButtonText("Unbookmark");
+                    valueSet = true;
+                    return null;
+                }
+            })
+        }
+        if(!valueSet) {
+            setBookmarkButtonText("Bookmark");
+        }
+    }
+
+
 
     const registerThisEvent = () => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
@@ -62,9 +84,8 @@ export const EventListRow = (props) => {
                 if (reply.status === 200) {
                     dispatch(fetchBookmarkedEventByUserId())
                         .then(
-                            setBookmarkButtonText(handleBookmarkToggle())
+                            handleBookmarkToggle()
                         );
-
                 }
             })
     }
@@ -155,7 +176,6 @@ export const EventListRow = (props) => {
                     className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
                 </Accordion.Header>
                 <Accordion.Body>
-
                     <p><strong>Description: </strong>{props.event.eventDescription}</p>
                     <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
                         Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>

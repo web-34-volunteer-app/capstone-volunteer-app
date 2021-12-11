@@ -14,11 +14,13 @@ export function UserProfile () {
                 <UserOverview/>
                 <EventList
                     option={'registeredEvents'}
+                    header={'Events Attending'}
                     colSize={12}
                     colClass={"mb-4"}
                 />
                 <EventList
                     option={'bookmarkedEvents'}
+                    header={'Bookmarks'}
                     colSize={12}
                     colClass={"mb-4"}
                 />
@@ -32,6 +34,7 @@ export function UserProfile () {
                     </Col>
                     <EventList
                         option={'allEvents'}
+                        header={'Local Events'}
                         colSize={6}
                         colClass={""}
                     />
