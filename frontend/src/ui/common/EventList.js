@@ -62,21 +62,21 @@ const eventRows = (option, selector) => {
                 return selector.map(event =>
                     <EventListRow
                         event={event}
-                        key={event.eventId}
+                        key={'localEvent'+event.eventId}
                         registerButton={true}
                         bookmarkButton={true}
                     />);
             case 'registeredEvents':
                 return selector.map(event =>
                     <EventListRow
-                        key={event.eventId}
+                        key={'registeredEvent'+event.eventId}
                         event={event}
                         unregisterButton={true}
                     />);
             case 'bookmarkedEvents':
                 return selector.map(event =>
                     <EventListRow
-                        key={event.eventId}
+                        key={'bookmarkedEvent'+event.eventId}
                         event={event}
                         registerBookmarkButton={true}
                         unbookmarkButton={true}

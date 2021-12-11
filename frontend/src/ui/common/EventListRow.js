@@ -157,8 +157,12 @@ export const EventListRow = (props) => {
         return buttons;
     }
 
+    const handleEventSelect = () => {
+
+    }
+
     return (
-        <Accordion.Item eventKey={props.event.eventId}>
+        <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
             <Accordion.Header><h6 className={"col-7"}>
                 <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
                 className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
