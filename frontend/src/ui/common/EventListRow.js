@@ -13,13 +13,12 @@ export const EventListRow = (props) => {
     //Set up store for Bookmarked Events
     const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
 
-    //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
-    const [bookmarkButtonText, setBookmarkButtonText] = useState(() => {
+    //Handle bookmark toggle
+    const handleBookmarkToggle = () => {
         let buttonText = "Bookmark";
         if (bookmarkedEvents) {
-            console.log("Init bookmarkedEvents: " + JSON.stringify(bookmarkedEvents));
-            console.log("Init eventId: " + props.event.eventId);
             bookmarkedEvents.forEach(bookmark => {
+                console.log("Comparing " + bookmark.eventTitle + " to " + props.event.eventTitle);
                 if (bookmark.eventId === props.event.eventId) {
                     buttonText = "Unbookmark";
                     return null;
@@ -27,9 +26,12 @@ export const EventListRow = (props) => {
             })
         }
 
-        console.log("Init Setting button text to: " + buttonText);
+        console.log("Setting button text to: " + buttonText);
         return buttonText;
-    });
+    }
+
+    //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
+    const [bookmarkButtonText, setBookmarkButtonText] = useState(handleBookmarkToggle());
 
     const registerThisEvent = () => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
@@ -60,22 +62,7 @@ export const EventListRow = (props) => {
                 if (reply.status === 200) {
                     dispatch(fetchBookmarkedEventByUserId())
                         .then(
-                            setBookmarkButtonText(() => {
-                                let buttonText = "Bookmark";
-                                if (bookmarkedEvents) {
-                                    console.log("onClick bookmarkedEvents: " + JSON.stringify(bookmarkedEvents));
-                                    console.log("onClick eventId: " + props.event.eventId);
-                                    bookmarkedEvents.forEach(bookmark => {
-                                        if (bookmark.eventId === props.event.eventId) {
-                                            buttonText = "Unbookmark";
-                                            return null;
-                                        }
-                                    })
-                                }
-
-                                console.log("onClick Setting button text to: " + buttonText);
-                                return buttonText;
-                            })
+                            setBookmarkButtonText(handleBookmarkToggle())
                         );
 
                 }
@@ -162,22 +149,22 @@ export const EventListRow = (props) => {
     }
 
     return (
-        <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
-            <Accordion.Header><h6 className={"col-7"}>
-                <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
-                className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
-            </Accordion.Header>
-            <Accordion.Body>
+            <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
+                <Accordion.Header><h6 className={"col-7"}>
+                    <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
+                    className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
+                </Accordion.Header>
+                <Accordion.Body>
 
-                <p><strong>Description: </strong>{props.event.eventDescription}</p>
-                <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
-                    Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
+                    <p><strong>Description: </strong>{props.event.eventDescription}</p>
+                    <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
+                        Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
 
-                <p><strong>Address:</strong> {props.event.eventAddress} </p>
-                <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
-                </p>
-                {displayButtons()}
-            </Accordion.Body>
-        </Accordion.Item>
+                    <p><strong>Address:</strong> {props.event.eventAddress} </p>
+                    <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
+                    </p>
+                    {displayButtons()}
+                </Accordion.Body>
+            </Accordion.Item>
     )
 }
