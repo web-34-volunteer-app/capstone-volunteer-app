@@ -5,18 +5,23 @@ import {UserOverview} from "../UserOverview";
 
 import {Col, Container, Row} from "react-bootstrap";
 import {Map} from "../Map";
-import {BookmarkedEvents} from "../event_sections/BookmarkedEvents";
-import {EventList} from "../event_sections/EventList";
+import {EventList} from "../common/EventList";
 import {SearchField} from "../SearchField";
-import {EventsAttending} from "../event_sections/EventsAttending";
 export function UserProfile () {
     return (
         <>
             <Container>
                 <UserOverview/>
-                <EventsAttending/>
-                {/*<EventList option={'registeredEvents'}/>*/}
-                <BookmarkedEvents/>
+                <EventList
+                    option={'registeredEvents'}
+                    colSize={12}
+                    colClass={"mb-4"}
+                />
+                <EventList
+                    option={'bookmarkedEvents'}
+                    colSize={12}
+                    colClass={"mb-4"}
+                />
                 {/*<EventApprovalTable/>*/}
                 <SearchField/>
                 <Row g={3} className="my-4">
@@ -25,7 +30,11 @@ export function UserProfile () {
                             <Map width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
-                    <EventList option={'allEvents'}/>
+                    <EventList
+                        option={'allEvents'}
+                        colSize={6}
+                        colClass={""}
+                    />
                 </Row>
             </Container>
         </>

@@ -2,7 +2,7 @@ import React from "react";
 import {Image, Container, Row, Col} from "react-bootstrap";
 import PlaceHolderImage from "../images/MissionCitizenCousel.jpg"
 import {Map} from "../Map";
-import {EventList} from "../event_sections/EventList";
+import {EventList} from "../common/EventList";
 import {SearchField} from "../SearchField";
 
 export function Home() {
