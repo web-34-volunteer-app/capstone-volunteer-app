@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Accordion, Button} from "react-bootstrap";
 import {httpConfig} from "../../utils/httpConfig";
@@ -18,29 +18,27 @@ export const EventListRow = (props) => {
         let buttonText = "Bookmark";
         if (bookmarkedEvents) {
             bookmarkedEvents.forEach(bookmark => {
-                console.log("Comparing " + bookmark.eventTitle + " to " + props.event.eventTitle);
                 if (bookmark.eventId === props.event.eventId) {
                     buttonText = "Unbookmark";
                     return null;
                 }
             })
         }
-        console.log("Init buttonText of " + props.event.eventTitle + ": " + buttonText);
 
         return buttonText;
     }
 
-
     //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
     const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
-    //setBookmarkButtonText(buttonText);
+    useEffect(() => {
+        handleBookmarkToggle();
+    })
 
-    //Handle bookmark toggle
+    //Handle bookmark toggle: Check if event matches any bookmarked events, sets bookmark button accordingly
     const handleBookmarkToggle = () => {
         let valueSet = false;
         if (bookmarkedEvents) {
             bookmarkedEvents.forEach(bookmark => {
-                console.log("Comparing " + bookmark.eventTitle + " to " + props.event.eventTitle);
                 if (bookmark.eventId === props.event.eventId) {
                     setBookmarkButtonText("Unbookmark");
                     valueSet = true;
@@ -52,8 +50,6 @@ export const EventListRow = (props) => {
             setBookmarkButtonText("Bookmark");
         }
     }
-
-
 
     const registerThisEvent = () => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
