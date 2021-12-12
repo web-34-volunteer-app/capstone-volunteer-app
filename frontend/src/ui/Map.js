@@ -45,6 +45,17 @@ export function Map(inputs) {
         }
     });
 
+    useEffect(() => {
+        if(inputs.eventIsSelected) {
+            events.forEach(place => {
+                    if(place.eventId === inputs.selectedEvent) {
+                        setSelectedPlace(place);
+                        inputs.selectedEventCallback(inputs.selectedEvent, inputs.selectedEvent);
+                    }
+                }
+            )
+        }
+    });
 
     if (init) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -71,8 +82,6 @@ export function Map(inputs) {
         });
     }
 
-
-
     return (
         <>
             <ReactMapGL
@@ -95,7 +104,7 @@ export function Map(inputs) {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setSelectedPlace(place);
-                                    console.log("selectedPlace: " + JSON.stringify(selectedPlace));
+                                    console.log("selectedPlace: " + place.eventId);
                                 }}>
                             <img src={GPS_cursor} alt="gps pin"/>
                         </button>

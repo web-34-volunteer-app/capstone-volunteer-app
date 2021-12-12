@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Accordion, Button} from "react-bootstrap";
+import {Accordion, AccordionContext, Button} from "react-bootstrap";
 import {httpConfig} from "../../utils/httpConfig";
 import {fetchBookmarkedEventByUserId} from "../../store/bookmarkevent";
 import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
@@ -8,6 +8,15 @@ import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
 
 
 export const EventListRow = (props) => {
+    const { activeEventKey } = useContext(AccordionContext);
+    const isCurrentEventKey = activeEventKey === props.event.eventId;
+
+    const handleEventSelect = () => {
+        console.log("isCurrentEventKey for " + props.event.eventTitle + ": " + isCurrentEventKey);
+        let status = isCurrentEventKey ? "Closed":"Open"
+        console.log(props.event.eventTitle + " is " + status);
+    }
+
     const dispatch = useDispatch();
 
     //Set up store for Bookmarked Events
@@ -32,6 +41,11 @@ export const EventListRow = (props) => {
     const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
     useEffect(() => {
         handleBookmarkToggle();
+        console.log(props.event.eventId + ", activeEventKey:" + activeEventKey);
+        if(props.eventIsSelected !== activeEventKey) {
+            props.selectedEventCallBack(activeEventKey, true);
+        }
+
     })
 
     //Handle bookmark toggle: Check if event matches any bookmarked events, sets bookmark button accordingly
@@ -161,12 +175,10 @@ export const EventListRow = (props) => {
         return buttons;
     }
 
-    const handleEventSelect = () => {
 
-    }
 
     return (
-            <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
+            <Accordion.Item onClick={handleEventSelect} eventKey={props.event.eventId}>
                 <Accordion.Header><h6 className={"col-7"}>
                     <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
                     className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>

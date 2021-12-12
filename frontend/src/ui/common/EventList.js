@@ -1,5 +1,5 @@
-import React from "react";
-import {Accordion, Col} from "react-bootstrap";
+import React, {useContext, useEffect} from "react";
+import {Accordion, AccordionContext, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {EventListRow} from "./EventListRow";
 import {fetchAllEvents} from "../../store/event";
@@ -7,6 +7,7 @@ import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
 import {fetchBookmarkedEventByUserId} from "../../store/bookmarkevent";
 
 export function EventList(props) {
+
     const dispatch = useDispatch();
 
     //Set up store for All Events
@@ -33,11 +34,11 @@ export function EventList(props) {
     const eventList = () => {
         switch (props.option) {
             case 'allEvents':
-                return eventRows('allEvents', allEvents);
+                return eventRows('allEvents', allEvents, props);
             case 'registeredEvents':
-                return eventRows('registeredEvents', registeredEvents);
+                return eventRows('registeredEvents', registeredEvents, props);
             case 'bookmarkedEvents':
-                return eventRows('bookmarkedEvents', bookmarkedEvents);
+                return eventRows('bookmarkedEvents', bookmarkedEvents, props);
             default:
                 return null;
         }
@@ -55,14 +56,17 @@ export function EventList(props) {
     )
 }
 
-const eventRows = (option, selector) => {
+const eventRows = (option, selector, props) => {
     if (selector) {
         switch (option) {
             case 'allEvents':
                 return selector.map(event =>
                     <EventListRow
-                        event={event}
                         key={'localEvent'+event.eventId}
+                        event={event}
+                        selectedEvent={props.selectedEvent}
+                        eventIsSelected={props.eventIsSelected}
+                        selectedEventCallBack={props.selectedEventCallback}
                         registerButton={true}
                         bookmarkButton={true}
                     />);
