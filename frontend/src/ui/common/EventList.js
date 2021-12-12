@@ -66,7 +66,7 @@ const eventRows = (option, selector, props) => {
                         event={event}
                         selectedEvent={props.selectedEvent}
                         eventIsSelected={props.eventIsSelected}
-                        selectedEventCallBack={props.selectedEventCallback}
+                        selectedEventCallback={props.selectedEventCallback}
                         registerButton={true}
                         bookmarkButton={true}
                     />);

@@ -13,9 +13,9 @@ export function UserProfile () {
     const [selectedEventId, setSelectedEventId] = useState(null);
     const [eventIsSelected, setEventIsSelected] = useState(false);
 
-    const selectedEventCallBack = (eventId, selected) => {
+    const selectedEventCallback = (eventId, isSelected) => {
         setSelectedEventId(eventId);
-        setEventIsSelected(selected);
+        setEventIsSelected(isSelected);
     }
 
     return (
@@ -42,7 +42,7 @@ export function UserProfile () {
                             <Map
                                 selectedEvent={selectedEventId}
                                 eventIsSelected={eventIsSelected}
-                                selectedEventCallback={selectedEventCallBack}
+                                selectedEventCallback={selectedEventCallback}
                                 width={"50vw"}
                                 height={"40vh"}/>
                         </div>
@@ -52,7 +52,7 @@ export function UserProfile () {
                         header={'Local Events'}
                         selectedEvent={selectedEventId}
                         eventIsSelected={eventIsSelected}
-                        selectedEventCallback={selectedEventCallBack}
+                        selectedEventCallback={selectedEventCallback}
                         colSize={6}
                         colClass={""}
                     />

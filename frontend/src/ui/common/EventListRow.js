@@ -41,11 +41,14 @@ export const EventListRow = (props) => {
     const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
     useEffect(() => {
         handleBookmarkToggle();
-        console.log(props.event.eventId + ", activeEventKey:" + activeEventKey);
-        if(props.eventIsSelected !== activeEventKey) {
-            props.selectedEventCallBack(activeEventKey, true);
-        }
+    })
 
+    useEffect(() => {
+        console.log(props.event.eventId + ", activeEventKey:" + activeEventKey);
+        props.selectedEventCallback(activeEventKey, true);
+        if(props.eventIsSelected !== activeEventKey) {
+            //props.selectedEventCallback(activeEventKey, true);
+        }
     })
 
     //Handle bookmark toggle: Check if event matches any bookmarked events, sets bookmark button accordingly
