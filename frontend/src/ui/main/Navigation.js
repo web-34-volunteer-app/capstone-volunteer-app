@@ -53,7 +53,6 @@ export function Navigation() {
 
     const signOut = () => {
         httpConfig.get('/apis/sign-out/').then(reply => {
-
             if (reply.status === 200) {
                 window.localStorage.removeItem('authorization')
                 dispatch(getAuth(null))
@@ -81,12 +80,12 @@ export function Navigation() {
     const visitorNavigation = [registerLink, logInLink];
     const userNavigation = [createEventLink, logOutLink];
 
-    let navigationItems;
-
-    if (auth) {
-        navigationItems = userNavigation;
-    } else {
-        navigationItems = visitorNavigation;
+    const navigationItems = () => {
+        if (auth) {
+            return userNavigation;
+        } else {
+            return visitorNavigation;
+        }
     }
 
     return (
@@ -106,7 +105,7 @@ export function Navigation() {
                     <Navbar.Collapse id="basic-navbar-nav">
 
                         <Nav className="ms-auto">
-                            {navigationItems}
+                            {navigationItems()}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

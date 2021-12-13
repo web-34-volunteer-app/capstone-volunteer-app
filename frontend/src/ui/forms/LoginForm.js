@@ -10,10 +10,6 @@ import { useHistory } from "react-router-dom"
 
 export function LoginForm(props){
 
-const history = useHistory()
-
-
-
     const dispatch = useDispatch()
 
     const validator = Yup.object().shape({
@@ -42,7 +38,6 @@ const history = useHistory()
                     resetForm();
                     let jwtToken = jwt_decode(reply.headers["authorization"]);
                     dispatch(getAuth(jwtToken));
-                    history.push("/user-profile");
                 }
                 setStatus({message, type});
             });

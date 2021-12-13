@@ -1,7 +1,5 @@
-
 import React from "react";
 import {UserOverview} from "../UserOverview";
-// import {EventApprovalTable} from "./EventApprovalTable";
 
 import {Col, Container, Row} from "react-bootstrap";
 import {Map} from "../Map";
@@ -30,7 +28,6 @@ export function UserProfile () {
                     colSize={12}
                     colClass={"mb-4"}
                 />
-                {/*<EventApprovalTable/>*/}
                 <SearchField/>
                 <Row g={3} className="my-4">
                     <Col md={6}>
