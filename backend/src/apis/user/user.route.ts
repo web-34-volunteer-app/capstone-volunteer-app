@@ -24,3 +24,6 @@ UserRoute.route('/:userId')
                 "please provide a valid userId").isUUID()]),
                         getUserByUserIdController)
     .put(isLoggedIn, asyncValidatorController(checkSchema(userValidator)), putUserController)
+
+UserRoute.route('/volunteer/:userId')
+    .get(getUserByUserIdController)

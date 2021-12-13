@@ -9,42 +9,45 @@ import {selectEventByEventOrganization} from "../../utils/event/selectEventByEve
 import {updateEvent} from "../../utils/event/updateEvent";
 import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
 import {User} from "../../utils/interfaces/User";
+import {selectEventByVolunteerUserId} from "../../utils/event/selectEventByVolunteerUserId";
 
 
 const Geocodio = require('geocodio-library-node');
 
 // const {validationResult} = require('express-validator');
 export async function getAllEventsController(request: Request, response: Response): Promise<Response<Status>> {
-console.log("trying to get all events")
+    console.log("trying to get all events")
     try {
         const data = await selectAllEvents()
         //return the response
         const status: Status = {status: 200, message: null, data};
         return response.json(status);
-    } catch(error){
-            return response.json({
-                status:500,
-                message:"",
-                data:[]
-            })
-        }
+    } catch (error) {
+        return response.json({
+            status: 500,
+            message: "",
+            data: []
+        })
     }
-    export async function getEventByEventIdController(request: Request, response: Response): Promise<Response<Status>> {
+}
 
-        try {
-            const {eventId} = request.params
-            const data = await selectEventByEventId(eventId) as Event
-            //return the response
-            const status: Status = {status: 200, message: null, data};
-            return response.json(status);
-        } catch(error){
-            return response.json({
-                status:500,
-                message:"",
-                data:[]
-            })
-        }
+export async function getEventByEventIdController(request: Request, response: Response): Promise<Response<Status>> {
+
+    try {
+        const {eventId} = request.params
+        const data = await selectEventByEventId(eventId) as Event
+        //return the response
+        const status: Status = {status: 200, message: null, data};
+        return response.json(status);
+    } catch (error) {
+        return response.json({
+            status: 500,
+            message: "",
+            data: []
+        })
     }
+}
+
 export async function getEventByEventOrganizationController(request: Request, response: Response): Promise<Response<Status>> {
 
     try {
@@ -54,37 +57,50 @@ export async function getEventByEventOrganizationController(request: Request, re
         //return the response
         const status: Status = {status: 200, message: null, data};
         return response.json(status);
-    } catch(error){
+    } catch (error) {
         return response.json({
-            status:500,
-            message:"",
-            data:[]
+            status: 500,
+            message: "",
+            data: []
         })
     }
 }
 
 export async function getEventByEventUserIdController(request: Request, response: Response): Promise<Response<Status>> {
-    console.log('an event controller')
     try {
-        console.log('trying in controller')
-        const user : User = request.session.user as User
-        const userId : string = <string>user.userId
+        const user: User = request.session.user as User
+        const userId: string = <string>user.userId
         const data = await selectEventByEventUserId(userId) as Event[]
         //return the response
         const status: Status = {status: 200, message: null, data};
         return response.json(status);
-    } catch(error){
-        console.log("error in controller")
+    } catch (error: any) {
         return response.json({
-            status:500,
-            message:"",
-            data:[]
+            status: 500,
+            message: error.message,
+            data: []
         })
     }
 }
 
+export async function getEventByVolunteerUserIdController(request: Request, response: Response): Promise<Response<Status>> {
+    try {
+        const user: User = request.session.user as User;
+        const userId: string = <string>user.userId;
+        const data = await selectEventByVolunteerUserId(userId) as Event[]
+        //return the response
+        const status: Status = {status: 200, message: "SUCCESS: getEventByVolunteerUserIdController", data};
+        return response.json(status);
+    } catch (error: any) {
+        return response.json({
+            status: 500,
+            message: error.message,
+            data: []
+        })
+    }
+}
 
-export async function deleteEventByIdController(request: Request, response: Response): Promise <Response<string>>{
+export async function deleteEventByIdController(request: Request, response: Response): Promise<Response<string>> {
     try {
         const {eventId} = request.params;
         const result = await selectEventByEventId(eventId) as Event
@@ -93,31 +109,33 @@ export async function deleteEventByIdController(request: Request, response: Resp
         //Delete all bookmarks from this event
         //Possibly delete all flags for this event
 
-            await deleteEvent(result);
+        await deleteEvent(result);
 
         const status: Status = {
-            status:200,
+            status: 200,
             message: 'Event successfully deleted',
-            data:null
+            data: null
         };
         return response.json(status);
 
-    }catch(error:any) {
-        return(response.json({status: 500, data: null, message: error.message}))
+    } catch (error: any) {
+        return (response.json({status: 500, data: null, message: error.message}))
     }
 }
 
-export async function postEvent(request:Request, response:Response){
+export async function postEvent(request: Request, response: Response) {
 
     try {
-        const {eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired,eventDescriptionTransportation,
-            eventDescriptionTypeOfWork, eventEndTime, eventOrganization,eventStartTime, eventTitle} = request.body;
+        const {
+            eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation,
+            eventDescriptionTypeOfWork, eventEndTime, eventOrganization, eventStartTime, eventTitle
+        } = request.body;
 
         const eventUserId = <string>request.session?.user?.userId
 // const {eventLatitude, eventLongitude}=await latLong(eventAddress)
         const geocoder = new Geocodio('19c32666b5656c113a62f9f5f9f563bafba3fc2')
-        let eventLatitude:string="0.00";
-        let eventLongitude:string="0.00";
+        let eventLatitude: string = "0.00";
+        let eventLongitude: string = "0.00";
         const geoResponse = await geocoder.geocode(eventAddress)
 
         eventLatitude = geoResponse.results[0].location.lat
@@ -142,59 +160,69 @@ export async function postEvent(request:Request, response:Response){
         };
 
 
-                console.log("event:", event)
-                const result = await insertEvent(event)
-                const status: Status = {
-                    status:200,
-                    message: result ?? 'Event created successfully',
-                    data:null
-                };
-                return response.json(status);
+        console.log("event:", event)
+        const result = await insertEvent(event)
+        const status: Status = {
+            status: 200,
+            message: result ?? 'Event created successfully',
+            data: null
+        };
+        return response.json(status);
 
 
-
-
-
-    }catch (error){
+    } catch (error) {
         console.log(error)
     }
 }
 
-async function latLong (address: string) {
+async function latLong(address: string) {
     const geocoder = new Geocodio('19c32666b5656c113a62f9f5f9f563bafba3fc2')
-    let eventLatitude:string="0.00";
-    let eventLongitude:string="0.00";
+    let eventLatitude: string = "0.00";
+    let eventLongitude: string = "0.00";
     geocoder
         .geocode(address)
-        .then((response:any) => {
+        .then((response: any) => {
             eventLatitude = response.results[0].location.lat
             eventLongitude = response.results[0].location.lng
             console.log(eventLatitude);
         })
-        .catch((error:any) => {
+        .catch((error: any) => {
             console.error(error);
         });
     return {eventLatitude, eventLongitude}
 }
 
 
-
-
-export async function putEventController(request: Request, response: Response) : Promise<Response>{
+export async function putEventController(request: Request, response: Response): Promise<Response> {
     try {
         const {eventId} = request.params
         //Anything that can be viewed/edited
-        const {eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime, eventTitle} = request.body
+        const {
+            eventUserId,
+            eventAddress,
+            eventDate,
+            eventDescription,
+            eventDescriptionSkillsRequired,
+            eventDescriptionTransportation,
+            eventDescriptionTypeOfWork,
+            eventEndTime,
+            eventFlag,
+            eventLatitude,
+            eventLongitude,
+            eventOrganization,
+            eventStartTime,
+            eventTitle
+        } = request.body
 
         //const userIdFromSession: string = <string>request.session?.user?.userId
 
         //console.log("userId: ", userId);
         //console.log("userIdFromSession: ", userIdFromSession);
-        const preFormUpdate = async (thisEvent: Event) : Promise<Response> => {
-            const previousEvent: Event|null = await selectEventByEventId(<string>eventId)
-            const newEvent: Event|null = {...previousEvent, ...thisEvent}
+        const preFormUpdate = async (thisEvent: Event): Promise<Response> => {
+            const previousEvent: Event | null = await selectEventByEventId(<string>eventId)
+            const newEvent: Event | null = {...previousEvent, ...thisEvent}
 
-            for(let key in newEvent) {
+            for (let key in newEvent) {
                 //@ts-ignore
                 newEvent[key] = thisEvent[key] ?? previousEvent[key];
             }
@@ -202,16 +230,32 @@ export async function putEventController(request: Request, response: Response) :
             return response.json({status: 200, data: null, message: "Event successfully updated"})
         }
         //console.log("After preFormUpdate");
-        const updateFailed = (message: string) : Response => {
+        const updateFailed = (message: string): Response => {
             return response.json({status: 400, data: null, message})
         }
         let pass = true;
         return pass
             //Anything that can be viewed/edited
-            ? preFormUpdate({eventId, eventUserId, eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation, eventDescriptionTypeOfWork, eventEndTime, eventFlag, eventLatitude, eventLongitude, eventOrganization, eventStartTime, eventTitle})
+            ? preFormUpdate({
+                eventId,
+                eventUserId,
+                eventAddress,
+                eventDate,
+                eventDescription,
+                eventDescriptionSkillsRequired,
+                eventDescriptionTransportation,
+                eventDescriptionTypeOfWork,
+                eventEndTime,
+                eventFlag,
+                eventLatitude,
+                eventLongitude,
+                eventOrganization,
+                eventStartTime,
+                eventTitle
+            })
             : updateFailed("you are not allowed to pre-form this action");
-    } catch (error : any) {
-        return response.json( {status:400, data: null, message: error.message})
+    } catch (error: any) {
+        return response.json({status: 400, data: null, message: error.message})
     }
 }
 

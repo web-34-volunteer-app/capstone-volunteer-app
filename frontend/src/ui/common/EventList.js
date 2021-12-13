@@ -3,8 +3,9 @@ import {Accordion, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {EventListRow} from "./EventListRow";
 import {fetchAllEvents} from "../../store/event";
-import {fetchEventByUserId} from "../../store/registeredeventsbyuser";
-import {fetchBookmarkedEventByUserId} from "../../store/bookmarkevent";
+import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
+import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
+import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
 
 export function EventList(props) {
     const dispatch = useDispatch();
@@ -16,9 +17,16 @@ export function EventList(props) {
     React.useEffect(allEventsEffect, [dispatch]);
     const allEvents = useSelector(state => state.events ? state.events : []);
 
+    //Set up store for Coordinated Events
+    const coordinatedEventsEffect = () => {
+        dispatch(fetchCoordinatedEventByUserId());
+    }
+    React.useEffect(coordinatedEventsEffect, [dispatch]);
+    const coordinatedEvents = useSelector(state => state.coordinated ? state.coordinated : []);
+
     //Set up store for Registered Events
     const registeredEventsEffect = () => {
-        dispatch(fetchEventByUserId());
+        dispatch(fetchRegisteredEventByUserId());
     }
     React.useEffect(registeredEventsEffect, [dispatch]);
     const registeredEvents = useSelector(state => state.registered ? state.registered : []);
@@ -34,6 +42,8 @@ export function EventList(props) {
         switch (props.option) {
             case 'allEvents':
                 return eventRows('allEvents', allEvents);
+            case 'coordinatedEvents':
+                return eventRows('coordinatedEvents', coordinatedEvents);
             case 'registeredEvents':
                 return eventRows('registeredEvents', registeredEvents);
             case 'bookmarkedEvents':
@@ -61,23 +71,34 @@ const eventRows = (option, selector) => {
             case 'allEvents':
                 return selector.map(event =>
                     <EventListRow
+                        type={'localEvent'}
                         event={event}
                         key={'localEvent'+event.eventId}
                         registerButton={true}
                         bookmarkButton={true}
                     />);
+            case 'coordinatedEvents':
+                return selector.map(event =>
+                    <EventListRow
+                        type={'coordinatedEvent'}
+                        event={event}
+                        key={'coordinatedEvent'+event.eventId}
+                        deleteButton={true}
+                    />);
             case 'registeredEvents':
                 return selector.map(event =>
                     <EventListRow
-                        key={'registeredEvent'+event.eventId}
+                        type={'registeredEvent'}
                         event={event}
+                        key={'registeredEvent'+event.eventId}
                         unregisterButton={true}
                     />);
             case 'bookmarkedEvents':
                 return selector.map(event =>
                     <EventListRow
-                        key={'bookmarkedEvent'+event.eventId}
+                        type={'bookmarkedEvent'}
                         event={event}
+                        key={'bookmarkedEvent'+event.eventId}
                         registerBookmarkButton={true}
                         unbookmarkButton={true}
                     />);

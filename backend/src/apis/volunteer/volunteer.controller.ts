@@ -11,6 +11,9 @@ import {deleteVolunteer} from "../../utils/volunteer/deleteVolunteer";
 import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 import {updateUser} from "../../utils/user/updateUser";
+import {User} from "../../utils/interfaces/User";
+import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
+import {Event} from "../../utils/interfaces/Event";
 
 export async function postVolunteerController(request:Request, response:Response) {
     try {
@@ -51,6 +54,23 @@ export async function getAllVolunteersController(request: Request, response: Res
         return response.json({
             status:500,
             message:e.message,
+            data:[]
+        })
+    }
+}
+
+export async function getVolunteerByCurrentVolunteerUserIdController(request: Request, response: Response): Promise<Response<Status>> {
+    try {
+        const user: User = request.session.user as User
+        const userId: string = <string>user.userId
+        const data = await selectVolunteerByUserId(userId) as Volunteer[]
+        //return the response
+        const status: Status = {status: 200, message: null, data};
+        return response.json(status);
+    } catch(error: any) {
+        return response.json({
+            status:500,
+            message:error.message,
             data:[]
         })
     }

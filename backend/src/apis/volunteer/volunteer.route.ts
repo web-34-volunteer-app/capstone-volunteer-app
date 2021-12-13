@@ -2,9 +2,13 @@ import {Router} from "express";
 import {
     deleteVolunteerBySelfController,
     deleteVolunteerController,
-    getAllVolunteersController, getVolunteerByVolunteerEventIdController, getVolunteerByVolunteerUserIdController,
+    getAllVolunteersController,
+    getVolunteerByCurrentVolunteerUserIdController,
+    getVolunteerByVolunteerEventIdController,
+    getVolunteerByVolunteerUserIdController,
     postVolunteerController,
-    putVolunteerController, verifyVolunteerController
+    putVolunteerController,
+    verifyVolunteerController
 } from "./volunteer.controller";
 import {isLoggedIn} from "../../utils/controllers/isLoggedIn.controller";
 import {isNotRegisteredForEvent} from "../../utils/controllers/isNotRegisteredForEvent";
@@ -15,9 +19,13 @@ export const VolunteerRouter = Router();
 VolunteerRouter.route('/')
     .get(getAllVolunteersController)
 
+//Get all events current user volunteered for
+VolunteerRouter.route('/registered')
+    .get(isLoggedIn, getVolunteerByCurrentVolunteerUserIdController)
+
 //Get all events one user volunteered for
 VolunteerRouter.route('/:volunteerUserId')
-    .get(isLoggedIn, getVolunteerByVolunteerUserIdController)
+    .get(getVolunteerByVolunteerUserIdController)
 
 //Get all volunteers for one event
 VolunteerRouter.route('/event/:volunteerEventId')

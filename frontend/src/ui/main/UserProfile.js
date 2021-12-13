@@ -13,8 +13,14 @@ export function UserProfile () {
             <Container>
                 <UserOverview/>
                 <EventList
+                    option={'coordinatedEvents'}
+                    header={"Events I'm Coordinating"}
+                    colSide={12}
+                    colClass={"mb-4"}
+                />
+                <EventList
                     option={'registeredEvents'}
-                    header={'Events Attending'}
+                    header={"Events I'm Attending"}
                     colSize={12}
                     colClass={"mb-4"}
                 />
