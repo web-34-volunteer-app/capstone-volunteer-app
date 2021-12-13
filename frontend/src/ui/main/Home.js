@@ -13,20 +13,23 @@ export function Home() {
     const getUserComponents = () => {
         return (
             <>
-                <UserOverview/>
+                <UserOverview key={'userOverview'}/>
                 <EventList
+                    key={'coordinatedEvents'}
                     option={'coordinatedEvents'}
                     header={"Events I'm Coordinating"}
                     colSide={12}
                     colClass={"mb-4"}
                 />
                 <EventList
+                    key={'registeredEvents'}
                     option={'registeredEvents'}
                     header={"Events I'm Attending"}
                     colSize={12}
                     colClass={"mb-4"}
                 />
                 <EventList
+                    key={'bookmarkedEvents'}
                     option={'bookmarkedEvents'}
                     header={'Bookmarks'}
                     colSize={12}
@@ -38,29 +41,29 @@ export function Home() {
 
     const getVisitorComponents = () => {
         return (
-            <>
-                <div className="col-12 col-lg-12 mx-auto mt-4">
-                    <Image
-                        className="d-block w-100"
-                        src={PlaceHolderImage}
-                        alt="First slide"
-                    />
-                </div>
-            </>
+            <div key={'visitorImageDivWrapper'} className="col-12 col-lg-12 mx-auto mt-4">
+                <Image
+                    key={'visitorImage'}
+                    className="d-block w-100"
+                    src={PlaceHolderImage}
+                    alt="First slide"
+                />
+            </div>
         );
     }
 
     const getCommonComponents = () => {
         return (
             <>
-                <SearchField/>
-                <Row g={3} className="my-4">
-                    <Col md={6}>
-                        <div className="d-flex justify-content-center">
-                            <Map width={"50vw"} height={"40vh"}/>
+                <SearchField key={"searchField"}/>
+                <Row key={'mapRow'} g={3} className="my-4">
+                    <Col key={'mapCol'} md={6}>
+                        <div key={'mapDivWrapper'} className="d-flex justify-content-center">
+                            <Map key={"map"} width={"50vw"} height={"40vh"}/>
                         </div>
                     </Col>
                     <EventList
+                        key={'allEvents'}
                         option={'allEvents'}
                         header={'Local Events'}
                         colSize={6}
@@ -73,7 +76,7 @@ export function Home() {
 
     const displayComponents = () => {
         let components = [];
-        if(auth) {
+        if (auth) {
             components.push(getUserComponents());
         } else {
             components.push(getVisitorComponents());
@@ -83,10 +86,8 @@ export function Home() {
     }
 
     return (
-        <>
-            <Container>
-                {displayComponents()}
-            </Container>
-        </>
+        <Container>
+            {displayComponents()}
+        </Container>
     )
 }
