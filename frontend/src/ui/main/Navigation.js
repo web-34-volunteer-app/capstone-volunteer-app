@@ -64,7 +64,7 @@ export function Navigation() {
 
     const registerLink = <Nav.Link key={"RegisterLink"} href="#" onClick={() => {
         toggleShow("register");
-    }}>Register</Nav.Link>;
+    }}>Sign Up</Nav.Link>;
     const logInLink = <Nav.Link key={"LogInLink"} href="#" onClick={() => {
         toggleShow("login");
     }}>Log In</Nav.Link>;

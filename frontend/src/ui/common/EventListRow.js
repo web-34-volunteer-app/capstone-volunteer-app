@@ -11,6 +11,7 @@ import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinato
 
 
 export const EventListRow = (props) => {
+    const auth = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     //Set up store for Bookmarked Events
@@ -232,7 +233,7 @@ export const EventListRow = (props) => {
                     <p><strong>Address:</strong> {props.event.eventAddress} </p>
                     <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
                     </p>
-                    {displayComponents()}
+                    {auth ? displayComponents() : null}
                 </Accordion.Body>
             </Accordion.Item>
     )
