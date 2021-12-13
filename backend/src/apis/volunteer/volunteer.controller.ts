@@ -14,6 +14,7 @@ import {updateUser} from "../../utils/user/updateUser";
 import {User} from "../../utils/interfaces/User";
 import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
 import {Event} from "../../utils/interfaces/Event";
+import {selectVolunteerByCoordinatorUserId} from "../../utils/volunteer/selectVolunteerByCoordinatorUserId";
 
 export async function postVolunteerController(request:Request, response:Response) {
     try {
@@ -101,6 +102,27 @@ export async function getVolunteerByVolunteerEventIdController(request: Request,
         return response.json({
             status: 500,
             message: "",
+            data: []
+        })
+    }
+}
+
+export async function getVolunteersByCoordinatorUserIdController(request: Request, response: Response) : Promise<Response<Status>> {
+    try {
+        const coordinator: User = request.session.user as User;
+        const userId: string = <string>coordinator.userId;
+        const data = await selectVolunteerByCoordinatorUserId(userId) as Volunteer[];
+
+        const status: Status = {
+            status: 200,
+            message: "SUCCESS: Got Volunteers For Coordinator",
+            data
+        };
+        return response.json(status);
+    } catch (error: any) {
+        return response.json({
+            status: 500,
+            message: error.message,
             data: []
         })
     }

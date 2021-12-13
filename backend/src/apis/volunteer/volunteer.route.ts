@@ -5,7 +5,7 @@ import {
     getAllVolunteersController,
     getVolunteerByCurrentVolunteerUserIdController,
     getVolunteerByVolunteerEventIdController,
-    getVolunteerByVolunteerUserIdController,
+    getVolunteerByVolunteerUserIdController, getVolunteersByCoordinatorUserIdController,
     postVolunteerController,
     putVolunteerController,
     verifyVolunteerController
@@ -24,12 +24,16 @@ VolunteerRouter.route('/registered')
     .get(isLoggedIn, getVolunteerByCurrentVolunteerUserIdController)
 
 //Get all events one user volunteered for
-VolunteerRouter.route('/:volunteerUserId')
+VolunteerRouter.route('/getAllByUserId/:volunteerUserId')
     .get(getVolunteerByVolunteerUserIdController)
 
 //Get all volunteers for one event
 VolunteerRouter.route('/event/:volunteerEventId')
     .get(getVolunteerByVolunteerEventIdController)
+
+//Get all volunteers for event coordinator
+VolunteerRouter.route('/volunteersForCoordinator')
+    .get(getVolunteersByCoordinatorUserIdController);
 
 //One user volunteers for an event
 VolunteerRouter.route('/:volunteerEventId')

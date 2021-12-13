@@ -1,7 +1,7 @@
 import {
     deleteUserByIdController,
     getAllUsersController,
-    getUserByUserIdController,
+    getUserByUserIdController, getUsersByCoordinatorUserIdController,
     putUserController
 } from "./user.controller";
 import {Router} from "express";
@@ -16,7 +16,7 @@ export const UserRoute = Router();
 UserRoute.route('/')
     .get( getAllUsersController )
 
-UserRoute.route('/:userId')
+UserRoute.route('/getByUserId/:userId')
     .delete(isLoggedIn,deleteUserByIdController)
     .get(
         asyncValidatorController([
@@ -26,4 +26,7 @@ UserRoute.route('/:userId')
     .put(isLoggedIn, asyncValidatorController(checkSchema(userValidator)), putUserController)
 
 UserRoute.route('/volunteer/:userId')
-    .get(getUserByUserIdController)
+    .get(getUserByUserIdController);
+
+UserRoute.route('/volunteersForCoordinator')
+    .get(getUsersByCoordinatorUserIdController);

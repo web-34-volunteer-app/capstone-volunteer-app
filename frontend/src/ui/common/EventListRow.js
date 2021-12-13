@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {Accordion, Button} from "react-bootstrap";
+import {VolunteerList} from "./VolunteerList";
 import {httpConfig} from "../../utils/httpConfig";
 import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
 import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
-import {fetchVolunteersByEventId} from "../../store/volunteersbyevent";
 import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
-import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
-import {fetchUserByVolunteerUserId} from "../../store/userbyvolunteeruserid";
+import {fetchUsersForCoordinator} from "../../store/usersForCoordinator";
+import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinator";
 
 
 export const EventListRow = (props) => {
@@ -58,7 +58,9 @@ export const EventListRow = (props) => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
             .then(reply => {
                 if (reply.status === 200) {
-                    dispatch(fetchRegisteredEventByUserId())
+                    dispatch(fetchRegisteredEventByUserId());
+                    dispatch(fetchUsersForCoordinator());
+                    dispatch(fetchVolunteersForCoordinator());
                 }
             })
     }
@@ -72,7 +74,9 @@ export const EventListRow = (props) => {
         httpConfig.delete(`/apis/volunteer/deleteSelf/${props.event.eventId}`)
             .then(reply => {
                 if (reply.status === 200) {
-                    dispatch(fetchRegisteredEventByUserId())
+                    dispatch(fetchRegisteredEventByUserId());
+                    dispatch(fetchUsersForCoordinator());
+                    dispatch(fetchVolunteersForCoordinator());
                 }
             })
     }
@@ -178,31 +182,13 @@ export const EventListRow = (props) => {
         }
     }
 
-    //Set up store for Volunteers
-    const volunteersEffect = () => {
-        dispatch(fetchVolunteersByEventId(props.event.eventId));
-    }
-    React.useEffect(volunteersEffect, [dispatch]);
-    const volunteers = useSelector(state => state.volunteers ? state.volunteers : []);
-
-    const getVolunteers = () => {
-        let components = [];
-        if(volunteers) {
-            volunteers.forEach(volunteer => {
-                //!!!MOVE INTO SEPARATE COMPONENTS. HOOKS MUST BE IN TOP LAYER. VOLUNTEERLIST AND VOLUNTEERLISTROW!!!
-                //Set up store for User
-                // const userEffect = () => {
-                //     dispatch(fetchUserByVolunteerUserId(volunteer.volunteerUserId));
-                // }
-                // React.useEffect(userEffect, [dispatch]);
-                // const userVolunteer = useSelector(state => state.userVolunteer ? state.userVolunteer : []);
-                //
-                // components.push(
-                //
-                // )
-            })
-        }
-        return components;
+    const getVolunteerList = () => {
+        return (
+            <VolunteerList
+                key={'volunteerList'+props.event.eventId}
+                event={props.event}
+            />
+        )
     }
 
     const displayComponents = () => {
@@ -213,7 +199,7 @@ export const EventListRow = (props) => {
                 components.push(getButton("bookmarkToggle"));
                 return components;
             case "coordinatedEvent":
-                components.push(getVolunteers());
+                components.push(getVolunteerList());
                 components.push(getButton("delete"));
                 return components;
             case "registeredEvent":

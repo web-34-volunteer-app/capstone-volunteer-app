@@ -1,11 +1,12 @@
 import React from "react";
-import {Accordion, Col} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {EventListRow} from "./EventListRow";
 import {fetchAllEvents} from "../../store/event";
 import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
 import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
 import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
+
+import {EventListRow} from "./EventListRow";
+import {Accordion, Col} from "react-bootstrap";
 
 export function EventList(props) {
     const dispatch = useDispatch();

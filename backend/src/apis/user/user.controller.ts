@@ -15,6 +15,9 @@ import {deleteEvent} from "../../utils/event/deleteEvent";
 import {deleteUser} from "../../utils/user/deleteUser";
 import {selectVolunteerByUserId} from "../../utils/volunteer/selectVolunteerByUserId";
 import {Volunteer} from "../../utils/interfaces/Volunteer";
+import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
+import {selectVolunteerByEventId} from "../../utils/volunteer/selectVolunteerByEventId";
+import {selectPartialUserByCoordinatorUserId} from "../../utils/user/selectPartialUserByCoordinatorUserId";
 //import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 //import {updateUser} from "../../utils/user/updateUser";
 
@@ -40,6 +43,27 @@ export async function getUserByUserIdController(request: Request, response: Resp
 
     } catch (error: any) {
         return(response.json({status: 400, data: null, message: error.message}))
+    }
+}
+
+export async function getUsersByCoordinatorUserIdController(request: Request, response: Response) : Promise<Response<Status>> {
+    try {
+        const coordinator: User = request.session.user as User;
+        const userId: string = <string>coordinator.userId;
+        const data = await selectPartialUserByCoordinatorUserId(userId) as PartialUser[];
+
+        const status: Status = {
+            status: 200,
+            message: "SUCCESS: Got Users For Coordinator",
+            data
+        };
+        return response.json(status);
+    } catch (error: any) {
+        return response.json({
+            status: 500,
+            message: error.message,
+            data: []
+        })
     }
 }
 
