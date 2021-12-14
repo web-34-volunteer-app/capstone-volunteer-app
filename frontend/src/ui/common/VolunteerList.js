@@ -40,6 +40,7 @@ export function VolunteerList(props) {
                             volunteerRow.forEach(volunteer => {
                                 if (volunteer.key === volunteerListRow.key) {
                                     volunteerExists = true;
+                                    return null;
                                 }
                             })
                             if(!volunteerExists) {
