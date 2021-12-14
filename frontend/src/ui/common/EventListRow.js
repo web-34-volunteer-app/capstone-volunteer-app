@@ -11,8 +11,12 @@ import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinato
 
 
 export const EventListRow = (props) => {
-    const auth = useSelector(state => state.auth);
     const dispatch = useDispatch();
+
+    const auth = useSelector(state => state.auth);
+
+    //Set up store for current user
+    const currentUser = useSelector(state => state.user ? state.user : null);
 
     //Set up store for Bookmarked Events
     const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
@@ -34,9 +38,6 @@ export const EventListRow = (props) => {
 
     //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
     const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
-    useEffect(() => {
-        handleBookmarkToggle();
-    })
 
     //Handle bookmark toggle: Check if event matches any bookmarked events, sets bookmark button accordingly
     const handleBookmarkToggle = () => {
@@ -50,10 +51,14 @@ export const EventListRow = (props) => {
                 }
             })
         }
-        if(!valueSet) {
+        if (!valueSet) {
             setBookmarkButtonText("Bookmark");
         }
     }
+
+    useEffect(() => {
+        handleBookmarkToggle();
+    });
 
     const registerThisEvent = () => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
@@ -99,20 +104,20 @@ export const EventListRow = (props) => {
     }
 
     const getButton = (option) => {
-        switch(option) {
+        switch (option) {
             case "register":
                 return (
-                        <Button
-                            className={"registerButton me-2 mt-3 btn-sm"}
-                            key={"registerButton" + props.event.eventId}
-                            id="registerFormSubmit"
-                            variant="primary"
-                            onClick={registerThisEvent}
-                            type="submit"
-                        >
-                            Register
-                        </Button>
-                    )
+                    <Button
+                        className={"registerButton me-2 mt-3 btn-sm"}
+                        key={"registerButton" + props.event.eventId}
+                        id="registerFormSubmit"
+                        variant="primary"
+                        onClick={registerThisEvent}
+                        type="submit"
+                    >
+                        Register
+                    </Button>
+                )
             case "delete":
                 return (
                     <Button
@@ -186,7 +191,7 @@ export const EventListRow = (props) => {
     const getVolunteerList = () => {
         return (
             <VolunteerList
-                key={'volunteerList'+props.event.eventId}
+                key={'volunteerList' + props.event.eventId}
                 event={props.event}
             />
         )
@@ -194,8 +199,13 @@ export const EventListRow = (props) => {
 
     const displayComponents = () => {
         let components = [];
-        switch(props.type) {
+        switch (props.type) {
             case "localEvent":
+                if (currentUser) {
+                    if (currentUser.userId === props.event.eventUserId) {
+                        return components;
+                    }
+                }
                 components.push(getButton("register"));
                 components.push(getButton("bookmarkToggle"));
                 return components;
@@ -220,21 +230,21 @@ export const EventListRow = (props) => {
     }
 
     return (
-            <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
-                <Accordion.Header><h6 className={"col-7"}>
-                    <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
-                    className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
-                </Accordion.Header>
-                <Accordion.Body>
-                    <p><strong>Description: </strong>{props.event.eventDescription}</p>
-                    <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
-                        Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
+        <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
+            <Accordion.Header><h6 className={"col-7"}>
+                <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
+                className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
+            </Accordion.Header>
+            <Accordion.Body>
+                <p><strong>Description: </strong>{props.event.eventDescription}</p>
+                <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
+                    Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
 
-                    <p><strong>Address:</strong> {props.event.eventAddress} </p>
-                    <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
-                    </p>
-                    {auth ? displayComponents() : null}
-                </Accordion.Body>
-            </Accordion.Item>
+                <p><strong>Address:</strong> {props.event.eventAddress} </p>
+                <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
+                </p>
+                {auth ? displayComponents() : null}
+            </Accordion.Body>
+        </Accordion.Item>
     )
 }

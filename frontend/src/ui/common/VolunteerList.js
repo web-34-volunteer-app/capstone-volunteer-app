@@ -32,7 +32,7 @@ export function VolunteerList(props) {
                         if(user.userId === volunteer.volunteerUserId) {
                             volunteerRow.push(
                                 <VolunteerListRow
-                                    key={'volunteerListRow'+volunteer.volunteerUserId}
+                                    key={'volunteerListRow'+volunteer.volunteerUserId+volunteer.volunteerEventId}
                                     user={user}
                                     volunteer={volunteer}
                                 />

@@ -5,7 +5,7 @@ import {fetchUserByUserId} from "../store/user";
 
 export const  UserOverview =()=> {
     const dispatch = useDispatch()
-    const user = useSelector(state => {return state.users ? state.users : null})
+    const user = useSelector(state => {return state.user ? state.user : null})
     const sideEffects = () => {
         dispatch(fetchUserByUserId())
     }
@@ -16,7 +16,7 @@ export const  UserOverview =()=> {
             <Container className={"py-4"}>
                 <div className={"d-flex justify-content-center"}>
                     <Col md={2} sm={6} className={"justify-content-center me-3"}>
-                        <Image src="https://picsum.photos/200/200" alt="Profile Image Placeholder" fluid roundedCircle></Image>
+                        <Image src="https://picsum.photos/200/200" alt="Profile Image Placeholder" fluid roundedCircle/>
                     </Col>
                     {user && <><Col user={user} userkey={user.userId} md={4} sm={6} className={"my-auto"}>
 

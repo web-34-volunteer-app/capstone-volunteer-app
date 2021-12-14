@@ -3,7 +3,7 @@ import { fetchAuth } from './auth'
 import {httpConfig} from "../utils/httpConfig";
 
 const userSlice = createSlice({
-    name: "users",
+    name: "user",
     initialState: null,
     reducers: {
         getUserByUserId: (user, action) => {
@@ -20,7 +20,7 @@ export const fetchUserByUserId = () => async (dispatch, getState) => {
     await dispatch(fetchAuth())
     const {auth} = getState()
     if(auth !== null) {
-        const {data} = await httpConfig.get(`/apis/user/getByUserId/${auth.userId}`)
+        const {data} = await httpConfig.get(`/apis/user/getByUserId/${auth.userId}`);
         dispatch(getUserByUserId(data))
     }
 }

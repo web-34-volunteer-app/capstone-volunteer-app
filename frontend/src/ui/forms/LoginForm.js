@@ -6,7 +6,6 @@ import {Formik} from "formik";
 import {useDispatch} from "react-redux";
 import jwt_decode from "jwt-decode"
 import {getAuth} from "../../store/auth";
-import { useHistory } from "react-router-dom"
 
 export function LoginForm(props){
 

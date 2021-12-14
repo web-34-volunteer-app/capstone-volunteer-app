@@ -1,6 +1,6 @@
 import events from "./event"
 import auth from "./auth";
-import users from "./user";
+import user from "./user";
 import registered from "./eventsregisteredbyuser";
 import bookmarked from "./eventsbookmarkedbycurrentuser"
 import coordinated from "./eventscoordinatedbycurrentuser"
@@ -10,7 +10,7 @@ import volunteers_forCoordinator from "./volunteersForCoordinator"
 
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 
-const reducer = combineReducers({events, auth, users, registered, bookmarked, coordinated, volunteers, users_forCoordinator, volunteers_forCoordinator});
+const reducer = combineReducers({events, auth, user, registered, bookmarked, coordinated, volunteers, users_forCoordinator, volunteers_forCoordinator});
 
 
 export const store = configureStore({reducer});
