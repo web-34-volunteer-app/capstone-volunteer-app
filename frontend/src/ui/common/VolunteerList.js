@@ -25,23 +25,31 @@ export function VolunteerList(props) {
 
     const volunteerList = () => {
         let volunteerRow = [];
-        if(users && volunteers) {
+        if (users && volunteers) {
             volunteers.forEach(volunteer => {
-                if(volunteer.volunteerEventId === props.event.eventId) {
+                if (volunteer.volunteerEventId === props.event.eventId) {
                     users.forEach(user => {
-                        if(user.userId === volunteer.volunteerUserId) {
-                            volunteerRow.push(
+                        if (user.userId === volunteer.volunteerUserId) {
+                            let volunteerExists = false;
+                            const volunteerListRow =
                                 <VolunteerListRow
-                                    key={'volunteerListRow'+volunteer.volunteerUserId+volunteer.volunteerEventId}
+                                    key={'volunteerListRow' + volunteer.volunteerUserId}
                                     user={user}
                                     volunteer={volunteer}
-                                />
-                            )
+                                />;
+                            volunteerRow.forEach(volunteer => {
+                                if (volunteer.key === volunteerListRow.key) {
+                                    volunteerExists = true;
+                                }
+                            })
+                            if(!volunteerExists) {
+                                volunteerRow.push(volunteerListRow);
+                            }
+                            return null;
                         }
                     })
-
+                    return null;
                 }
-
             })
         }
         return volunteerRow;
