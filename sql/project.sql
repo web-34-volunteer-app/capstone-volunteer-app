@@ -24,8 +24,6 @@ CREATE TABLE user
     PRIMARY KEY (userID)
 );
 
-
-
 CREATE TABLE event
 (
     eventId                        BINARY(16)    NOT NULL,
@@ -44,7 +42,7 @@ CREATE TABLE event
     eventStartTime                 DATETIME(6)  NOT NULL,
     eventTitle              VARCHAR(64)  NOT NULL,
     INDEX (eventUserId),
-    FOREIGN KEY (eventUserId) REFERENCES user (userId),
+    FOREIGN KEY (eventUserId) REFERENCES user (userId) ON DELETE CASCADE,
     PRIMARY KEY (eventId)
 );
 
@@ -57,26 +55,22 @@ CREATE TABLE volunteer
     volunteerHoursVolunteerVerified BOOLEAN,
     INDEX (volunteerEventId),
     INDEX (volunteerUserId),
-    FOREIGN KEY (volunteerEventId) REFERENCES event (eventId),
-    FOREIGN KEY (volunteerUserId) REFERENCES user (userId),
+    FOREIGN KEY (volunteerEventId) REFERENCES event (eventId) ON DELETE CASCADE,
+    FOREIGN KEY (volunteerUserId) REFERENCES user (userId) ON DELETE CASCADE,
     PRIMARY KEY (volunteerEventId, volunteerUserId)
 );
 
 CREATE TABLE flag
 (
-
     flagEventId BINARY(16)    NOT NULL,
     flagUserId  BINARY(16)    NOT NULL,
     flagMessage varchar(1024) NOT NULL,
     INDEX (flagEventId),
     INDEX (flagUserId),
-    FOREIGN KEY (flagEventId) REFERENCES event (eventId),
-    FOREIGN KEY (flagUserId) REFERENCES user (userId),
+    FOREIGN KEY (flagEventId) REFERENCES event (eventId) ON DELETE CASCADE,
+    FOREIGN KEY (flagUserId) REFERENCES user (userId) ON DELETE CASCADE,
     PRIMARY KEY (flagEventId, flagUserId)
-
 );
-
-
 
 CREATE TABLE `bookmarkedEvent`
 (
@@ -84,8 +78,8 @@ CREATE TABLE `bookmarkedEvent`
     bookmarkedEventUserId  BINARY(16) NOT NULL,
     INDEX (bookmarkedEventEventId),
     INDEX (bookmarkedEventUserId),
-    FOREIGN KEY (bookmarkedEventEventId) REFERENCES event (eventId),
-    FOREIGN KEY (bookmarkedEventUserId) REFERENCES user (userId),
+    FOREIGN KEY (bookmarkedEventEventId) REFERENCES event (eventId) ON DELETE CASCADE,
+    FOREIGN KEY (bookmarkedEventUserId) REFERENCES user (userId) ON DELETE CASCADE,
     PRIMARY KEY (bookmarkedEventEventId, bookmarkedEventUserId)
 );
 

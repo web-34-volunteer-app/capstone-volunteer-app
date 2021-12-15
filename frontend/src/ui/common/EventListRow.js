@@ -9,6 +9,8 @@ import {dateTimeToDate, dateTimeToTime, isPast} from "../dateFormat";
 import {fetchUsersForCoordinator} from "../../store/usersForCoordinator";
 import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinator";
 import {ValidateHoursVolunteerForm} from "../forms/ValidateHoursVolunteerForm";
+import {fetchAllEvents} from "../../store/event";
+import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
 
 
 export const EventListRow = (props) => {
@@ -107,7 +109,14 @@ export const EventListRow = (props) => {
     }
 
     const deleteThisEvent = () => {
-
+        httpConfig.delete(`/apis/event/eventId/${props.event.eventId}`)
+            .then(reply => {
+            if (reply.status === 200) {
+                dispatch(fetchAllEvents());
+                dispatch(fetchCoordinatedEventByUserId());
+                alert("Event Deleted");
+            }
+        })
     }
 
     const getButton = (option) => {
@@ -230,7 +239,9 @@ export const EventListRow = (props) => {
                 return components;
             case "coordinatedEvent":
                 components.push(getVolunteerList());
-                components.push(getButton("delete"));
+                if(!isPastEvent) {
+                    components.push(getButton("delete"));
+                }
                 return components;
             case "registeredEvent":
                 if(!isPastEvent) {

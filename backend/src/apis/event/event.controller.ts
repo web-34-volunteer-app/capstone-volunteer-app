@@ -100,14 +100,10 @@ export async function getEventByVolunteerUserIdController(request: Request, resp
     }
 }
 
-export async function deleteEventByIdController(request: Request, response: Response): Promise<Response<string>> {
+export async function deleteEventByEventIdController(request: Request, response: Response): Promise<Response<string>> {
     try {
         const {eventId} = request.params;
         const result = await selectEventByEventId(eventId) as Event
-
-        //Delete all volunteers on this event
-        //Delete all bookmarks from this event
-        //Possibly delete all flags for this event
 
         await deleteEvent(result);
 

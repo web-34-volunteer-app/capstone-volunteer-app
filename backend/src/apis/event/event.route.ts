@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {
-    deleteEventByIdController,
+    deleteEventByEventIdController,
     getAllEventsController,
     getEventByEventIdController,
     getEventByEventOrganizationController,
@@ -29,7 +29,7 @@ EventRouter.route('/registered/')
     .get(isLoggedIn, getEventByVolunteerUserIdController)
 
 EventRouter.route('/eventId/:eventId')
-    .delete(isLoggedIn, deleteEventByIdController)
+    .delete(isLoggedIn, deleteEventByEventIdController)
     .get(getEventByEventIdController)
     .put(putEventController)
 
