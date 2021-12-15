@@ -38,7 +38,8 @@ VolunteerRouter.route('/volunteersForCoordinator')
     .get(getVolunteersByCoordinatorUserIdController);
 
 //Get one volunteer from userId and eventId
-VolunteerRouter.route('/getByUserIdEventId/:volunteerUserId/:volunteerEventId').get(getVolunteerByVolunteerUserIdVolunteerEventIdController)
+VolunteerRouter.route('/getByUserIdEventId/:volunteerUserId/:volunteerEventId')
+    .get(getVolunteerByVolunteerUserIdVolunteerEventIdController)
 
 //One user volunteers for an event
 VolunteerRouter.route('/:volunteerEventId')

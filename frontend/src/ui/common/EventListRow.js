@@ -206,9 +206,7 @@ export const EventListRow = (props) => {
     }
 
     const displayValidateHoursForm = () => {
-        console.log("isPastEvent: " + isPastEvent);
         if(isPastEvent && currentUser) {
-            console.log("Displaying form in event");
             return (
                 <ValidateHoursVolunteerForm
                     key={'validateHoursForm'+props.event.eventId}

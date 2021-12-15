@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Accordion, Row} from "react-bootstrap";
 import {ValidateHoursCoordinatorForm} from "../forms/ValidateHoursCoordinatorForm";
 
@@ -15,9 +15,17 @@ export const VolunteerListRow = (props) => {
         }
     }
 
+    const [hoursValidated, setHoursValidated] = useState(
+        props.volunteer.volunteerHoursPosterVerified &&
+        props.volunteer.volunteerHoursVolunteerVerified);
+    useEffect(() => {
+        setHoursValidated(
+            props.volunteer.volunteerHoursPosterVerified &&
+            props.volunteer.volunteerHoursVolunteerVerified);
+    }, [props.volunteer.volunteerHoursPosterVerified, props.volunteer.volunteerHoursVolunteerVerified]);
+
     const displayValidateHoursForm = () => {
         if (props.isPast) {
-
             return (
                 <>
                     <h6>
@@ -27,7 +35,7 @@ export const VolunteerListRow = (props) => {
                         key={'validateHoursForm' + props.volunteer.volunteerUserId + props.volunteer.volunteerEventId}
                         event={props.event}
                         user={props.user}
-                        hours={props.volunteer.volunteerHours}
+                        validated={hoursValidated}
                     />
                 </>
             )

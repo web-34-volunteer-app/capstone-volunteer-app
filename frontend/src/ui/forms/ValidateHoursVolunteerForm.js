@@ -2,107 +2,92 @@ import {useDispatch, useSelector} from "react-redux";
 import * as Yup from "yup";
 import {httpConfig} from "../../utils/httpConfig";
 import {fetchVolunteersForCurrentUser} from "../../store/volunteersForCurrentUser";
-import {fetchUserByUserId} from "../../store/user";
 import {Col, Form, Row} from "react-bootstrap";
 import {Button} from "react-bootstrap";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Formik} from "formik";
 
 export const ValidateHoursVolunteerForm = (props) => {
-    const volunteerFormValues = {
-        volunteerEndTime: "",
-        volunteerStartTime: ""
-    }
-
     const dispatch = useDispatch();
     const validator = Yup.object().shape({});
-
     //Set up store for current user
     const currentUser = useSelector(state => state.user ? state.user : null);
 
-    const submitForm = (values, {setStatus}) => {
-        const currentUserIsVolunteer = () => {
-            if (currentUser) {
-                if (currentUser.userId === props.user.userId) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        const currentUserIsCoordinator = () => {
-            if (currentUser) {
-                if (currentUser.userId === props.event.eventUserId) {
-                    return true;
-                }
-            }
-            return false;
-        }
+    const [displayComponent, setDisplayComponent] = useState(null);
+    const [formComponent, setFormComponent] = useState(null);
+    const [displayLatch, setDisplayLatch] = useState(false);
 
-        const volunteerHours = values.volunteerEndTime - values.volunteerStartTime;
-        const volunteerFormValues =
-            (currentUserIsVolunteer() ?
-                    {
-                        volunteerHours: volunteerHours,
-                        volunteerHoursVolunteerVerified: true
-                    }
-                    :
-                    (currentUserIsCoordinator() ?
-                            {
-                                volunteerHours: volunteerHours,
-                                volunteerHoursPosterVerified: true
-                            }
-                            :
-                            {
-                                volunteerHours: volunteerHours
-                            }
-                    )
-            )
+    useEffect(() => {
+        setDisplayComponent(formComponent);
+    }, [formComponent, displayLatch]);
 
-        httpConfig.put(`/apis/volunteer/update/${props.user.userId}/${props.event.eventId}`, volunteerFormValues).then(reply => {
-            let {message, type} = reply;
-
+    httpConfig.get(`/apis/volunteer/getByUserIdEventId/${props.user.userId}/${props.event.eventId}`).then(reply => {
             if (reply.status === 200) {
-                dispatch(fetchVolunteersForCurrentUser());
-                httpConfig.get(`/apis/volunteer/getByUserIdEventId/${props.user.userId}/${props.event.eventId}`).then(reply => {
-                    let {message, type} = reply;
-                    if (reply.status === 200) {
-                        if (reply.data.volunteerHoursVolunteerVerified && reply.data.volunteerHoursPosterVerified) {
-                            console.log("props.user.userTotalHours: " + props.user.userTotalHours);
-                            console.log("volunteerFormValues.volunteerHours: " + volunteerFormValues.volunteerHours);
-                            const totalHours = props.user.userTotalHours + volunteerFormValues.volunteerHours;
-                            const userFormValues = {
-                                userTotalHours: totalHours
+                const volunteerFormValues = {
+                    volunteerEndTime: "",
+                    volunteerStartTime: "",
+                    volunteerHours: reply.data.volunteerHours,
+                    volunteerHoursVolunteerVerified: reply.data.volunteerHoursVolunteerVerified
+                }
+
+                const submitForm = (values, {setStatus}) => {
+                    if (currentUser) {
+                        if (currentUser.userId === props.user.userId) {
+                            let volunteerFormValues, alertMessage;
+                            if (!reply.data.volunteerHoursVolunteerVerified) {
+                                const volunteerHours = values.volunteerEndTime - values.volunteerStartTime;
+                                volunteerFormValues =
+                                    {
+                                        volunteerHours: volunteerHours,
+                                        volunteerHoursVolunteerVerified: true
+                                    }
+                                alertMessage = "Hours Submitted for Verification";
+                            } else {
+                                volunteerFormValues =
+                                    {
+                                        volunteerHours: 0,
+                                        volunteerHoursVolunteerVerified: false
+                                    }
+                                alertMessage = "Hours Reset"
                             }
-                            httpConfig.put(`/apis/user/updateWithoutAuth/${props.user.userId}`, userFormValues).then(reply => {
+                            httpConfig.put(`/apis/volunteer/update/${props.user.userId}/${props.event.eventId}`, volunteerFormValues).then(reply => {
                                 let {message, type} = reply;
+
                                 if (reply.status === 200) {
-                                    dispatch(fetchUserByUserId());
-                                    alert("Hours Recorded");
+                                    dispatch(fetchVolunteersForCurrentUser());
+                                    setDisplayLatch(false);
+                                    alert(alertMessage);
                                 }
                                 setStatus({message, type});
                                 return (reply);
-                            });
-                        } else {
-                            alert("Hours Submitted for Verification");
+                            })
                         }
                     }
+                }
 
-                });
+                if(!displayLatch) {
+                    setFormComponent(
+                        <>
+                            <Formik
+                                initialValues={volunteerFormValues}
+                                onSubmit={submitForm}
+                                validationSchema={validator}
+                                enableReinitialize={true}>
+                                {displayFormContent}
+                            </Formik>
+                        </>
+                    )
+                    setDisplayLatch(true);
+                }
+
             }
-            setStatus({message, type});
-            return (reply);
-        })
-    }
-
+        }
+    )
     return (
         <>
-            <Formik
-                initialValues={volunteerFormValues}
-                onSubmit={submitForm}
-                validationSchema={validator}>
-                {displayFormContent}
-            </Formik>
+            {displayComponent}
         </>
+
     )
 }
 
@@ -119,9 +104,28 @@ const displayFormContent = (props) => {
         handleSubmit,
         // handleReset
     } = props;
-    return (
-        <>
-            <Form onSubmit={handleSubmit}>
+
+    const displayFormComponents = () => {
+        if (props.initialValues.volunteerHoursVolunteerVerified) {
+            const formMessage = props.initialValues.volunteerHours + " Hours Submitted"
+            return (
+                <Row>
+                    <Col>
+                        <h6>{formMessage}</h6>
+                    </Col>
+                    <Col>
+                        <Button
+                            variant="primary"
+                            className={"registerButton align-content-center"}
+                            type="submit"
+                        >
+                            Cancel
+                        </Button>
+                    </Col>
+                </Row>
+            );
+        } else {
+            return (
                 <Row>
                     <Col>
                         <Form.Label>Start Time</Form.Label>
@@ -157,6 +161,14 @@ const displayFormContent = (props) => {
                         </Button>
                     </Col>
                 </Row>
+            );
+        }
+    }
+
+    return (
+        <>
+            <Form onSubmit={handleSubmit}>
+                {displayFormComponents()}
                 {status && (<div className={status.type}>{status.message}</div>)}
             </Form>
         </>
