@@ -101,6 +101,43 @@ export async function putUserController(request: Request, response: Response) : 
         return response.json( {status:400, data: null, message: error.message})
     }
 }
+
+export async function putUserWithoutAuthController(request: Request, response: Response) : Promise<Response>{
+    try {
+        console.log("Trying to putUserWithoutAuthController");
+        const {userId} = request.params
+        //Anything that can be viewed/edited
+        const {userAdmin, userAllowContact, userEmail, userFirstName, userLastName, userPhone, userProfileImage, userStartDate, userTotalHours, userZipCode} = request.body
+        console.log("request body: " + JSON.stringify({userAdmin, userAllowContact, userEmail, userFirstName, userLastName, userPhone, userProfileImage, userStartDate, userTotalHours, userZipCode}));
+
+        const preFormUpdate = async (partialUser: PartialUser) : Promise<Response> => {
+            const previousUser: User = await selectWholeUserByUserId(<string>partialUser.userId)
+            const newUser: User = {...previousUser, ...partialUser}
+
+            console.log("partialUser: " + JSON.stringify(partialUser));
+            console.log("previousUser: " + JSON.stringify(previousUser));
+            console.log("newUser: " + JSON.stringify(newUser));
+
+            for(let key in newUser) {
+                //@ts-ignore
+                newUser[key] = partialUser[key] ?? previousUser[key];
+            }
+            await updateUser(newUser)
+            return response.json({status: 200, data: null, message: "User successfully updated"})
+        }
+
+        console.log("After preform");
+
+        return preFormUpdate({userId, userAdmin, userAllowContact, userEmail, userFirstName, userLastName, userPhone, userProfileImage, userStartDate, userTotalHours, userZipCode})
+    } catch (error : any) {
+        return response.json({
+            status: 400,
+            data: null,
+            message: error.message
+        })
+    }
+}
+
 export async function deleteUserByIdController(request: Request, response: Response): Promise <Response<string>>{
     try {
         const {userId} = request.params;

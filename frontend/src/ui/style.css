@@ -31,24 +31,32 @@
     height: 1.25rem;
     margin-left: 2em;
 }
+
 footer {
     background-color: #0477BF !important;
     color: white;
 }
+
 a{
     color: white;
     text-decoration: none;
 }
+
 .eventAttending{
     background-color: #67A4CA;
     color: white;
-
 }
+
+.isPast{
+    color: red;
+}
+
 .bookMarks{
     background-color: #67A4CA;
     color: white;
 
 }
+
 .unregisteredButton{
     background-color: #F3B709;
     color: white !important;
@@ -66,10 +74,12 @@ a{
     color: white !important;
 
 }
+
 .EventInfo{
     background-color: #0477BF;
 
 }
+
 span#inputGroup-sizing-default{
     background-color: #0477BF;
     color: white !important;

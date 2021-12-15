@@ -1,10 +1,10 @@
 import React from "react";
-import {Accordion} from "react-bootstrap";
+import {Accordion, Row} from "react-bootstrap";
+import {ValidateHoursCoordinatorForm} from "../forms/ValidateHoursCoordinatorForm";
 
 export const VolunteerListRow = (props) => {
-
     const displayVolunteer = () => {
-        if(props.user && props.volunteer) {
+        if (props.user && props.volunteer) {
             return (
                 <h6 className={"col-7"}>
                     <strong>
@@ -15,11 +15,36 @@ export const VolunteerListRow = (props) => {
         }
     }
 
+    const displayValidateHoursForm = () => {
+        if (props.isPast) {
+
+            return (
+                <>
+                    <h6>
+                        {props.volunteer.volunteerHours}
+                    </h6>
+                    <ValidateHoursCoordinatorForm
+                        key={'validateHoursForm' + props.volunteer.volunteerUserId + props.volunteer.volunteerEventId}
+                        event={props.event}
+                        user={props.user}
+                        hours={props.volunteer.volunteerHours}
+                    />
+                </>
+            )
+        }
+    }
+
     return (
         <Accordion.Item eventKey={props.user.userId}>
             <Accordion.Header>
                 {displayVolunteer()}
             </Accordion.Header>
+            <Accordion.Body>
+                <Row>
+                    {displayValidateHoursForm()}
+                </Row>
+            </Accordion.Body>
         </Accordion.Item>
     )
 }
+

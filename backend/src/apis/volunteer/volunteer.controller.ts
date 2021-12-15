@@ -12,8 +12,6 @@ import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectWholeUserByUserId} from "../../utils/user/selectWholeUserByUserId";
 import {updateUser} from "../../utils/user/updateUser";
 import {User} from "../../utils/interfaces/User";
-import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
-import {Event} from "../../utils/interfaces/Event";
 import {selectVolunteerByCoordinatorUserId} from "../../utils/volunteer/selectVolunteerByCoordinatorUserId";
 
 export async function postVolunteerController(request:Request, response:Response) {
@@ -128,12 +126,31 @@ export async function getVolunteersByCoordinatorUserIdController(request: Reques
     }
 }
 
+export async function getVolunteerByVolunteerUserIdVolunteerEventIdController(request: Request, response: Response) : Promise<Response<Status>> {
+    try {
+        const {volunteerUserId, volunteerEventId} = request.params;
+
+        const data = await selectVolunteerByUserIdEventId(volunteerUserId, volunteerEventId) as Volunteer;
+
+        const status: Status = {
+            status: 200,
+            message: "SUCCESS: Got Volunteer from UserId and EventId",
+            data
+        };
+        return response.json(status);
+    } catch (error: any) {
+        return response.json({
+            status: 500,
+            message: error.message,
+            data: []
+        })
+    }
+}
+
 //UserId as url parameters, eventId as body
 export async function putVolunteerController(request: Request, response: Response) : Promise<Response> {
     try {
         const {volunteerUserId, volunteerEventId} = request.params;
-        console.log("user id: ", volunteerUserId);
-        console.log("event id: ", volunteerEventId);
 
         const {volunteerHours, volunteerHoursPosterVerified, volunteerHoursVolunteerVerified} = request.body;
 

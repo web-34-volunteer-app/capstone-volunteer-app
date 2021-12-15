@@ -17,3 +17,9 @@ export function dateTimeToTime(dateTime) {
     }
     return time;
 }
+
+export function isPast(pastDate) {
+    const today = new Date();
+    const eventDate = new Date(pastDate);
+    return (today.getTime() > eventDate.getTime());
+}

@@ -9,7 +9,7 @@ export async function selectWholeUserByUserId(userId: string): Promise<User> {
         const result = await mysqlConnection.execute(sqlQuery, {userId}) as RowDataPacket[];
         const rows: User[] = result[0] as User[];
 
-        // return rows.length !== 0 ? {...rows[0]} : null;
+        console.log("Selecting: " + JSON.stringify(rows));
         return {...rows[0]};
     } catch (e) {
         throw e;

@@ -7,6 +7,7 @@ import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurr
 
 import {EventListRow} from "./EventListRow";
 import {Accordion, Col} from "react-bootstrap";
+import {isPast} from "../dateFormat";
 
 export function EventList(props) {
     const dispatch = useDispatch();
@@ -71,13 +72,14 @@ const eventRows = (option, selector) => {
         switch (option) {
             case 'allEvents':
                 return selector.map(event =>
+                    !isPast(event.eventEndTime) ?
                     <EventListRow
                         type={'localEvent'}
                         event={event}
                         key={'localEvent'+event.eventId}
                         registerButton={true}
                         bookmarkButton={true}
-                    />);
+                    /> : null);
             case 'coordinatedEvents':
                 return selector.map(event =>
                     <EventListRow

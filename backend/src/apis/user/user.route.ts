@@ -2,7 +2,8 @@ import {
     deleteUserByIdController,
     getAllUsersController,
     getUserByUserIdController, getUsersByCoordinatorUserIdController,
-    putUserController
+    putUserController,
+    putUserWithoutAuthController
 } from "./user.controller";
 import {Router} from "express";
 import {asyncValidatorController} from "../../utils/controllers/asyncValidator.controller";
@@ -30,3 +31,6 @@ UserRoute.route('/volunteer/:userId')
 
 UserRoute.route('/volunteersForCoordinator')
     .get(getUsersByCoordinatorUserIdController);
+
+UserRoute.route('/updateWithoutAuth/:userId')
+    .put(putUserWithoutAuthController);

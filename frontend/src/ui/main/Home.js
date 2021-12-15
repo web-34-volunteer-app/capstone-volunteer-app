@@ -14,20 +14,23 @@ export function Home() {
         return (
             <>
                 <UserOverview key={'userOverview'}/>
-                <EventList
-                    key={'coordinatedEvents'}
-                    option={'coordinatedEvents'}
-                    header={"Events I'm Coordinating"}
-                    colSide={12}
-                    colClass={"mb-4"}
-                />
-                <EventList
-                    key={'registeredEvents'}
-                    option={'registeredEvents'}
-                    header={"Events I'm Attending"}
-                    colSize={12}
-                    colClass={"mb-4"}
-                />
+                <Row>
+                    <EventList
+                        key={'coordinatedEvents'}
+                        option={'coordinatedEvents'}
+                        header={"Events I'm Coordinating"}
+                        colSide={6}
+                        colClass={"mb-4"}
+                    />
+                    <EventList
+                        key={'registeredEvents'}
+                        option={'registeredEvents'}
+                        header={"Events I'm Attending"}
+                        colSize={6}
+                        colClass={"mb-4"}
+                    />
+                </Row>
+
                 <EventList
                     key={'bookmarkedEvents'}
                     option={'bookmarkedEvents'}

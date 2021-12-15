@@ -36,6 +36,8 @@ export function VolunteerList(props) {
                                     key={'volunteerListRow' + volunteer.volunteerUserId}
                                     user={user}
                                     volunteer={volunteer}
+                                    event={props.event}
+                                    isPast={props.isPast}
                                 />;
                             volunteerRow.forEach(volunteer => {
                                 if (volunteer.key === volunteerListRow.key) {

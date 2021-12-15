@@ -5,9 +5,10 @@ import {VolunteerList} from "./VolunteerList";
 import {httpConfig} from "../../utils/httpConfig";
 import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
 import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
-import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
+import {dateTimeToDate, dateTimeToTime, isPast} from "../dateFormat";
 import {fetchUsersForCoordinator} from "../../store/usersForCoordinator";
 import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinator";
+import {ValidateHoursVolunteerForm} from "../forms/ValidateHoursVolunteerForm";
 
 
 export const EventListRow = (props) => {
@@ -17,6 +18,12 @@ export const EventListRow = (props) => {
 
     //Set up store for current user
     const currentUser = useSelector(state => state.user ? state.user : null);
+
+    const [isPastEvent, setIsPastEvent] = useState(isPast(props.event.eventEndTime));
+
+    useEffect(() => {
+        setIsPastEvent(isPast(props.event.eventEndTime));
+    });
 
     //Set up store for Bookmarked Events
     const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
@@ -193,8 +200,22 @@ export const EventListRow = (props) => {
             <VolunteerList
                 key={'volunteerList' + props.event.eventId}
                 event={props.event}
+                isPast={isPastEvent}
             />
         )
+    }
+
+    const displayValidateHoursForm = () => {
+        console.log("isPastEvent: " + isPastEvent);
+        if(isPastEvent && currentUser) {
+            console.log("Displaying form in event");
+            return (
+                <ValidateHoursVolunteerForm
+                    key={'validateHoursForm'+props.event.eventId}
+                    event={props.event}
+                    user={currentUser}
+                />)
+        }
     }
 
     const displayComponents = () => {
@@ -214,7 +235,11 @@ export const EventListRow = (props) => {
                 components.push(getButton("delete"));
                 return components;
             case "registeredEvent":
-                components.push(getButton("unregister"));
+                if(!isPastEvent) {
+                    components.push(getButton("unregister"));
+                } else {
+                    components.push(displayValidateHoursForm());
+                }
                 return components;
             case "bookmarkedEvent":
                 components.push(getButton("bookmarkRegister"));
@@ -233,7 +258,7 @@ export const EventListRow = (props) => {
         <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
             <Accordion.Header><h6 className={"col-7"}>
                 <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
-                className={"ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}</h6>
+                className={isPastEvent ? "isPast ms-auto" : "ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)} </h6>
             </Accordion.Header>
             <Accordion.Body>
                 <p><strong>Description: </strong>{props.event.eventDescription}</p>

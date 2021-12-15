@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from "express";
+import {Request, Response} from "express";
 import {Event} from "../../utils/interfaces/Event";
 import {Status} from "../../utils/interfaces/Status";
 import {insertEvent} from "../../utils/event/insertEvent";
@@ -159,8 +159,6 @@ export async function postEvent(request: Request, response: Response) {
             eventTitle
         };
 
-
-        console.log("event:", event)
         const result = await insertEvent(event)
         const status: Status = {
             status: 200,

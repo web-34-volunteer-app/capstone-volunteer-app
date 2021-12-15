@@ -8,6 +8,7 @@ import {Formik} from "formik";
 import {useDispatch} from "react-redux";
 import {fetchAllEvents} from "../../store/event";
 import '../style.css'
+import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
 
 export function CreateEventForm(props) {
     const formValues = {
@@ -39,13 +40,14 @@ export function CreateEventForm(props) {
 
             if (reply.status === 200) {
                 dispatch(fetchAllEvents());
+                dispatch(fetchCoordinatedEventByUserId());
                 props.handleClose();
                 alert("Event Successfully Created");
                 resetForm();
             }
             setStatus({message, type});
             return (reply);
-        })
+        });
     };
     return (
         <>
@@ -58,6 +60,7 @@ export function CreateEventForm(props) {
         </>
     )
 }
+
 const CreateEventFormContent = (props) => {
     const {
         status,
@@ -71,7 +74,7 @@ const CreateEventFormContent = (props) => {
         handleSubmit,
         // handleReset
     } = props;
-    return(
+    return (
         <>
             <Form onSubmit={handleSubmit}>
                 <Row className={"p-2"}>
@@ -120,15 +123,15 @@ const CreateEventFormContent = (props) => {
                 </Row>
                 <Row>
                     <Col>
-                    <Form.Label>Event Date</Form.Label>
-                    <Form.Control
-                        id="eventDate"
-                        name="eventDate"
-                        type="date"
-                        value={values.eventDate}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                    />
+                        <Form.Label>Event Date</Form.Label>
+                        <Form.Control
+                            id="eventDate"
+                            name="eventDate"
+                            type="date"
+                            value={values.eventDate}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                        />
                     </Col>
                 </Row>
                 <Row className={"mt-3"}>
@@ -195,26 +198,22 @@ const CreateEventFormContent = (props) => {
                             onBlur={handleBlur}
                         />
                     </Form.Group>
-
                 </Row>
-
-
-<Row className={"mt-3"}>
-
-                <Form.Group className="mb-3"
-                            // controlId="exampleForm.ControlTextarea1"
+                <Row className={"mt-3"}>
+                    <Form.Group className="mb-3"
+                        // controlId="exampleForm.ControlTextarea1"
                     >
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        id="eventDescription"
-                        name="eventDescription"
-                        value={values.eventDescription}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        rows={3}/>
-                </Form.Group>
-</Row>
+                        <Form.Label>Description</Form.Label>
+                        <Form.Control
+                            as="textarea"
+                            id="eventDescription"
+                            name="eventDescription"
+                            value={values.eventDescription}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            rows={3}/>
+                    </Form.Group>
+                </Row>
                 <Button
                     variant="primary"
                     className={"registerButton align-content-center"}
@@ -223,6 +222,5 @@ const CreateEventFormContent = (props) => {
                 {status && (<div className={status.type}>{status.message}</div>)}
             </Form>
         </>
-    )
-
+    );
 }
