@@ -10,7 +10,25 @@ let currentLong = 0;
 let init = true;
 
 export function Map(inputs) {
-    const events = useSelector(state => state.events ? state.events : [])
+    const events = useSelector(state => state.events ? state.events : []);
+
+    const getEvent = (eventId) => {
+        let thisEvent = null;
+        events.forEach(event => {
+            if(event.eventId === eventId) {
+                thisEvent = event;
+            }
+        });
+
+        return thisEvent;
+    }
+
+    const [activeEvent, setActiveEvent] = useState(getEvent(inputs.activeEvent));
+
+    useEffect(() => {
+        setActiveEvent(getEvent(inputs.activeEvent));
+    }, [inputs.activeEvent]);
+
 //console.log(events)
     const [viewport, setViewport] = useState(() => {
         return {
@@ -22,12 +40,9 @@ export function Map(inputs) {
         }
     });
 
-    // const [selectedPlace, setSelectedPlace] = useState(null);
-
     useEffect(() => {
         const listener = (e) => {
             if (e.key === "Escape") {
-                //setSelectedPlace(null);
                 inputs.setActiveEvent(null, false);
             }
         };
@@ -83,7 +98,7 @@ export function Map(inputs) {
                     <button className="marker-btn"
                             onClick={(e) => {
                                 e.preventDefault();
-                                inputs.setActiveEvent(place, true);
+                                inputs.setActiveEvent(place.eventId, true);
                             }}>
                         <img src={GPS_cursor} alt="gps pin"/>
                     </button>
@@ -104,16 +119,16 @@ export function Map(inputs) {
                 }}
             >
                 {displayPins()}
-                {inputs.activeEvent && inputs.eventIsActive ? (
+                {activeEvent && inputs.eventIsActive ? (
                     <Popup
-                        latitude={Number(inputs.activeEvent.eventLatitude)}
-                        longitude={Number(inputs.activeEvent.eventLongitude)}
+                        latitude={Number(activeEvent.eventLatitude)}
+                        longitude={Number(activeEvent.eventLongitude)}
                         onClose={() => {
                             inputs.setActiveEvent(null, false);
                         }}>
                         <div>
-                            <h6>{inputs.activeEvent.eventTitle}</h6>
-                            <p>{inputs.activeEvent.eventAddress}</p>
+                            <h6>{activeEvent.eventTitle}</h6>
+                            <p>{activeEvent.eventAddress}</p>
                         </div>
                     </Popup>
                 ) : null}

@@ -13,8 +13,8 @@ export function Home() {
     const [activeEvent, setActiveEvent] = useState(null);
     const [eventIsActive, setEventIsActive] = useState(false);
 
-    const activeEventCallback = (event, open) => {
-        setActiveEvent(event);
+    const activeEventCallback = (eventId, open) => {
+        setActiveEvent(eventId);
         setEventIsActive(open);
     }
 
@@ -29,6 +29,9 @@ export function Home() {
                         header={"Events I'm Coordinating"}
                         colSide={6}
                         colClass={"mb-4"}
+                        // setActiveEvent={activeEventCallback}
+                        // activeEvent={activeEvent}
+                        // eventIsActive={eventIsActive}
                     />
                     <EventList
                         key={'registeredEvents'}
@@ -36,6 +39,9 @@ export function Home() {
                         header={"Events I'm Attending"}
                         colSize={6}
                         colClass={"mb-4"}
+                        // setActiveEvent={activeEventCallback}
+                        // activeEvent={activeEvent}
+                        // eventIsActive={eventIsActive}
                     />
                 </Row>
 
@@ -45,6 +51,9 @@ export function Home() {
                     header={'Bookmarks'}
                     colSize={12}
                     colClass={"mb-4"}
+                    // setActiveEvent={activeEventCallback}
+                    // activeEvent={activeEvent}
+                    // eventIsActive={eventIsActive}
                 />
             </>
         );
@@ -70,7 +79,13 @@ export function Home() {
                 <Row key={'mapRow'} g={3} className="my-4">
                     <Col key={'mapCol'} md={6}>
                         <div key={'mapDivWrapper'} className="d-flex justify-content-center">
-                            <Map key={"map"} width={"50vw"} height={"40vh"} setActiveEvent={activeEventCallback} activeEvent={activeEvent} eventIsActive={eventIsActive}/>
+                            <Map
+                                key={"map"}
+                                width={"50vw"}
+                                height={"40vh"}
+                                setActiveEvent={activeEventCallback}
+                                activeEvent={activeEvent}
+                                eventIsActive={eventIsActive}/>
                         </div>
                     </Col>
                     <EventList

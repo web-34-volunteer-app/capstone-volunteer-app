@@ -55,6 +55,63 @@ export function EventList(props) {
         }
     }
 
+    const eventRows = (option, selector) => {
+        if (selector) {
+            switch (option) {
+                case 'allEvents':
+                    return selector.map(event =>
+                        !isPast(event.eventEndTime) ?
+                            <EventListRow
+                                type={'localEvent'}
+                                event={event}
+                                key={'localEvent'+event.eventId}
+                                registerButton={true}
+                                bookmarkButton={true}
+                                setActiveEvent={props.setActiveEvent}
+                                activeEvent={props.activeEvent}
+                                eventIsActive={props.eventIsActive}
+                            /> : null);
+                case 'coordinatedEvents':
+                    return selector.map(event =>
+                        <EventListRow
+                            type={'coordinatedEvent'}
+                            event={event}
+                            key={'coordinatedEvent'+event.eventId}
+                            deleteButton={true}
+                            // setActiveEvent={props.setActiveEvent}
+                            // activeEvent={props.activeEvent}
+                            // eventIsActive={props.eventIsActive}
+                        />);
+                case 'registeredEvents':
+                    return selector.map(event =>
+                        <EventListRow
+                            type={'registeredEvent'}
+                            event={event}
+                            key={'registeredEvent'+event.eventId}
+                            unregisterButton={true}
+                            // setActiveEvent={props.setActiveEvent}
+                            // activeEvent={props.activeEvent}
+                            // eventIsActive={props.eventIsActive}
+                        />);
+                case 'bookmarkedEvents':
+                    return selector.map(event =>
+                        <EventListRow
+                            type={'bookmarkedEvent'}
+                            event={event}
+                            key={'bookmarkedEvent'+event.eventId}
+                            registerBookmarkButton={true}
+                            unbookmarkButton={true}
+                            // setActiveEvent={props.setActiveEvent}
+                            // activeEvent={props.activeEvent}
+                            // eventIsActive={props.eventIsActive}
+                        />);
+                default:
+                    return null;
+            }
+        }
+        return null;
+    }
+
     return (
         <>
             <Col md={props.colSize} className={"d-block mx-auto " + props.colClass}>
@@ -67,47 +124,3 @@ export function EventList(props) {
     )
 }
 
-const eventRows = (option, selector) => {
-    if (selector) {
-        switch (option) {
-            case 'allEvents':
-                return selector.map(event =>
-                    !isPast(event.eventEndTime) ?
-                    <EventListRow
-                        type={'localEvent'}
-                        event={event}
-                        key={'localEvent'+event.eventId}
-                        registerButton={true}
-                        bookmarkButton={true}
-                    /> : null);
-            case 'coordinatedEvents':
-                return selector.map(event =>
-                    <EventListRow
-                        type={'coordinatedEvent'}
-                        event={event}
-                        key={'coordinatedEvent'+event.eventId}
-                        deleteButton={true}
-                    />);
-            case 'registeredEvents':
-                return selector.map(event =>
-                    <EventListRow
-                        type={'registeredEvent'}
-                        event={event}
-                        key={'registeredEvent'+event.eventId}
-                        unregisterButton={true}
-                    />);
-            case 'bookmarkedEvents':
-                return selector.map(event =>
-                    <EventListRow
-                        type={'bookmarkedEvent'}
-                        event={event}
-                        key={'bookmarkedEvent'+event.eventId}
-                        registerBookmarkButton={true}
-                        unbookmarkButton={true}
-                    />);
-            default:
-                return null;
-        }
-    }
-    return null;
-}

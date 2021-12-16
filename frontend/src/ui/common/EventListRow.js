@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {Accordion, Button} from "react-bootstrap";
+import {Accordion, AccordionContext, Button} from "react-bootstrap";
 import {VolunteerList} from "./VolunteerList";
 import {httpConfig} from "../../utils/httpConfig";
 import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
@@ -20,6 +20,25 @@ export const EventListRow = (props) => {
 
     //Set up store for current user
     const currentUser = useSelector(state => state.user ? state.user : null);
+
+    const { activeEventKey } = useContext(AccordionContext);
+    const isCurrentEventKey = activeEventKey === props.event.eventId;
+
+    const handleEventSelect = () => {
+        console.log("isCurrentEventKey for " + props.event.eventTitle + ": " + isCurrentEventKey);
+        let status = isCurrentEventKey ? "Closed":"Open"
+        console.log(props.event.eventTitle + " is " + status);
+    }
+
+    useEffect(() => {
+        if(props.setActiveEvent) {
+            if(activeEventKey) {
+                props.setActiveEvent(activeEventKey, true);
+            } else {
+                props.setActiveEvent(null, false);
+            }
+        }
+    }, [activeEventKey]);
 
     const [isPastEvent, setIsPastEvent] = useState(isPast(props.event.eventEndTime));
 
@@ -259,12 +278,8 @@ export const EventListRow = (props) => {
         }
     }
 
-    const handleEventSelect = () => {
-        console.log("Clicked an event");
-    }
-
     return (
-        <Accordion.Item onClick={handleEventSelect} eventKey={props.event.eventId}>
+        <Accordion.Item onClick={handleEventSelect} eventKey={props.event.eventId} >
             <Accordion.Header><h6 className={"col-7"}>
                 <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
                 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)} </h6>
