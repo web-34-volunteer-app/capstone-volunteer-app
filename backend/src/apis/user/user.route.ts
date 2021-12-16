@@ -1,5 +1,5 @@
 import {
-    deleteUserByIdController,
+    deleteUserByUserIdController,
     getAllUsersController,
     getUserByUserIdController, getUsersByCoordinatorUserIdController,
     putUserController,
@@ -17,8 +17,8 @@ export const UserRoute = Router();
 UserRoute.route('/')
     .get( getAllUsersController )
 
-UserRoute.route('/getByUserId/:userId')
-    .delete(isLoggedIn,deleteUserByIdController)
+UserRoute.route('/userId/:userId')
+    .delete(isLoggedIn, deleteUserByUserIdController)
     .get(
         asyncValidatorController([
             check("userId",

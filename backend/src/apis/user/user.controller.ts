@@ -138,7 +138,7 @@ export async function putUserWithoutAuthController(request: Request, response: R
     }
 }
 
-export async function deleteUserByIdController(request: Request, response: Response): Promise <Response<string>>{
+export async function deleteUserByUserIdController(request: Request, response: Response): Promise <Response<string>>{
     try {
         const {userId} = request.params;
         const result = await selectWholeUserByUserId(userId) as User

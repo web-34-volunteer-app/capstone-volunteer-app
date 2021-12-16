@@ -4,6 +4,7 @@ import HeaderImage from "../images/MC3YellowWhite.svg";
 import {RegisterForm} from "../forms/RegisterForm";
 import {LoginForm} from "../forms/LoginForm";
 import {CreateEventForm} from "../forms/CreateEventForm";
+import {UserSettingsForm} from "../forms/UserSettingsForm";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {httpConfig} from "../../utils/httpConfig";
@@ -38,9 +39,13 @@ export function Navigation() {
                 offcanvasTitle = "Log In";
                 offcanvasForm = <LoginForm handleClose={handleClose}/>;
                 break;
-            case("register event"):
+            case("create event"):
                 offcanvasTitle = "Create Event";
                 offcanvasForm = <CreateEventForm handleClose={handleClose}/>;
+                break;
+            case("user options"):
+                offcanvasTitle = "Settings";
+                offcanvasForm = <UserSettingsForm handleClose={handleClose}/>;
                 break;
             default:
                 offcanvasTitle = "";
@@ -62,23 +67,43 @@ export function Navigation() {
         })
     }
 
-    const registerLink = <Nav.Link key={"RegisterLink"} href="#" onClick={() => {
-        toggleShow("register");
-    }}>Sign Up</Nav.Link>;
-    const logInLink = <Nav.Link key={"LogInLink"} href="#" onClick={() => {
-        toggleShow("login");
-    }}>Log In</Nav.Link>;
-    const createEventLink = <Nav.Link key={"CreateEventLink"} href="#" onClick={() => {
-        toggleShow("register event");
-    }}>Create Event</Nav.Link>;
-    const logOutLink = <Nav.Link key={"LogOutLink"} href="#" onClick={signOut}>Log Out</Nav.Link>;
+    const registerLink = <Nav.Link
+        key={"RegisterLink"}
+        href="#"
+        onClick={() => {toggleShow("register");
+        }}>Sign Up</Nav.Link>;
+
+    const logInLink = <Nav.Link
+        key={"LogInLink"}
+        href="#"
+        onClick={() => {toggleShow("login");
+        }}>Log In</Nav.Link>;
+
+    const createEventLink = <Nav.Link
+        key={"CreateEventLink"}
+        href="#"
+        onClick={() => {toggleShow("create event");
+        }}>Create Event</Nav.Link>;
+
+    const logOutLink = <Nav.Link
+        key={"LogOutLink"}
+        href="#"
+        onClick={signOut}
+    >Log Out</Nav.Link>;
+
+    const userOptions = <Nav.Link
+        key={"UserOptions"}
+        href="#"
+        onClick={() => {toggleShow("user options");
+        }}>Options</Nav.Link>;
+
     // const contactLink = <Nav.Link href="#">Contact</Nav.Link>;
     // const privacyLink = <Nav.Link href="#">Privacy Settings</Nav.Link>;
     // const communityGuidelinesLink = <Nav.Link href="#">Community Guidelines</Nav.Link>;
-    // const userProfileLink = <Nav.Link href="/user-profile">User Profile</Nav.Link>;
+
 
     const visitorNavigation = [registerLink, logInLink];
-    const userNavigation = [createEventLink, logOutLink];
+    const userNavigation = [createEventLink, userOptions, logOutLink];
 
     const navigationItems = () => {
         if (auth) {
@@ -103,7 +128,6 @@ export function Navigation() {
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
-
                         <Nav className="ms-auto">
                             {navigationItems()}
                         </Nav>

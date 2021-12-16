@@ -1,7 +1,5 @@
 import React from "react";
-import {Col, Row} from "react-bootstrap";
-import {Form} from "react-bootstrap";
-import {Button} from "react-bootstrap";
+import {Col, Row, Form, Button} from "react-bootstrap";
 import * as Yup from "yup";
 import {httpConfig} from "../../utils/httpConfig";
 import {Formik} from "formik";
