@@ -22,13 +22,6 @@ export const EventListRow = (props) => {
     const currentUser = useSelector(state => state.user ? state.user : null);
 
     const { activeEventKey } = useContext(AccordionContext);
-    const isCurrentEventKey = activeEventKey === props.event.eventId;
-
-    const handleEventSelect = () => {
-        console.log("isCurrentEventKey for " + props.event.eventTitle + ": " + isCurrentEventKey);
-        let status = isCurrentEventKey ? "Closed":"Open"
-        console.log(props.event.eventTitle + " is " + status);
-    }
 
     useEffect(() => {
         if(props.setActiveEvent) {
@@ -279,7 +272,7 @@ export const EventListRow = (props) => {
     }
 
     return (
-        <Accordion.Item onClick={handleEventSelect} eventKey={props.event.eventId} >
+        <Accordion.Item eventKey={props.event.eventId} >
             <Accordion.Header><h6 className={"col-7"}>
                 <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
                 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)} </h6>
