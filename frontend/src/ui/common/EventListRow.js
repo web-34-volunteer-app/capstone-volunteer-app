@@ -260,11 +260,11 @@ export const EventListRow = (props) => {
     }
 
     const handleEventSelect = () => {
-
+        console.log("Clicked an event");
     }
 
     return (
-        <Accordion.Item onClick={handleEventSelect()} eventKey={props.event.eventId}>
+        <Accordion.Item onClick={handleEventSelect} eventKey={props.event.eventId}>
             <Accordion.Header><h6 className={"col-7"}>
                 <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
                 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)} </h6>

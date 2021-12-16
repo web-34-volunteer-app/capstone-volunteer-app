@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Image, Container, Row, Col} from "react-bootstrap";
 import PlaceHolderImage from "../images/MissionCitizenCousel.jpg"
 import {Map} from "../Map";
@@ -9,6 +9,14 @@ import {UserOverview} from "../UserOverview";
 
 export function Home() {
     const auth = useSelector(state => state.auth);
+
+    const [activeEvent, setActiveEvent] = useState(null);
+    const [eventIsActive, setEventIsActive] = useState(false);
+
+    const activeEventCallback = (event, open) => {
+        setActiveEvent(event);
+        setEventIsActive(open);
+    }
 
     const getUserComponents = () => {
         return (
@@ -62,7 +70,7 @@ export function Home() {
                 <Row key={'mapRow'} g={3} className="my-4">
                     <Col key={'mapCol'} md={6}>
                         <div key={'mapDivWrapper'} className="d-flex justify-content-center">
-                            <Map key={"map"} width={"50vw"} height={"40vh"}/>
+                            <Map key={"map"} width={"50vw"} height={"40vh"} setActiveEvent={activeEventCallback} activeEvent={activeEvent} eventIsActive={eventIsActive}/>
                         </div>
                     </Col>
                     <EventList
@@ -71,6 +79,9 @@ export function Home() {
                         header={'Local Events'}
                         colSize={6}
                         colClass={""}
+                        setActiveEvent={activeEventCallback}
+                        activeEvent={activeEvent}
+                        eventIsActive={eventIsActive}
                     />
                 </Row>
             </>

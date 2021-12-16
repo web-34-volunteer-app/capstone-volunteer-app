@@ -22,12 +22,13 @@ export function Map(inputs) {
         }
     });
 
-    const [selectedPlace, setSelectedPlace] = useState(null);
+    // const [selectedPlace, setSelectedPlace] = useState(null);
 
     useEffect(() => {
         const listener = (e) => {
             if (e.key === "Escape") {
-                setSelectedPlace(null);
+                //setSelectedPlace(null);
+                inputs.setActiveEvent(null, false);
             }
         };
         window.addEventListener("keydown", listener);
@@ -39,7 +40,6 @@ export function Map(inputs) {
 
     useEffect(() => {
         window.addEventListener('resize', updateMap);
-
         return () => {
             window.removeEventListener('resize', updateMap);
         }
@@ -71,7 +71,27 @@ export function Map(inputs) {
         });
     }
 
+    const displayPins = () => {
+        return (
+            events.map(place => (
+                <Marker key={place.eventId}
+                        latitude={Number(place.eventLatitude)}
+                        longitude={Number(place.eventLongitude)}
+                        offsetLeft={-25.5}
+                        offsetTop={-36}
+                >
+                    <button className="marker-btn"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                inputs.setActiveEvent(place, true);
+                            }}>
+                        <img src={GPS_cursor} alt="gps pin"/>
+                    </button>
+                </Marker>
+            ))
+        );
 
+    }
 
     return (
         <>
@@ -83,34 +103,17 @@ export function Map(inputs) {
                     setViewport(viewport);
                 }}
             >
-
-                {events.map(place => (
-                    <Marker key={place.eventId}
-                            latitude={Number(place.eventLatitude)}
-                            longitude={Number(place.eventLongitude)}
-                            offsetLeft={-25.5}
-                            offsetTop={-36}
-                    >
-                        <button className="marker-btn"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setSelectedPlace(place);
-                                    console.log("selectedPlace: " + JSON.stringify(selectedPlace));
-                                }}>
-                            <img src={GPS_cursor} alt="gps pin"/>
-                        </button>
-                    </Marker>
-                ))}
-                {selectedPlace ? (
+                {displayPins()}
+                {inputs.activeEvent && inputs.eventIsActive ? (
                     <Popup
-                        latitude={Number(selectedPlace.eventLatitude)}
-                        longitude={Number(selectedPlace.eventLongitude)}
+                        latitude={Number(inputs.activeEvent.eventLatitude)}
+                        longitude={Number(inputs.activeEvent.eventLongitude)}
                         onClose={() => {
-                            setSelectedPlace(null);
+                            inputs.setActiveEvent(null, false);
                         }}>
                         <div>
-                            <h6>{selectedPlace.eventTitle}</h6>
-                            <p>{selectedPlace.eventAddress}</p>
+                            <h6>{inputs.activeEvent.eventTitle}</h6>
+                            <p>{inputs.activeEvent.eventAddress}</p>
                         </div>
                     </Popup>
                 ) : null}
