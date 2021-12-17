@@ -8,7 +8,6 @@ import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurr
 import {EventListRow} from "./EventListRow";
 import {Accordion, Col} from "react-bootstrap";
 import {isPast} from "../dateFormat";
-import {checkIfIsInStore} from "../../store/storeUtils";
 
 export function EventList(props) {
     const dispatch = useDispatch();
@@ -66,7 +65,6 @@ export function EventList(props) {
                                 key={'localEvent'+event.eventId}
                                 registerButton={true}
                                 bookmarkButton={true}
-                                bookmarked={checkIfIsInStore(event.eventId, bookmarkedEvents, 'bookmarkedEvents')}
                                 setActiveEvent={props.setActiveEvent}
                                 activeEvent={props.activeEvent}
                                 eventIsActive={props.eventIsActive}
