@@ -45,16 +45,16 @@ export function Home() {
                     />
                 </Row>
 
-                <EventList
-                    key={'bookmarkedEvents'}
-                    option={'bookmarkedEvents'}
-                    header={'Bookmarks'}
-                    colSize={12}
-                    colClass={"mb-4"}
-                    // setActiveEvent={activeEventCallback}
-                    // activeEvent={activeEvent}
-                    // eventIsActive={eventIsActive}
-                />
+                {/*<EventList*/}
+                {/*    key={'bookmarkedEvents'}*/}
+                {/*    option={'bookmarkedEvents'}*/}
+                {/*    header={'Bookmarks'}*/}
+                {/*    colSize={12}*/}
+                {/*    colClass={"mb-4"}*/}
+                {/*    // setActiveEvent={activeEventCallback}*/}
+                {/*    // activeEvent={activeEvent}*/}
+                {/*    // eventIsActive={eventIsActive}*/}
+                {/*/>*/}
             </>
         );
     }

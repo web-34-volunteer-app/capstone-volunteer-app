@@ -13,5 +13,4 @@ import {combineReducers, configureStore} from "@reduxjs/toolkit";
 
 const reducer = combineReducers({events, auth, user, registered, bookmarked, coordinated, volunteers, users_forCoordinator, volunteers_forCoordinator, volunteers_forCurrentUser});
 
-
 export const store = configureStore({reducer});

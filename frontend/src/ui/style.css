@@ -51,6 +51,18 @@ a{
     color: red;
 }
 
+.isBookmarked{
+    color: blue;
+}
+
+.isRegistered{
+    color: green;
+}
+
+.isCoordinated{
+    color: orange;
+}
+
 .bookMarks{
     background-color: #67A4CA;
     color: white;

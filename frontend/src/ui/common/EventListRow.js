@@ -21,25 +21,29 @@ export const EventListRow = (props) => {
     //Set up store for current user
     const currentUser = useSelector(state => state.user ? state.user : null);
 
-    const { activeEventKey } = useContext(AccordionContext);
+    //START Map Pin Toggle Section
+    const {activeEventKey} = useContext(AccordionContext);
 
     useEffect(() => {
-        if(props.setActiveEvent) {
-            if(activeEventKey) {
+        if (props.setActiveEvent) {
+            if (activeEventKey) {
                 props.setActiveEvent(activeEventKey, true);
             } else {
                 props.setActiveEvent(null, false);
             }
         }
     }, [activeEventKey]);
+    //END Map Pin Toggle Section
 
+    //START Past Event Section
     const [isPastEvent, setIsPastEvent] = useState(isPast(props.event.eventEndTime));
 
     useEffect(() => {
         setIsPastEvent(isPast(props.event.eventEndTime));
     });
+    //END Past Event Section
 
-    //Set up store for Bookmarked Events
+    //START Bookmarked Events Section
     const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
 
     const initButtonText = () => {
@@ -53,12 +57,12 @@ export const EventListRow = (props) => {
                 }
             })
         }
-
         return buttonText;
     }
 
     //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
     const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
+    const [isBookmarked, setIsBookmarked] = useState(bookmarkButtonText !== "Bookmark");
 
     //Handle bookmark toggle: Check if event matches any bookmarked events, sets bookmark button accordingly
     const handleBookmarkToggle = () => {
@@ -67,6 +71,7 @@ export const EventListRow = (props) => {
             bookmarkedEvents.forEach(bookmark => {
                 if (bookmark.eventId === props.event.eventId) {
                     setBookmarkButtonText("Unbookmark");
+                    setIsBookmarked(true);
                     valueSet = true;
                     return null;
                 }
@@ -74,20 +79,89 @@ export const EventListRow = (props) => {
         }
         if (!valueSet) {
             setBookmarkButtonText("Bookmark");
+            setIsBookmarked(false);
         }
     }
 
     useEffect(() => {
         handleBookmarkToggle();
     });
+    //END Bookmarked Events Section
 
+    //START Registered Events Section
+    const registeredEvents = useSelector(state => state.registered ? state.registered : null);
+
+    const initIsRegistered = () => {
+        let isRegistered = false;
+        if (registeredEvents) {
+            registeredEvents.forEach(event => {
+                if (event.eventId === props.event.eventId) {
+                    isRegistered = true;
+                    return null;
+                }
+            })
+        }
+        return isRegistered;
+    }
+
+    const [isRegistered, setIsRegistered] = useState(initIsRegistered);
+
+    const handleRegisterEvent = () => {
+        let valueSet = false;
+        if (registeredEvents) {
+            registeredEvents.forEach(event => {
+                if (event.eventId === props.event.eventId) {
+                    setIsRegistered(true);
+                    valueSet = true;
+                    return null;
+                }
+            })
+        }
+        if (!valueSet) {
+            setIsRegistered(false);
+        }
+    }
+
+    useEffect(() => {
+        handleRegisterEvent();
+    });
+    //END Registered Events Section
+
+    //START Coordinated Events Section
+    const coordinatedEvents = useSelector(state => state.coordinated ? state.coordinated : null);
+
+    const initIsCoordinated = () => {
+        let isCoordinated = false;
+        if (coordinatedEvents && currentUser) {
+            coordinatedEvents.forEach(event => {
+                if (event.eventUserId === currentUser.userId) {
+                    isCoordinated = true;
+                    return null;
+                }
+            })
+        }
+        return isCoordinated;
+    }
+
+    const [isCoordinated, setIsCoordinated] = useState(initIsCoordinated());
+
+    useEffect(() => {
+        setIsCoordinated(initIsCoordinated());
+    })
+
+    //END Coordinated Events Section
+
+    //START Fetch Functions
     const registerThisEvent = () => {
         httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
             .then(reply => {
                 if (reply.status === 200) {
-                    dispatch(fetchRegisteredEventByUserId());
                     dispatch(fetchUsersForCoordinator());
                     dispatch(fetchVolunteersForCoordinator());
+                    dispatch(fetchRegisteredEventByUserId())
+                        .then(
+                            handleRegisterEvent()
+                        )
                 }
             })
     }
@@ -123,14 +197,16 @@ export const EventListRow = (props) => {
     const deleteThisEvent = () => {
         httpConfig.delete(`/apis/event/eventId/${props.event.eventId}`)
             .then(reply => {
-            if (reply.status === 200) {
-                dispatch(fetchAllEvents());
-                dispatch(fetchCoordinatedEventByUserId());
-                alert("Event Deleted");
-            }
-        })
+                if (reply.status === 200) {
+                    dispatch(fetchAllEvents());
+                    dispatch(fetchCoordinatedEventByUserId());
+                    alert("Event Deleted");
+                }
+            })
     }
+    //END Fetch Functions
 
+    //START Component Set Up Functions
     const getButton = (option) => {
         switch (option) {
             case "register":
@@ -227,10 +303,10 @@ export const EventListRow = (props) => {
     }
 
     const displayValidateHoursForm = () => {
-        if(isPastEvent && currentUser) {
+        if (isPastEvent && currentUser) {
             return (
                 <ValidateHoursVolunteerForm
-                    key={'validateHoursForm'+props.event.eventId}
+                    key={'validateHoursForm' + props.event.eventId}
                     event={props.event}
                     user={currentUser}
                 />)
@@ -246,17 +322,19 @@ export const EventListRow = (props) => {
                         return components;
                     }
                 }
-                components.push(getButton("register"));
-                components.push(getButton("bookmarkToggle"));
+                if(!isRegistered) {
+                    components.push(getButton("register"));
+                    components.push(getButton("bookmarkToggle"));
+                }
                 return components;
             case "coordinatedEvent":
                 components.push(getVolunteerList());
-                if(!isPastEvent) {
+                if (!isPastEvent) {
                     components.push(getButton("delete"));
                 }
                 return components;
             case "registeredEvent":
-                if(!isPastEvent) {
+                if (!isPastEvent) {
                     components.push(getButton("unregister"));
                 } else {
                     components.push(displayValidateHoursForm());
@@ -271,11 +349,73 @@ export const EventListRow = (props) => {
         }
     }
 
+    const displayHeader = () => {
+        let status;
+        if (props.type === 'localEvent') {
+            if (isBookmarked) {
+                status = "bookmarked";
+            }
+            if (isRegistered) {
+                status = "registered";
+            }
+            if (isCoordinated) {
+                status = "coordinated";
+            }
+        }
+
+        let date =
+            <h6 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}>
+                <strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}
+            </h6>
+
+        switch (status) {
+            case 'bookmarked':
+                return (
+                    <>
+                        <h6 className={"isBookmarked col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                            <em>{" BOOKMARKED"}</em>
+                        </h6>
+                        {date}
+                    </>
+                )
+            case 'registered':
+                return (
+                    <>
+                        <h6 className={"isRegistered col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                            <em>{" REGISTERED"}</em>
+                        </h6>
+                        {date}
+                    </>
+                )
+            case 'coordinated':
+                return (
+                    <>
+                        <h6 className={"isCoordinated col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                            <em>{" COORDINATING"}</em>
+                        </h6>
+                        {date}
+                    </>
+                )
+            default:
+                return (
+                    <>
+                        <h6 className={"col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                        </h6>
+                        {date}
+                    </>
+                )
+        }
+    }
+    //END Component Set Up Functions
+
     return (
-        <Accordion.Item eventKey={props.event.eventId} >
-            <Accordion.Header><h6 className={"col-7"}>
-                <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}</h6> <h6
-                className={isPastEvent ? "isPast ms-auto" : "ms-auto"}><strong>Date:</strong> {dateTimeToDate(props.event.eventDate)} </h6>
+        <Accordion.Item eventKey={props.event.eventId}>
+            <Accordion.Header>
+                {displayHeader()}
             </Accordion.Header>
             <Accordion.Body>
                 <p><strong>Description: </strong>{props.event.eventDescription}</p>

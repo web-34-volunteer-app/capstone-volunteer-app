@@ -8,6 +8,7 @@ import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurr
 import {EventListRow} from "./EventListRow";
 import {Accordion, Col} from "react-bootstrap";
 import {isPast} from "../dateFormat";
+import {checkIfIsInStore} from "../../store/storeUtils";
 
 export function EventList(props) {
     const dispatch = useDispatch();
@@ -48,8 +49,6 @@ export function EventList(props) {
                 return eventRows('coordinatedEvents', coordinatedEvents);
             case 'registeredEvents':
                 return eventRows('registeredEvents', registeredEvents);
-            case 'bookmarkedEvents':
-                return eventRows('bookmarkedEvents', bookmarkedEvents);
             default:
                 return null;
         }
@@ -67,6 +66,7 @@ export function EventList(props) {
                                 key={'localEvent'+event.eventId}
                                 registerButton={true}
                                 bookmarkButton={true}
+                                bookmarked={checkIfIsInStore(event.eventId, bookmarkedEvents, 'bookmarkedEvents')}
                                 setActiveEvent={props.setActiveEvent}
                                 activeEvent={props.activeEvent}
                                 eventIsActive={props.eventIsActive}
@@ -78,9 +78,6 @@ export function EventList(props) {
                             event={event}
                             key={'coordinatedEvent'+event.eventId}
                             deleteButton={true}
-                            // setActiveEvent={props.setActiveEvent}
-                            // activeEvent={props.activeEvent}
-                            // eventIsActive={props.eventIsActive}
                         />);
                 case 'registeredEvents':
                     return selector.map(event =>
@@ -89,21 +86,6 @@ export function EventList(props) {
                             event={event}
                             key={'registeredEvent'+event.eventId}
                             unregisterButton={true}
-                            // setActiveEvent={props.setActiveEvent}
-                            // activeEvent={props.activeEvent}
-                            // eventIsActive={props.eventIsActive}
-                        />);
-                case 'bookmarkedEvents':
-                    return selector.map(event =>
-                        <EventListRow
-                            type={'bookmarkedEvent'}
-                            event={event}
-                            key={'bookmarkedEvent'+event.eventId}
-                            registerBookmarkButton={true}
-                            unbookmarkButton={true}
-                            // setActiveEvent={props.setActiveEvent}
-                            // activeEvent={props.activeEvent}
-                            // eventIsActive={props.eventIsActive}
                         />);
                 default:
                     return null;
