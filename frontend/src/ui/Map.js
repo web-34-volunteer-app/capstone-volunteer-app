@@ -1,35 +1,25 @@
-
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import GPS_cursor from "./images/MC3YellowNoText.svg";
 import "./style.css";
-import {useSelector} from "react-redux";
+import {MapContext, StoreContext} from "./main/Home";
 
 let currentLat = 0;
 let currentLong = 0;
 let init = true;
 
 export function Map(inputs) {
-    const events = useSelector(state => state.events ? state.events : []);
+    const {
+        activeEvent,
+        setActiveEvent
+    } = useContext(MapContext);
 
-    const getEvent = (eventId) => {
-        let thisEvent = null;
-        events.forEach(event => {
-            if(event.eventId === eventId) {
-                thisEvent = event;
-            }
-        });
+    const {
+        allEvents,
+    } = useContext(StoreContext);
 
-        return thisEvent;
-    }
+    const events = allEvents;
 
-    const [activeEvent, setActiveEvent] = useState(getEvent(inputs.activeEvent));
-
-    useEffect(() => {
-        setActiveEvent(getEvent(inputs.activeEvent));
-    }, [inputs.activeEvent]);
-
-//console.log(events)
     const [viewport, setViewport] = useState(() => {
         return {
             latitude: currentLat,
@@ -43,7 +33,7 @@ export function Map(inputs) {
     useEffect(() => {
         const listener = (e) => {
             if (e.key === "Escape") {
-                inputs.setActiveEvent(null, false);
+                setActiveEvent(null);
             }
         };
         window.addEventListener("keydown", listener);
@@ -51,7 +41,7 @@ export function Map(inputs) {
         return () => {
             window.removeEventListener("keydown", listener);
         }
-    }, []);
+    }, [setActiveEvent]);
 
     useEffect(() => {
         window.addEventListener('resize', updateMap);
@@ -98,7 +88,7 @@ export function Map(inputs) {
                     <button className="marker-btn"
                             onClick={(e) => {
                                 e.preventDefault();
-                                inputs.setActiveEvent(place.eventId, true);
+                                setActiveEvent(place);
                             }}>
                         <img src={GPS_cursor} alt="gps pin"/>
                     </button>
@@ -119,12 +109,12 @@ export function Map(inputs) {
                 }}
             >
                 {displayPins()}
-                {activeEvent && inputs.eventIsActive ? (
+                {activeEvent ? (
                     <Popup
                         latitude={Number(activeEvent.eventLatitude)}
                         longitude={Number(activeEvent.eventLongitude)}
                         onClose={() => {
-                            inputs.setActiveEvent(null, false);
+                            setActiveEvent(null);
                         }}>
                         <div>
                             <h6>{activeEvent.eventTitle}</h6>

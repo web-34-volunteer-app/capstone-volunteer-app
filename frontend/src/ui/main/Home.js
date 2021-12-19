@@ -1,24 +1,38 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import {Image, Container, Row, Col} from "react-bootstrap";
 import PlaceHolderImage from "../images/MissionCitizenCousel.jpg"
 import {Map} from "../Map";
 import {EventList} from "../common/EventList";
 import {SearchField} from "../SearchField";
-import {useSelector} from "react-redux";
 import {UserOverview} from "../UserOverview";
 
+import {useDispatch, useSelector} from "react-redux";
+import {fetchUserByUserId} from "../../store/user";
+import {fetchAllEvents} from "../../store/event";
+import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
+import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
+import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
+import {fetchAuth} from "../../store/auth";
+
+export const StoreContext = React.createContext("storeContext");
+export const MapContext = React.createContext("mapContext");
+
 export function Home() {
-    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
 
+    //START MAP POPUP CALLBACK
     const [activeEvent, setActiveEvent] = useState(null);
-    const [eventIsActive, setEventIsActive] = useState(false);
+    //END MAP POPUP CALLBACK
 
-    const activeEventCallback = (eventId, open) => {
-        setActiveEvent(eventId);
-        setEventIsActive(open);
+    //START MAP CONTEXT VALUES
+    const mapContextValues = {
+        activeEvent: activeEvent,
+        setActiveEvent: setActiveEvent
     }
+    //END MAP CONTEXT VALUES
 
-    const getUserComponents = () => {
+    //START COMPONENT FUNCTIONS
+    const getUserComponents = useMemo(() => {
         return (
             <>
                 <UserOverview key={'userOverview'}/>
@@ -29,9 +43,6 @@ export function Home() {
                         header={"Events I'm Coordinating"}
                         colSide={6}
                         colClass={"mb-4"}
-                        // setActiveEvent={activeEventCallback}
-                        // activeEvent={activeEvent}
-                        // eventIsActive={eventIsActive}
                     />
                     <EventList
                         key={'registeredEvents'}
@@ -39,27 +50,13 @@ export function Home() {
                         header={"Events I'm Attending"}
                         colSize={6}
                         colClass={"mb-4"}
-                        // setActiveEvent={activeEventCallback}
-                        // activeEvent={activeEvent}
-                        // eventIsActive={eventIsActive}
                     />
                 </Row>
-
-                {/*<EventList*/}
-                {/*    key={'bookmarkedEvents'}*/}
-                {/*    option={'bookmarkedEvents'}*/}
-                {/*    header={'Bookmarks'}*/}
-                {/*    colSize={12}*/}
-                {/*    colClass={"mb-4"}*/}
-                {/*    // setActiveEvent={activeEventCallback}*/}
-                {/*    // activeEvent={activeEvent}*/}
-                {/*    // eventIsActive={eventIsActive}*/}
-                {/*/>*/}
             </>
         );
-    }
+    }, []);
 
-    const getVisitorComponents = () => {
+    const getVisitorComponents = useMemo(() => {
         return (
             <div key={'visitorImageDivWrapper'} className="col-12 col-lg-12 mx-auto mt-4">
                 <Image
@@ -70,9 +67,9 @@ export function Home() {
                 />
             </div>
         );
-    }
+    }, [])
 
-    const getCommonComponents = () => {
+    const getCommonComponents = useMemo(() => {
         return (
             <>
                 <SearchField key={"searchField"}/>
@@ -83,9 +80,7 @@ export function Home() {
                                 key={"map"}
                                 width={"50vw"}
                                 height={"40vh"}
-                                setActiveEvent={activeEventCallback}
-                                activeEvent={activeEvent}
-                                eventIsActive={eventIsActive}/>
+                            />
                         </div>
                     </Col>
                     <EventList
@@ -94,29 +89,101 @@ export function Home() {
                         header={'Local Events'}
                         colSize={6}
                         colClass={""}
-                        setActiveEvent={activeEventCallback}
-                        activeEvent={activeEvent}
-                        eventIsActive={eventIsActive}
                     />
                 </Row>
             </>
         );
-    }
+    }, []);
+    //END COMPONENT FUNCTIONS
 
-    const displayComponents = () => {
-        let components = [];
-        if (auth) {
-            components.push(getUserComponents());
+    //START AUTH
+    const auth = useSelector(state => state.auth);
+    const authEffect = () => {
+        dispatch(fetchAuth());
+        if(auth) {
+            setDisplayComponents(getUserComponents);
         } else {
-            components.push(getVisitorComponents());
+            setDisplayComponents(getVisitorComponents);
         }
-        components.push(getCommonComponents());
-        return components;
     }
+    React.useEffect(authEffect, [dispatch, auth, getUserComponents, getVisitorComponents]);
+    //END AUTH
+
+    //START CURRENT USER
+    const currentUserEffect = () => {
+        dispatch(fetchUserByUserId());
+    }
+    React.useEffect(currentUserEffect, [dispatch]);
+    const currentUser = useSelector(state => state.user ? state.user : null);
+    //END CURRENT USER
+
+    //START ALL EVENTS
+    const allEventsEffect = () => {
+        dispatch(fetchAllEvents());
+    }
+    React.useEffect(allEventsEffect, [dispatch]);
+    const allEvents = useSelector(state => state.events ? state.events : null);
+    //END ALL EVENTS
+
+    //START COORDINATED EVENTS
+    const coordinatedEventsEffect = () => {
+        dispatch(fetchCoordinatedEventByUserId());
+    }
+    React.useEffect(coordinatedEventsEffect, [dispatch]);
+    const coordinatedEvents = useSelector(state => state.coordinated ? state.coordinated : null);
+    //END COORDINATED EVENTS
+
+    //START REGISTERED EVENTS
+    const registeredEventsEffect = () => {
+        dispatch(fetchRegisteredEventByUserId());
+    }
+    React.useEffect(registeredEventsEffect, [dispatch]);
+    const registeredEvents = useSelector(state => state.registered ? state.registered : null);
+    //END REGISTERED EVENTS
+
+    //START BOOKMARKED EVENTS
+    const bookmarkedEventsEffect = () => {
+        dispatch(fetchBookmarkedEventByUserId());
+    }
+    React.useEffect(bookmarkedEventsEffect, [dispatch]);
+    const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
+    //END BOOKMARKED EVENTS
+
+    //START STORECONTEXT VALUES
+    const contextValues = {
+        dispatch: dispatch,
+        auth: auth,
+        currentUser: currentUser,
+        allEvents: allEvents,
+        coordinatedEvents: coordinatedEvents,
+        registeredEvents: registeredEvents,
+        bookmarkedEvents: bookmarkedEvents
+    }
+    //END STORECONTEXT VALUES
+
+    const initDisplayComponents = useMemo(() => {
+        if(auth) {
+            return (
+                getUserComponents
+            );
+        } else {
+            return (
+                getVisitorComponents
+            );
+        }
+    }, [auth, getUserComponents, getVisitorComponents]);
+
+    const [displayComponents, setDisplayComponents] = useState(initDisplayComponents);
 
     return (
-        <Container>
-            {displayComponents()}
-        </Container>
-    )
+        <MapContext.Provider value={{...mapContextValues}}>
+            <StoreContext.Provider value={{...contextValues}}>
+                <Container>
+                    {displayComponents}
+                    {getCommonComponents}
+                </Container>
+            </StoreContext.Provider>
+        </MapContext.Provider>
+    );
 }
+

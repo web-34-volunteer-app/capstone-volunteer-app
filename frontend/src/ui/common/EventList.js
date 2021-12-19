@@ -1,44 +1,16 @@
-import React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchAllEvents} from "../../store/event";
-import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
-import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
-import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
-
-import {EventListRow} from "./EventListRow";
+import React, {useContext} from "react";
 import {Accordion, Col} from "react-bootstrap";
+import {EventListRow} from "./EventListRow";
 import {isPast} from "../dateFormat";
 
+import {StoreContext} from "../main/Home";
+
 export function EventList(props) {
-    const dispatch = useDispatch();
-
-    //Set up store for All Events
-    const allEventsEffect = () => {
-        dispatch(fetchAllEvents());
-    }
-    React.useEffect(allEventsEffect, [dispatch]);
-    const allEvents = useSelector(state => state.events ? state.events : []);
-
-    //Set up store for Coordinated Events
-    const coordinatedEventsEffect = () => {
-        dispatch(fetchCoordinatedEventByUserId());
-    }
-    React.useEffect(coordinatedEventsEffect, [dispatch]);
-    const coordinatedEvents = useSelector(state => state.coordinated ? state.coordinated : []);
-
-    //Set up store for Registered Events
-    const registeredEventsEffect = () => {
-        dispatch(fetchRegisteredEventByUserId());
-    }
-    React.useEffect(registeredEventsEffect, [dispatch]);
-    const registeredEvents = useSelector(state => state.registered ? state.registered : []);
-
-    //Set up store for Bookmarked Events
-    const bookmarkedEventsEffect = () => {
-        dispatch(fetchBookmarkedEventByUserId());
-    }
-    React.useEffect(bookmarkedEventsEffect, [dispatch]);
-    const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
+    const {
+        allEvents,
+        coordinatedEvents,
+        registeredEvents,
+    } = useContext(StoreContext);
 
     const eventList = () => {
         switch (props.option) {
@@ -65,9 +37,6 @@ export function EventList(props) {
                                 key={'localEvent'+event.eventId}
                                 registerButton={true}
                                 bookmarkButton={true}
-                                setActiveEvent={props.setActiveEvent}
-                                activeEvent={props.activeEvent}
-                                eventIsActive={props.eventIsActive}
                             /> : null);
                 case 'coordinatedEvents':
                     return selector.map(event =>
