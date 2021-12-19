@@ -479,8 +479,6 @@ export const EventListRow = (props) => {
     }
     //END Component Set Up Functions
 
-    console.log("Creating EventListRow type: " + props.type);
-
     return (
         <Accordion.Item eventKey={props.event.eventId}>
             <Accordion.Header>
@@ -490,7 +488,6 @@ export const EventListRow = (props) => {
                 <p><strong>Description: </strong>{props.event.eventDescription}</p>
                 <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
                     Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
-
                 <p><strong>Address:</strong> {props.event.eventAddress} </p>
                 <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
                 </p>

@@ -1,7 +1,6 @@
 import React, {useContext} from "react";
 import {Accordion, Col} from "react-bootstrap";
 import {EventListRow} from "./EventListRow";
-import {isPast} from "../dateFormat";
 
 import {StoreContext} from "../main/Home";
 
@@ -30,20 +29,19 @@ export function EventList(props) {
             switch (option) {
                 case 'allEvents':
                     return selector.map(event =>
-                        !isPast(event.eventEndTime) ?
-                            <EventListRow
-                                type={'localEvent'}
-                                event={event}
-                                key={'localEvent'+event.eventId}
-                                registerButton={true}
-                                bookmarkButton={true}
-                            /> : null);
+                        <EventListRow
+                            type={'localEvent'}
+                            event={event}
+                            key={'localEvent' + event.eventId}
+                            registerButton={true}
+                            bookmarkButton={true}
+                        />);
                 case 'coordinatedEvents':
                     return selector.map(event =>
                         <EventListRow
                             type={'coordinatedEvent'}
                             event={event}
-                            key={'coordinatedEvent'+event.eventId}
+                            key={'coordinatedEvent' + event.eventId}
                             deleteButton={true}
                         />);
                 case 'registeredEvents':
@@ -51,7 +49,7 @@ export function EventList(props) {
                         <EventListRow
                             type={'registeredEvent'}
                             event={event}
-                            key={'registeredEvent'+event.eventId}
+                            key={'registeredEvent' + event.eventId}
                             unregisterButton={true}
                         />);
                 default:

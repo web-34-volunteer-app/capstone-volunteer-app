@@ -101,6 +101,10 @@ export function Home() {
     const authEffect = () => {
         dispatch(fetchAuth());
         if(auth) {
+            currentUserEffect();
+            coordinatedEventsEffect();
+            registeredEventsEffect();
+            bookmarkedEventsEffect();
             setDisplayComponents(getUserComponents);
         } else {
             setDisplayComponents(getVisitorComponents);
