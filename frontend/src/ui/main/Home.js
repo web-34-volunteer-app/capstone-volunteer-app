@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {Image, Container, Row, Col} from "react-bootstrap";
 import PlaceHolderImage from "../images/MissionCitizenCousel.jpg"
 import {Map} from "../Map";
@@ -96,11 +96,51 @@ export function Home() {
     }, []);
     //END COMPONENT FUNCTIONS
 
+    //START CURRENT USER
+    const currentUserEffect = useCallback(() => {
+        dispatch(fetchUserByUserId());
+    }, [dispatch]);
+    React.useEffect(currentUserEffect, [currentUserEffect]);
+    const currentUser = useSelector(state => state.user ? state.user : null);
+    //END CURRENT USER
+
+    //START ALL EVENTS
+    const allEventsEffect = useCallback(() => {
+        dispatch(fetchAllEvents());
+    }, [dispatch]);
+    React.useEffect(allEventsEffect, [allEventsEffect]);
+    const allEvents = useSelector(state => state.events ? state.events : null);
+    //END ALL EVENTS
+
+    //START COORDINATED EVENTS
+    const coordinatedEventsEffect = useCallback(() => {
+        dispatch(fetchCoordinatedEventByUserId());
+    }, [dispatch]);
+    React.useEffect(coordinatedEventsEffect, [coordinatedEventsEffect]);
+    const coordinatedEvents = useSelector(state => state.coordinated ? state.coordinated : null);
+    //END COORDINATED EVENTS
+
+    //START REGISTERED EVENTS
+    const registeredEventsEffect = useCallback(() => {
+        dispatch(fetchRegisteredEventByUserId());
+    }, [dispatch]);
+    React.useEffect(registeredEventsEffect, [registeredEventsEffect]);
+    const registeredEvents = useSelector(state => state.registered ? state.registered : null);
+    //END REGISTERED EVENTS
+
+    //START BOOKMARKED EVENTS
+    const bookmarkedEventsEffect = useCallback(() => {
+        dispatch(fetchBookmarkedEventByUserId());
+    }, [dispatch]);
+    React.useEffect(bookmarkedEventsEffect, [bookmarkedEventsEffect]);
+    const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
+    //END BOOKMARKED EVENTS
+
     //START AUTH
     const auth = useSelector(state => state.auth);
-    const authEffect = () => {
+    const authEffect = useCallback(() => {
         dispatch(fetchAuth());
-        if(auth) {
+        if (auth) {
             currentUserEffect();
             coordinatedEventsEffect();
             registeredEventsEffect();
@@ -109,49 +149,16 @@ export function Home() {
         } else {
             setDisplayComponents(getVisitorComponents);
         }
-    }
-    React.useEffect(authEffect, [dispatch, auth, getUserComponents, getVisitorComponents]);
+    },[dispatch,
+        auth,
+        getUserComponents,
+        getVisitorComponents,
+        currentUserEffect,
+        coordinatedEventsEffect,
+        registeredEventsEffect,
+        bookmarkedEventsEffect]);
+    React.useEffect(authEffect, [authEffect]);
     //END AUTH
-
-    //START CURRENT USER
-    const currentUserEffect = () => {
-        dispatch(fetchUserByUserId());
-    }
-    React.useEffect(currentUserEffect, [dispatch]);
-    const currentUser = useSelector(state => state.user ? state.user : null);
-    //END CURRENT USER
-
-    //START ALL EVENTS
-    const allEventsEffect = () => {
-        dispatch(fetchAllEvents());
-    }
-    React.useEffect(allEventsEffect, [dispatch]);
-    const allEvents = useSelector(state => state.events ? state.events : null);
-    //END ALL EVENTS
-
-    //START COORDINATED EVENTS
-    const coordinatedEventsEffect = () => {
-        dispatch(fetchCoordinatedEventByUserId());
-    }
-    React.useEffect(coordinatedEventsEffect, [dispatch]);
-    const coordinatedEvents = useSelector(state => state.coordinated ? state.coordinated : null);
-    //END COORDINATED EVENTS
-
-    //START REGISTERED EVENTS
-    const registeredEventsEffect = () => {
-        dispatch(fetchRegisteredEventByUserId());
-    }
-    React.useEffect(registeredEventsEffect, [dispatch]);
-    const registeredEvents = useSelector(state => state.registered ? state.registered : null);
-    //END REGISTERED EVENTS
-
-    //START BOOKMARKED EVENTS
-    const bookmarkedEventsEffect = () => {
-        dispatch(fetchBookmarkedEventByUserId());
-    }
-    React.useEffect(bookmarkedEventsEffect, [dispatch]);
-    const bookmarkedEvents = useSelector(state => state.bookmarked ? state.bookmarked : null);
-    //END BOOKMARKED EVENTS
 
     //START STORECONTEXT VALUES
     const contextValues = {
@@ -166,7 +173,7 @@ export function Home() {
     //END STORECONTEXT VALUES
 
     const initDisplayComponents = useMemo(() => {
-        if(auth) {
+        if (auth) {
             return (
                 getUserComponents
             );

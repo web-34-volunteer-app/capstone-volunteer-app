@@ -82,10 +82,57 @@ export const EventListRow = (props) => {
     }, [setIsPastEventEffect]);
     //END PAST EVENT
 
-    //START Bookmarked Events Section
+    //START FETCH FUNCTIONS
+    const registerThisEvent = useCallback(() => {
+        httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
+            .then(reply => {
+                if (reply.status === 200) {
+                    dispatch(fetchUsersForCoordinator());
+                    dispatch(fetchVolunteersForCoordinator());
+                    dispatch(fetchRegisteredEventByUserId());
+                }
+            });
+    },[dispatch, props.event.eventId]);
 
+    const removeAddBookmark = useCallback(() => {
+        httpConfig.post(`/apis/bookmarkedEvent/${props.event.eventId}`)
+            .then(reply => {
+                if (reply.status === 200) {
+                    dispatch(fetchBookmarkedEventByUserId());
+                }
+            })
+    }, [dispatch, props.event.eventId]);
+
+    const registerBookmarkedEvent = useCallback(() => {
+        registerThisEvent();
+        removeAddBookmark();
+    }, [registerThisEvent, removeAddBookmark]);
+
+    const unRegisterEvent = useCallback(() => {
+        httpConfig.delete(`/apis/volunteer/deleteSelf/${props.event.eventId}`)
+            .then(reply => {
+                if (reply.status === 200) {
+                    dispatch(fetchRegisteredEventByUserId());
+                    dispatch(fetchUsersForCoordinator());
+                    dispatch(fetchVolunteersForCoordinator());
+                }
+            });
+    }, [dispatch, props.event.eventId]);
+
+    const deleteThisEvent = useCallback(() => {
+        httpConfig.delete(`/apis/event/eventId/${props.event.eventId}`)
+            .then(reply => {
+                if (reply.status === 200) {
+                    dispatch(fetchAllEvents());
+                    dispatch(fetchCoordinatedEventByUserId());
+                    alert("Event Deleted");
+                }
+            })
+    }, [dispatch, props.event.eventId]);
+    //END FETCH FUNCTIONS
+
+    //START BOOKMARKED EVENTS
     const initButtonText = () => {
-        //Find initial value of buttonText
         let buttonText = "Bookmark";
         if (bookmarkedEvents) {
             bookmarkedEvents.forEach(bookmark => {
@@ -98,78 +145,30 @@ export const EventListRow = (props) => {
         return buttonText;
     }
 
-    //Check if event is in bookMarkedEvents, set initialState to "Bookmark" if not bookmarked, else "Unbookmark"
     const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
     const [isBookmarked, setIsBookmarked] = useState(bookmarkButtonText !== "Bookmark");
 
-    //Handle bookmark toggle: Check if event matches any bookmarked events, sets bookmark button accordingly
-    const handleBookmarkToggle = () => {
-        let valueSet = false;
-        if (bookmarkedEvents) {
+    const bookmarksEffect = useCallback(() => {
+        let valueSet = false
+        if(bookmarkedEvents) {
             bookmarkedEvents.forEach(bookmark => {
-                if (bookmark.eventId === props.event.eventId) {
+                if(bookmark.eventId === props.event.eventId) {
                     setBookmarkButtonText("Unbookmark");
                     setIsBookmarked(true);
                     valueSet = true;
-                    return null;
                 }
             })
         }
-        if (!valueSet) {
+        if(!valueSet) {
             setBookmarkButtonText("Bookmark");
             setIsBookmarked(false);
         }
-    };
+    }, [bookmarkedEvents, props.event.eventId]);
 
-    useEffect(() => {
-        handleBookmarkToggle();
-    }, [dispatch, bookmarkedEvents]);
-    //END Bookmarked Events Section
+    useEffect(bookmarksEffect,[bookmarksEffect]);
+    //END BOOKMARKED EVENTS
 
-    //START Registered Events Section
-
-    const registerThisEvent = () => {
-        httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchUsersForCoordinator());
-                    dispatch(fetchVolunteersForCoordinator());
-                    dispatch(fetchRegisteredEventByUserId());
-                }
-            });
-        //console.log("Registered Events: " + JSON.stringify(registeredEvents));
-    }
-
-    useEffect(() => {
-        //console.log("Registered Events: " + JSON.stringify(registeredEvents));
-    }, [registeredEvents])
-
-    const registerBookmarkedEvent = () => {
-        registerThisEvent();
-        removeAddBookmark();
-    }
-
-    const removeAddBookmark = () => {
-        httpConfig.post(`/apis/bookmarkedEvent/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchBookmarkedEventByUserId());
-                }
-            })
-    }
-
-    const unRegisterEvent = () => {
-        httpConfig.delete(`/apis/volunteer/deleteSelf/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchRegisteredEventByUserId());
-                    dispatch(fetchUsersForCoordinator());
-                    dispatch(fetchVolunteersForCoordinator());
-                }
-            });
-        //console.log("Registered events: " + JSON.stringify(registeredEvents));
-    }
-
+    //START REGISTERED EVENTS
     const initIsRegistered = () => {
         let isRegistered = false;
         if (registeredEvents) {
@@ -178,31 +177,29 @@ export const EventListRow = (props) => {
                     isRegistered = true;
                     return null;
                 }
-            })
+            });
         }
         return isRegistered;
     }
 
     const [isRegistered, setIsRegistered] = useState(initIsRegistered);
 
-    const initRegisterButton = () => {
-        if (!isRegistered) {
-            return (
-                <Button
-                    className={"registerButton me-2 mt-3 btn-sm"}
-                    key={"registerButton" + props.event.eventId}
-                    id="registerFormSubmit"
-                    variant="primary"
-                    onClick={registerThisEvent}
-                    type="submit"
-                >
-                    Register
-                </Button>
-            );
-        } else {
-            return null;
+    const isRegisteredEffect = useCallback(() => {
+        let valueSet = false;
+        if(registeredEvents) {
+            registeredEvents.forEach(event => {
+                if (event.eventId === props.event.eventId) {
+                    setIsRegistered(true);
+                    valueSet = true;
+                    return null;
+                }
+            });
         }
-    }
+        if(!valueSet) {
+            setIsRegistered(false);
+        }
+    }, [registeredEvents, props.event.eventId]);
+    useEffect(isRegisteredEffect, [isRegisteredEffect]);
 
     const initBookmarkButton = () => {
         if (!isRegistered) {
@@ -223,6 +220,69 @@ export const EventListRow = (props) => {
         }
     }
 
+    const [bookmarkButton, setBookmarkButton] = useState(initBookmarkButton());
+
+    useEffect(() => {
+        if (!isRegistered) {
+            setBookmarkButton (
+                <Button
+                    className={"registerButton me-2 mt-3 btn-sm"}
+                    key={"bookmarkButton" + props.event.eventId}
+                    id="registerFormSubmit"
+                    variant="primary"
+                    onClick={removeAddBookmark}
+                    type="submit"
+                >
+                    {bookmarkButtonText}
+                </Button>
+            );
+        } else {
+            setBookmarkButton(null);
+        }
+    }, [isRegistered, bookmarkButtonText, props.event.eventId, removeAddBookmark]);
+
+    const initRegisterButton = () => {
+        if (!isRegistered) {
+            return (
+                <Button
+                    className={"registerButton me-2 mt-3 btn-sm"}
+                    key={"registerButton" + props.event.eventId}
+                    id="registerFormSubmit"
+                    variant="primary"
+                    onClick={registerThisEvent}
+                    type="submit"
+                >
+                    Register
+                </Button>
+            );
+        } else {
+            return null;
+        }
+    }
+
+    const [registerButton, setRegisterButton] = useState(initRegisterButton());
+
+    const registerButtonEffect = useCallback(() => {
+        if (!isRegistered) {
+            setRegisterButton(
+                <Button
+                    className={"registerButton me-2 mt-3 btn-sm"}
+                    key={"registerButton" + props.event.eventId}
+                    id="registerFormSubmit"
+                    variant="primary"
+                    onClick={registerThisEvent}
+                    type="submit"
+                >
+                    Register
+                </Button>
+            );
+        } else {
+            setRegisterButton(null);
+        }
+    }, [isRegistered, props.event.eventId, registerThisEvent]);
+
+    useEffect(registerButtonEffect, [registerButtonEffect]);
+
     const initUnregisterButton = () => {
         return (
             <Button
@@ -238,38 +298,10 @@ export const EventListRow = (props) => {
         )
     }
 
-    const [registerButton, setRegisterButton] = useState(initRegisterButton());
-    const [bookmarkButton, setBookmarkButton] = useState(initBookmarkButton());
     const unregisterButton = initUnregisterButton();
+    //END REGISTERED EVENTS
 
-    const handleRegisterEvent = () => {
-        let valueSet = false;
-        if (registeredEvents) {
-            registeredEvents.forEach(event => {
-                if (event.eventId === props.event.eventId) {
-                    setIsRegistered(true);
-                    setRegisterButton(null);
-                    setBookmarkButton(null);
-                    valueSet = true;
-                    return null;
-                }
-            })
-        }
-        if (!valueSet) {
-            setIsRegistered(false);
-            setRegisterButton(initRegisterButton());
-            setBookmarkButton(initBookmarkButton());
-        }
-        //console.log("register button: " + registerButton + ", isRegistered: " + isRegistered);
-    }
-
-    useEffect(() => {
-        handleRegisterEvent();
-    }, [dispatch, registeredEvents]);
-    //END Registered Events Section
-
-    //START Coordinated Events Section
-
+    //START COORDINATED EVENTS
     const initIsCoordinated = () => {
         let isCoordinated = false;
         if (coordinatedEvents && currentUser) {
@@ -278,33 +310,33 @@ export const EventListRow = (props) => {
                     isCoordinated = true;
                     return null;
                 }
-            })
+            });
         }
         return isCoordinated;
     }
 
     const [isCoordinated, setIsCoordinated] = useState(initIsCoordinated());
 
-    useEffect(() => {
-        setIsCoordinated(initIsCoordinated());
-    })
-
-    //END Coordinated Events Section
-
-    //START Fetch Functions
-    const deleteThisEvent = () => {
-        httpConfig.delete(`/apis/event/eventId/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchAllEvents());
-                    dispatch(fetchCoordinatedEventByUserId());
-                    alert("Event Deleted");
+    const isCoordinatedEffect = useCallback(() => {
+        let valueSet = false;
+        if (coordinatedEvents && currentUser) {
+            coordinatedEvents.forEach(event => {
+                if(event.eventUserId === currentUser.userId) {
+                    setIsCoordinated(true);
+                    valueSet = true;
+                    return null;
                 }
-            })
-    }
-    //END Fetch Functions
+            });
+        }
+        if(!valueSet) {
+            setIsCoordinated(false);
+        }
+    }, [coordinatedEvents, currentUser]);
 
-    //START Component Set Up Functions
+    useEffect(isCoordinatedEffect, [isCoordinatedEffect]);
+    //END COORDINATED EVENTS
+
+    //START COMPONENT SET UP FUNCTIONS
     const getButton = (option) => {
         switch (option) {
             case "register":
@@ -380,7 +412,7 @@ export const EventListRow = (props) => {
         }
     }
 
-    const displayComponents = () => {
+    const displayInnerComponents = () => {
         let components = [];
         switch (props.type) {
             case "localEvent":
@@ -416,7 +448,9 @@ export const EventListRow = (props) => {
         }
     }
 
-    const displayHeader = () => {
+
+
+    const initHeader = () => {
         let status;
         if (props.type === 'localEvent') {
             if (isBookmarked) {
@@ -430,7 +464,7 @@ export const EventListRow = (props) => {
             }
         }
 
-        let date =
+        const date =
             <h6 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}>
                 <strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}
             </h6>
@@ -477,22 +511,131 @@ export const EventListRow = (props) => {
                 )
         }
     }
+
+    const [header, setHeader] = useState(initHeader());
+
+    const headerEffect = useCallback(() => {
+        let status;
+        if (props.type === 'localEvent') {
+            if (isBookmarked) {
+                status = "bookmarked";
+            }
+            if (isRegistered) {
+                status = "registered";
+            }
+            if (isCoordinated) {
+                status = "coordinated";
+            }
+        }
+
+        const date =
+            <h6 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}>
+                <strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}
+            </h6>
+
+        switch (status) {
+            case 'bookmarked':
+                setHeader (
+                    <>
+                        <h6 className={"isBookmarked col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                            <em>{" BOOKMARKED"}</em>
+                        </h6>
+                        {date}
+                    </>
+                )
+                break;
+            case 'registered':
+                setHeader (
+                    <>
+                        <h6 className={"isRegistered col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                            <em>{" REGISTERED"}</em>
+                        </h6>
+                        {date}
+                    </>
+                )
+                break;
+            case 'coordinated':
+                setHeader (
+                    <>
+                        <h6 className={"isCoordinated col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                            <em>{" COORDINATING"}</em>
+                        </h6>
+                        {date}
+                    </>
+                )
+                break;
+            default:
+                setHeader (
+                    <>
+                        <h6 className={"col-7"}>
+                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
+                        </h6>
+                        {date}
+                    </>
+                )
+                break;
+        }
+    }, [isBookmarked,
+        isRegistered,
+        isCoordinated,
+        isPastEvent,
+        props.event.eventDate,
+        props.event.eventOrganization,
+        props.event.eventTitle,
+        props.type
+    ])
+
+    useEffect(headerEffect, [headerEffect]);
     //END Component Set Up Functions
 
+    const initEventVisible = () => {
+        if (props.type === "localEvent") {
+            if (isPastEvent) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const [eventVisible, setEventVisible] = useState(initEventVisible());
+
+    useEffect(() => {
+        if (props.type === "localEvent") {
+            if (isPastEvent) {
+                setEventVisible(false);
+            }
+        } else {
+            setEventVisible(true);
+        }
+    }, [isPastEvent, props.type]);
+
+    const displayComponents = () => {
+        const component =
+            eventVisible ?
+            (<Accordion.Item eventKey={props.event.eventId}>
+                <Accordion.Header>
+                    {header}
+                </Accordion.Header>
+                <Accordion.Body>
+                    <p><strong>Description: </strong>{props.event.eventDescription}</p>
+                    <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
+                        Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
+                    <p><strong>Address:</strong> {props.event.eventAddress} </p>
+                    <p><strong>Transportation
+                        provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
+                    </p>
+                    {auth ? displayInnerComponents() : null}
+                </Accordion.Body>
+            </Accordion.Item>)
+            :
+            null;
+        return component;
+    }
+
     return (
-        <Accordion.Item eventKey={props.event.eventId}>
-            <Accordion.Header>
-                {displayHeader()}
-            </Accordion.Header>
-            <Accordion.Body>
-                <p><strong>Description: </strong>{props.event.eventDescription}</p>
-                <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
-                    Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
-                <p><strong>Address:</strong> {props.event.eventAddress} </p>
-                <p><strong>Transportation provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
-                </p>
-                {auth ? displayComponents() : null}
-            </Accordion.Body>
-        </Accordion.Item>
+        displayComponents()
     )
 }
