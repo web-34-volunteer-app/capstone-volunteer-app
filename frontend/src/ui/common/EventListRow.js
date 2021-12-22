@@ -1,27 +1,22 @@
 import React, {useState, useEffect, useContext, useCallback} from "react";
-import {MapContext, StoreContext} from "../main/Home";
-import {Accordion, AccordionContext, Button} from "react-bootstrap";
+import {EventListContext, MapContext, StoreContext} from "../main/Home";
+import {Accordion, AccordionContext} from "react-bootstrap";
 import {VolunteerList} from "./VolunteerList";
-
-import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
-import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
-import {fetchUsersForCoordinator} from "../../store/usersForCoordinator";
-import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinator";
-import {fetchAllEvents} from "../../store/event";
-import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurrentuser";
-import {httpConfig} from "../../utils/httpConfig";
 
 import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
 import {ValidateHoursVolunteerForm} from "../forms/ValidateHoursVolunteerForm";
+import {EventButton} from "./EventButton";
+import {EventContext} from "./EventList";
 
+export const EventStatusContext = React.createContext("eventStatusContext");
 
 export const EventListRow = (props) => {
+    //START PROPS AND CONTEXTS SETUP
+    const {setActiveEvent} = useContext(MapContext);
+    const {activeEventKey} = useContext(AccordionContext);
+    const {eventType} = useContext(EventListContext);
+    const {event} = useContext(EventContext);
     const {
-        setActiveEvent
-    } = useContext(MapContext);
-
-    const {
-        dispatch,
         auth,
         currentUser,
         allEvents,
@@ -29,22 +24,161 @@ export const EventListRow = (props) => {
         registeredEvents,
         bookmarkedEvents
     } = useContext(StoreContext);
+    //END PROPS AND CONTEXTS SETUP
 
-    //START MAP POPUP TOGGLE
-    const {activeEventKey} = useContext(AccordionContext);
+    //START INIT STATUS FUNCTIONS
+    const initIsBookmarked = () => {
+        let bookmarked = false;
+        if (bookmarkedEvents) {
+            bookmarkedEvents.every(bookmark => {
+                if (bookmark.eventId === event.eventId) {
+                    bookmarked = true;
+                    return false;
+                }
+                return true;
+            });
+        }
+        return bookmarked;
+    }
 
+    const initIsRegistered = () => {
+        let isRegistered = false;
+        if (registeredEvents) {
+            registeredEvents.every(registeredEvent => {
+                if (registeredEvent.eventId === event.eventId) {
+                    isRegistered = true;
+                    return false;
+                }
+                return true;
+            });
+        }
+        return isRegistered;
+    }
+
+    const initIsCoordinated = () => {
+        let isCoordinated = false;
+        if (coordinatedEvents && currentUser) {
+            coordinatedEvents.every(event => {
+                if (event.eventUserId === currentUser.userId) {
+                    isCoordinated = true;
+                    return false;
+                }
+                return true;
+            });
+        }
+        return isCoordinated;
+    }
+
+    const initEventStatus = () => {
+        let status = "open";
+        if (eventType === 'localEvent') {
+            if (initIsBookmarked()) {
+                status = "bookmarked";
+            } else if (initIsRegistered()) {
+                status = "registered";
+            } else if (initIsCoordinated()) {
+                status = "coordinated";
+            }
+        }
+        return (
+            {
+                status: status,
+                isPast: isPast(event.eventEndTime)
+            }
+        );
+    }
+
+    const initHeader = () => {
+        const date =
+            <h6 className={initEventStatus().isPast ? "isPast ms-auto" : "ms-auto"}>
+                <strong>Date:</strong> {dateTimeToDate(event.eventDate)}
+            </h6>
+
+        if (eventType === 'localEvent') {
+            switch (initEventStatus().status) {
+                case 'bookmarked':
+                    return (
+                        <>
+                            <h6 className={"isBookmarked col-7"}>
+                                <strong>{event.eventTitle}</strong> | {event.eventOrganization}
+                                <em>{" BOOKMARKED"}</em>
+                            </h6>
+                            {date}
+                        </>
+                    )
+                case 'registered':
+                    return (
+                        <>
+                            <h6 className={"isRegistered col-7"}>
+                                <strong>{event.eventTitle}</strong> | {event.eventOrganization}
+                                <em>{" REGISTERED"}</em>
+                            </h6>
+                            {date}
+                        </>
+                    )
+                case 'coordinated':
+                    return (
+                        <>
+                            <h6 className={"isCoordinated col-7"}>
+                                <strong>{event.eventTitle}</strong> | {event.eventOrganization}
+                                <em>{" COORDINATING"}</em>
+                            </h6>
+                            {date}
+                        </>
+                    )
+                default:
+                    return (
+                        <>
+                            <h6 className={"col-7"}>
+                                <strong>{event.eventTitle}</strong> | {event.eventOrganization}
+                            </h6>
+                            {date}
+                        </>
+                    )
+            }
+        } else {
+            return (
+                <>
+                    <h6 className={"col-7"}>
+                        <strong>{event.eventTitle}</strong> | {event.eventOrganization}
+                    </h6>
+                    {date}
+                </>
+            )
+        }
+    }
+
+    const initEventVisible = () => {
+        if (eventType === "localEvent") {
+            if (initEventStatus().isPast) {
+                return false;
+            }
+        }
+        return true;
+    }
+    //END INIT STATUS FUNCTIONS
+
+    //START STATE HOOKS
+    const [eventStatus, setEventStatus] = useState(initEventStatus());
+    const [header, setHeader] = useState(initHeader());
+    const [eventVisible, setEventVisible] = useState(initEventVisible());
+    //END STATE HOOKS
+
+    //START UTILITY FUNCTIONS
     const getEvent = useCallback((eventId) => {
-        let thisEvent = null;
+        let targetEvent = null;
         allEvents.forEach(event => {
             if (event.eventId === eventId) {
-                thisEvent = event;
+                targetEvent = event;
             }
         });
-        return thisEvent;
+        return targetEvent;
     }, [allEvents]);
+    //END UTILITY FUNCTION
 
+    //START EFFECTS SECTION
     const mapPopupFromLocalEventEffect = useCallback(() => {
-        if (props.type === "localEvent") {
+        if (eventType === "localEvent") {
             if (activeEventKey) {
                 setActiveEvent(getEvent(activeEventKey));
             } else {
@@ -52,590 +186,162 @@ export const EventListRow = (props) => {
             }
         }
     }, [
-        props.type,
+        eventType,
         activeEventKey,
         setActiveEvent,
         getEvent
     ]);
 
-    useEffect(() => {
-        mapPopupFromLocalEventEffect();
-    }, [mapPopupFromLocalEventEffect]);
+    const setIsPastEventEffect = useCallback(() => {
+        setEventStatus({
+            status: eventStatus.status,
+            isPast: isPast(event.eventEndTime)
+        });
+    }, [setEventStatus,
+        eventStatus.status,
+        event.eventEndTime]);
+    //END EFFECTS SECTION
+
+    //START MAP POPUP TOGGLE
+    useEffect(mapPopupFromLocalEventEffect, [mapPopupFromLocalEventEffect]);
     //END MAP POPUP TOGGLE
 
     //START PAST EVENT
-    const isPast = useCallback((pastDate) => {
-        const today = new Date();
-        const eventDate = new Date(pastDate);
-        const past = today.getTime() > eventDate.getTime();
-        return (past);
-    }, []);
-
-    const [isPastEvent, setIsPastEvent] = useState(isPast(props.event.eventEndTime));
-
-    const setIsPastEventEffect = useCallback(() => {
-        setIsPastEvent(isPast(props.event.eventEndTime));
-    }, [setIsPastEvent, isPast, props.event.eventEndTime]);
-
-    useEffect(() => {
-        setIsPastEventEffect();
-    }, [setIsPastEventEffect]);
+    useEffect(setIsPastEventEffect, [setIsPastEventEffect]);
     //END PAST EVENT
 
-    //START FETCH FUNCTIONS
-    const registerThisEvent = useCallback(() => {
-        httpConfig.post(`/apis/volunteer/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchUsersForCoordinator());
-                    dispatch(fetchVolunteersForCoordinator());
-                    dispatch(fetchRegisteredEventByUserId());
-                }
-            });
-    },[dispatch, props.event.eventId]);
+    //useEffect(setHeaderEffect, [setHeaderEffect]);
 
-    const removeAddBookmark = useCallback(() => {
-        httpConfig.post(`/apis/bookmarkedEvent/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchBookmarkedEventByUserId());
-                }
-            })
-    }, [dispatch, props.event.eventId]);
-
-    const registerBookmarkedEvent = useCallback(() => {
-        registerThisEvent();
-        removeAddBookmark();
-    }, [registerThisEvent, removeAddBookmark]);
-
-    const unRegisterEvent = useCallback(() => {
-        httpConfig.delete(`/apis/volunteer/deleteSelf/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchRegisteredEventByUserId());
-                    dispatch(fetchUsersForCoordinator());
-                    dispatch(fetchVolunteersForCoordinator());
-                }
-            });
-    }, [dispatch, props.event.eventId]);
-
-    const deleteThisEvent = useCallback(() => {
-        httpConfig.delete(`/apis/event/eventId/${props.event.eventId}`)
-            .then(reply => {
-                if (reply.status === 200) {
-                    dispatch(fetchAllEvents());
-                    dispatch(fetchCoordinatedEventByUserId());
-                    alert("Event Deleted");
-                }
-            })
-    }, [dispatch, props.event.eventId]);
-    //END FETCH FUNCTIONS
-
-    //START BOOKMARKED EVENTS
-    const initButtonText = () => {
-        let buttonText = "Bookmark";
-        if (bookmarkedEvents) {
-            bookmarkedEvents.forEach(bookmark => {
-                if (bookmark.eventId === props.event.eventId) {
-                    buttonText = "Unbookmark";
-                    return null;
-                }
-            })
-        }
-        return buttonText;
-    }
-
-    const [bookmarkButtonText, setBookmarkButtonText] = useState(initButtonText());
-    const [isBookmarked, setIsBookmarked] = useState(bookmarkButtonText !== "Bookmark");
-
-    const bookmarksEffect = useCallback(() => {
-        let valueSet = false
-        if(bookmarkedEvents) {
-            bookmarkedEvents.forEach(bookmark => {
-                if(bookmark.eventId === props.event.eventId) {
-                    setBookmarkButtonText("Unbookmark");
-                    setIsBookmarked(true);
-                    valueSet = true;
-                }
-            })
-        }
-        if(!valueSet) {
-            setBookmarkButtonText("Bookmark");
-            setIsBookmarked(false);
-        }
-    }, [bookmarkedEvents, props.event.eventId]);
-
-    useEffect(bookmarksEffect,[bookmarksEffect]);
-    //END BOOKMARKED EVENTS
-
-    //START REGISTERED EVENTS
-    const initIsRegistered = () => {
-        let isRegistered = false;
-        if (registeredEvents) {
-            registeredEvents.forEach(event => {
-                if (event.eventId === props.event.eventId) {
-                    isRegistered = true;
-                    return null;
-                }
-            });
-        }
-        return isRegistered;
-    }
-
-    const [isRegistered, setIsRegistered] = useState(initIsRegistered);
-
-    const isRegisteredEffect = useCallback(() => {
-        let valueSet = false;
-        if(registeredEvents) {
-            registeredEvents.forEach(event => {
-                if (event.eventId === props.event.eventId) {
-                    setIsRegistered(true);
-                    valueSet = true;
-                    return null;
-                }
-            });
-        }
-        if(!valueSet) {
-            setIsRegistered(false);
-        }
-    }, [registeredEvents, props.event.eventId]);
-    useEffect(isRegisteredEffect, [isRegisteredEffect]);
-
-    const initBookmarkButton = () => {
-        if (!isRegistered) {
-            return (
-                <Button
-                    className={"registerButton me-2 mt-3 btn-sm"}
-                    key={"bookmarkButton" + props.event.eventId}
-                    id="registerFormSubmit"
-                    variant="primary"
-                    onClick={removeAddBookmark}
-                    type="submit"
-                >
-                    {bookmarkButtonText}
-                </Button>
-            );
-        } else {
-            return null;
-        }
-    }
-
-    const [bookmarkButton, setBookmarkButton] = useState(initBookmarkButton());
-
-    useEffect(() => {
-        if (!isRegistered) {
-            setBookmarkButton (
-                <Button
-                    className={"registerButton me-2 mt-3 btn-sm"}
-                    key={"bookmarkButton" + props.event.eventId}
-                    id="registerFormSubmit"
-                    variant="primary"
-                    onClick={removeAddBookmark}
-                    type="submit"
-                >
-                    {bookmarkButtonText}
-                </Button>
-            );
-        } else {
-            setBookmarkButton(null);
-        }
-    }, [isRegistered, bookmarkButtonText, props.event.eventId, removeAddBookmark]);
-
-    const initRegisterButton = () => {
-        if (!isRegistered) {
-            return (
-                <Button
-                    className={"registerButton me-2 mt-3 btn-sm"}
-                    key={"registerButton" + props.event.eventId}
-                    id="registerFormSubmit"
-                    variant="primary"
-                    onClick={registerThisEvent}
-                    type="submit"
-                >
-                    Register
-                </Button>
-            );
-        } else {
-            return null;
-        }
-    }
-
-    const [registerButton, setRegisterButton] = useState(initRegisterButton());
-
-    const registerButtonEffect = useCallback(() => {
-        if (!isRegistered) {
-            setRegisterButton(
-                <Button
-                    className={"registerButton me-2 mt-3 btn-sm"}
-                    key={"registerButton" + props.event.eventId}
-                    id="registerFormSubmit"
-                    variant="primary"
-                    onClick={registerThisEvent}
-                    type="submit"
-                >
-                    Register
-                </Button>
-            );
-        } else {
-            setRegisterButton(null);
-        }
-    }, [isRegistered, props.event.eventId, registerThisEvent]);
-
-    useEffect(registerButtonEffect, [registerButtonEffect]);
-
-    const initUnregisterButton = () => {
-        return (
-            <Button
-                className={"unregisteredButton me-2 mt-3 btn-sm"}
-                key={"unregisterButton" + props.event.eventId}
-                id="registerFormSubmit"
-                onClick={unRegisterEvent}
-                variant="warning"
-                type="submit"
-            >
-                Unregister
-            </Button>
-        )
-    }
-
-    const unregisterButton = initUnregisterButton();
-    //END REGISTERED EVENTS
-
-    //START COORDINATED EVENTS
-    const initIsCoordinated = () => {
-        let isCoordinated = false;
-        if (coordinatedEvents && currentUser) {
-            coordinatedEvents.forEach(event => {
-                if (event.eventUserId === currentUser.userId) {
-                    isCoordinated = true;
-                    return null;
-                }
-            });
-        }
-        return isCoordinated;
-    }
-
-    const [isCoordinated, setIsCoordinated] = useState(initIsCoordinated());
-
-    const isCoordinatedEffect = useCallback(() => {
-        let valueSet = false;
-        if (coordinatedEvents && currentUser) {
-            coordinatedEvents.forEach(event => {
-                if(event.eventUserId === currentUser.userId) {
-                    setIsCoordinated(true);
-                    valueSet = true;
-                    return null;
-                }
-            });
-        }
-        if(!valueSet) {
-            setIsCoordinated(false);
-        }
-    }, [coordinatedEvents, currentUser]);
-
-    useEffect(isCoordinatedEffect, [isCoordinatedEffect]);
-    //END COORDINATED EVENTS
-
-    //START COMPONENT SET UP FUNCTIONS
-    const getButton = (option) => {
-        switch (option) {
-            case "register":
-                return (
-                    registerButton
-                )
-            case "delete":
-                return (
-                    <Button
-                        className={"registerButton me-2 mt-3 btn-sm"}
-                        key={"deleteButton" + props.event.eventId}
-                        id="registerFormSubmit"
-                        variant="primary"
-                        onClick={deleteThisEvent}
-                        type="submit"
-                    >
-                        Delete
-                    </Button>
-                )
-            case "bookmarkRegister":
-                return (
-                    <Button
-                        className={"registerButton me-2 mt-3 btn-sm"}
-                        key={"registerBookmarkButton" + props.event.eventId}
-                        id="registerFormSubmit"
-                        variant="primary"
-                        onClick={registerBookmarkedEvent}
-                        type="submit"
-                    >
-                        Register
-                    </Button>
-                )
-            case "bookmarkToggle":
-                return (bookmarkButton);
-            case "bookmarkRemove":
-                return (
-                    <Button
-                        className={"removeButton me-2 mt-3 btn-sm"}
-                        key={"unbookmarkButton" + props.event.eventId}
-                        id="registerFormSubmit"
-                        variant="warning"
-                        onClick={removeAddBookmark}
-                        type="submit"
-                    >
-                        Remove
-                    </Button>
-                )
-            case "unregister":
-                return (unregisterButton);
-            default:
-                return null;
-        }
-    }
-
-    const getVolunteerList = () => {
+    //START VOLUNTEER LIST COMPONENT
+    const getVolunteerList = useCallback(() => {
         return (
             <VolunteerList
-                key={'volunteerList' + props.event.eventId}
-                event={props.event}
-                isPast={isPastEvent}
+                key={'volunteerList' + event.eventId}
+                event={event}
+                isPast={eventStatus.isPast}
             />
-        )
-    }
+        );
+    }, [event, eventStatus.isPast]);
+    //END VOLUNTEER LIST COMPONENT
 
-    const displayValidateHoursForm = () => {
-        if (isPastEvent && currentUser) {
+    //START VALIDATE HOURS FORM COMPONENT
+    const displayValidateHoursForm = useCallback(() => {
+        if (eventStatus.isPast && currentUser) {
             return (
                 <ValidateHoursVolunteerForm
-                    key={'validateHoursForm' + props.event.eventId}
-                    event={props.event}
+                    key={'validateHoursForm' + event.eventId}
+                    event={event}
                     user={currentUser}
-                />)
+                />);
         }
-    }
+    }, [eventStatus.isPast, currentUser, event]);
+    //END VALIDATE HOURS FORM COMPONENT
 
-    const displayInnerComponents = () => {
+    //START EVENT FUNCTIONAL COMPONENTS SECTION
+    const getEventButton = useCallback((option) => {
+        return (
+            <EventStatusContext.Provider
+                value={{
+                    eventStatus: eventStatus,
+                    setEventStatus: setEventStatus,
+                    header: header,
+                    setHeader: setHeader
+                }}
+                key={"eventStatusContextProvider" + option}
+            >
+                <EventButton
+                    option={option}
+                    key={"eventButton" + option + event.eventId}
+                />
+            </EventStatusContext.Provider>
+        );
+    }, [eventStatus,
+        setEventStatus,
+        header,
+        event.eventId]);
+
+    const displayInnerComponents = useCallback(() => {
         let components = [];
-        switch (props.type) {
+        switch (eventType) {
             case "localEvent":
                 if (currentUser) {
-                    if (currentUser.userId === props.event.eventUserId) {
+                    if (currentUser.userId === event.eventUserId) {
                         return components;
                     }
                 }
-                if (!isRegistered) {
-                    components.push(registerButton);
-                    components.push(bookmarkButton);
-                }
+                components.push(getEventButton("register"));
+                components.push(getEventButton("bookmarkToggle"));
                 return components;
             case "coordinatedEvent":
                 components.push(getVolunteerList());
-                if (!isPastEvent) {
-                    components.push(getButton("delete"));
-                }
+                components.push(getEventButton("delete"));
                 return components;
             case "registeredEvent":
-                if (!isPastEvent) {
-                    components.push(unregisterButton);
-                } else {
+                components.push(getEventButton("unregister"));
+                if (eventStatus.isPast) {
                     components.push(displayValidateHoursForm());
                 }
                 return components;
-            case "bookmarkedEvent":
-                components.push(getButton("bookmarkRegister"));
-                components.push(getButton("bookmarkRemove"));
-                return components;
             default:
                 return components;
         }
-    }
+    }, [eventType,
+        currentUser,
+        event.eventUserId,
+        eventStatus,
+        getEventButton,
+        getVolunteerList,
+        displayValidateHoursForm]);
+    //END EVENT FUNCTION COMPONENTS SECTION
 
+    //START EVENT HEADER SECTION
+    // const headerEffectCallback = useCallback(headerEffect, [headerEffect]);
 
+    //END EVENT HEADER SECTION
 
-    const initHeader = () => {
-        let status;
-        if (props.type === 'localEvent') {
-            if (isBookmarked) {
-                status = "bookmarked";
-            }
-            if (isRegistered) {
-                status = "registered";
-            }
-            if (isCoordinated) {
-                status = "coordinated";
-            }
-        }
-
-        const date =
-            <h6 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}>
-                <strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}
-            </h6>
-
-        switch (status) {
-            case 'bookmarked':
-                return (
-                    <>
-                        <h6 className={"isBookmarked col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                            <em>{" BOOKMARKED"}</em>
-                        </h6>
-                        {date}
-                    </>
-                )
-            case 'registered':
-                return (
-                    <>
-                        <h6 className={"isRegistered col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                            <em>{" REGISTERED"}</em>
-                        </h6>
-                        {date}
-                    </>
-                )
-            case 'coordinated':
-                return (
-                    <>
-                        <h6 className={"isCoordinated col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                            <em>{" COORDINATING"}</em>
-                        </h6>
-                        {date}
-                    </>
-                )
-            default:
-                return (
-                    <>
-                        <h6 className={"col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                        </h6>
-                        {date}
-                    </>
-                )
-        }
-    }
-
-    const [header, setHeader] = useState(initHeader());
-
-    const headerEffect = useCallback(() => {
-        let status;
-        if (props.type === 'localEvent') {
-            if (isBookmarked) {
-                status = "bookmarked";
-            }
-            if (isRegistered) {
-                status = "registered";
-            }
-            if (isCoordinated) {
-                status = "coordinated";
-            }
-        }
-
-        const date =
-            <h6 className={isPastEvent ? "isPast ms-auto" : "ms-auto"}>
-                <strong>Date:</strong> {dateTimeToDate(props.event.eventDate)}
-            </h6>
-
-        switch (status) {
-            case 'bookmarked':
-                setHeader (
-                    <>
-                        <h6 className={"isBookmarked col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                            <em>{" BOOKMARKED"}</em>
-                        </h6>
-                        {date}
-                    </>
-                )
-                break;
-            case 'registered':
-                setHeader (
-                    <>
-                        <h6 className={"isRegistered col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                            <em>{" REGISTERED"}</em>
-                        </h6>
-                        {date}
-                    </>
-                )
-                break;
-            case 'coordinated':
-                setHeader (
-                    <>
-                        <h6 className={"isCoordinated col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                            <em>{" COORDINATING"}</em>
-                        </h6>
-                        {date}
-                    </>
-                )
-                break;
-            default:
-                setHeader (
-                    <>
-                        <h6 className={"col-7"}>
-                            <strong>{props.event.eventTitle}</strong> | {props.event.eventOrganization}
-                        </h6>
-                        {date}
-                    </>
-                )
-                break;
-        }
-    }, [isBookmarked,
-        isRegistered,
-        isCoordinated,
-        isPastEvent,
-        props.event.eventDate,
-        props.event.eventOrganization,
-        props.event.eventTitle,
-        props.type
-    ])
-
-    useEffect(headerEffect, [headerEffect]);
-    //END Component Set Up Functions
-
-    const initEventVisible = () => {
-        if (props.type === "localEvent") {
-            if (isPastEvent) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    const [eventVisible, setEventVisible] = useState(initEventVisible());
-
+    //START VISIBILITY FUNCTION
     useEffect(() => {
-        if (props.type === "localEvent") {
-            if (isPastEvent) {
+        if (eventType === "localEvent") {
+            if (eventStatus.isPast) {
                 setEventVisible(false);
             }
         } else {
             setEventVisible(true);
         }
-    }, [isPastEvent, props.type]);
+    }, [eventStatus.isPast, eventType]);
+    //END VISIBILITY FUNCTION
 
     const displayComponents = () => {
         const component =
             eventVisible ?
-            (<Accordion.Item eventKey={props.event.eventId}>
-                <Accordion.Header>
-                    {header}
-                </Accordion.Header>
-                <Accordion.Body>
-                    <p><strong>Description: </strong>{props.event.eventDescription}</p>
-                    <p><strong>Start Time: </strong> {dateTimeToTime(props.event.eventStartTime)} | <strong>End
-                        Time:</strong> {dateTimeToTime(props.event.eventEndTime)}</p>
-                    <p><strong>Address:</strong> {props.event.eventAddress} </p>
-                    <p><strong>Transportation
-                        provided?</strong> {props.event.eventDescriptionTransportation ? "Yes" : "No"}
-                    </p>
-                    {auth ? displayInnerComponents() : null}
-                </Accordion.Body>
-            </Accordion.Item>)
-            :
-            null;
+                (<Accordion.Item eventKey={event.eventId}>
+                    <Accordion.Header>
+                        {header}
+                    </Accordion.Header>
+                    <Accordion.Body>
+                        <p><strong>Description: </strong>{event.eventDescription}</p>
+                        <p><strong>Start Time: </strong> {dateTimeToTime(event.eventStartTime)} | <strong>End
+                            Time:</strong> {dateTimeToTime(event.eventEndTime)}</p>
+                        <p><strong>Address:</strong> {event.eventAddress} </p>
+                        <p><strong>Transportation
+                            provided?</strong> {event.eventDescriptionTransportation ? "Yes" : "No"}
+                        </p>
+                        {auth ? displayInnerComponents() : null}
+                    </Accordion.Body>
+                </Accordion.Item>)
+                :
+                null;
         return component;
     }
 
     return (
         displayComponents()
     )
+}
+
+const isPast = (pastDate) => {
+    const today = new Date();
+    const eventDate = new Date(pastDate);
+    const past = today.getTime() > eventDate.getTime();
+    return (past);
 }

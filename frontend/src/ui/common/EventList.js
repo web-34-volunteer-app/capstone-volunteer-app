@@ -2,7 +2,9 @@ import React, {useContext} from "react";
 import {Accordion, Col} from "react-bootstrap";
 import {EventListRow} from "./EventListRow";
 
-import {StoreContext} from "../main/Home";
+import {EventListContext, StoreContext} from "../main/Home";
+
+export const EventContext = React.createContext("eventContext");
 
 export function EventList(props) {
     const {
@@ -11,50 +13,37 @@ export function EventList(props) {
         registeredEvents,
     } = useContext(StoreContext);
 
+    const {
+        eventType
+    } = useContext(EventListContext);
+
     const eventList = () => {
-        switch (props.option) {
-            case 'allEvents':
-                return eventRows('allEvents', allEvents);
-            case 'coordinatedEvents':
-                return eventRows('coordinatedEvents', coordinatedEvents);
-            case 'registeredEvents':
-                return eventRows('registeredEvents', registeredEvents);
+        switch (eventType) {
+            case 'localEvent':
+                return eventRows(eventType, allEvents);
+            case 'coordinatedEvent':
+                return eventRows(eventType, coordinatedEvents);
+            case 'registeredEvent':
+                return eventRows(eventType, registeredEvents);
             default:
                 return null;
         }
     }
 
+    //Options: localEvent, coordinatedEvent, registeredEvent
     const eventRows = (option, selector) => {
-        if (selector) {
-            switch (option) {
-                case 'allEvents':
-                    return selector.map(event =>
-                        <EventListRow
-                            type={'localEvent'}
-                            event={event}
-                            key={'localEvent' + event.eventId}
-                            registerButton={true}
-                            bookmarkButton={true}
-                        />);
-                case 'coordinatedEvents':
-                    return selector.map(event =>
-                        <EventListRow
-                            type={'coordinatedEvent'}
-                            event={event}
-                            key={'coordinatedEvent' + event.eventId}
-                            deleteButton={true}
-                        />);
-                case 'registeredEvents':
-                    return selector.map(event =>
-                        <EventListRow
-                            type={'registeredEvent'}
-                            event={event}
-                            key={'registeredEvent' + event.eventId}
-                            unregisterButton={true}
-                        />);
-                default:
-                    return null;
-            }
+        if(selector) {
+            return selector.map(event =>
+                <EventContext.Provider
+                    value={{event: event}}
+                    key={"eventContextProvider"+option+event.eventId}
+                >
+                    <EventListRow
+                        type={option}
+                        key={option+event.eventId}
+                    />
+                </EventContext.Provider>
+            );
         }
         return null;
     }

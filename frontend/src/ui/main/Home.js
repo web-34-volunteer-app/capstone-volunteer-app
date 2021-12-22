@@ -16,6 +16,7 @@ import {fetchAuth} from "../../store/auth";
 
 export const StoreContext = React.createContext("storeContext");
 export const MapContext = React.createContext("mapContext");
+export const EventListContext = React.createContext("eventList");
 
 export function Home() {
     const dispatch = useDispatch();
@@ -37,20 +38,23 @@ export function Home() {
             <>
                 <UserOverview key={'userOverview'}/>
                 <Row>
-                    <EventList
-                        key={'coordinatedEvents'}
-                        option={'coordinatedEvents'}
-                        header={"Events I'm Coordinating"}
-                        colSide={6}
-                        colClass={"mb-4"}
-                    />
-                    <EventList
-                        key={'registeredEvents'}
-                        option={'registeredEvents'}
-                        header={"Events I'm Attending"}
-                        colSize={6}
-                        colClass={"mb-4"}
-                    />
+                    <EventListContext.Provider value={{eventType: 'coordinatedEvent'}}>
+                        <EventList
+                            key={'coordinatedEventsList'}
+                            header={"Events I'm Coordinating"}
+                            colSide={6}
+                            colClass={"mb-4"}
+                        />
+                    </EventListContext.Provider>
+                    <EventListContext.Provider value={{eventType: 'registeredEvent'}}>
+                        <EventList
+                            key={'registeredEvents'}
+                            header={"Events I'm Attending"}
+                            colSize={6}
+                            colClass={"mb-4"}
+                        />
+                    </EventListContext.Provider>
+
                 </Row>
             </>
         );
@@ -83,13 +87,14 @@ export function Home() {
                             />
                         </div>
                     </Col>
-                    <EventList
-                        key={'allEvents'}
-                        option={'allEvents'}
-                        header={'Local Events'}
-                        colSize={6}
-                        colClass={""}
-                    />
+                    <EventListContext.Provider value={{eventType: 'localEvent'}}>
+                        <EventList
+                            key={'allEvents'}
+                            header={'Local Events'}
+                            colSize={6}
+                            colClass={""}
+                        />
+                    </EventListContext.Provider>
                 </Row>
             </>
         );
