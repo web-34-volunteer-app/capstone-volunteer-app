@@ -447,5 +447,5 @@ export const EventButton = (props) => {
 
     return (
         getButton(props.option)
-    )
+    );
 }

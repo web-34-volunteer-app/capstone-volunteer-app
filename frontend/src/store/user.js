@@ -10,11 +10,11 @@ const userSlice = createSlice({
             return action.payload
         }
     }
-})
+});
 
-export const {getUserByUserId} = userSlice.actions
+export const {getUserByUserId} = userSlice.actions;
 
-export default userSlice.reducer
+export default userSlice.reducer;
 
 export const fetchUserByUserId = () => async (dispatch, getState) => {
     await dispatch(fetchAuth())

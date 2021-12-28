@@ -1,13 +1,18 @@
-import React from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {useContext} from "react";
+import {useSelector} from "react-redux";
 
 import {VolunteerListRow} from "./VolunteerListRow"
 import {Accordion, Col} from "react-bootstrap";
 import {fetchUsersForCoordinator} from "../../store/usersForCoordinator";
 import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinator";
+import {StoreContext} from "../main/Home";
+import {EventContext} from "./EventList";
 
-export function VolunteerList(props) {
-    const dispatch = useDispatch();
+export function VolunteerList() {
+    const {
+        dispatch
+    } = useContext(StoreContext);
+    const {event} = useContext(EventContext);
 
     //Set up store for Users
     const usersEffect = () => {
@@ -27,7 +32,7 @@ export function VolunteerList(props) {
         let volunteerRow = [];
         if (users && volunteers) {
             volunteers.forEach(volunteer => {
-                if (volunteer.volunteerEventId === props.event.eventId) {
+                if (volunteer.volunteerEventId === event.eventId) {
                     users.forEach(user => {
                         if (user.userId === volunteer.volunteerUserId) {
                             let volunteerExists = false;
@@ -36,8 +41,6 @@ export function VolunteerList(props) {
                                     key={'volunteerListRow' + volunteer.volunteerUserId}
                                     user={user}
                                     volunteer={volunteer}
-                                    event={props.event}
-                                    isPast={props.isPast}
                                 />;
                             volunteerRow.forEach(volunteer => {
                                 if (volunteer.key === volunteerListRow.key) {

@@ -13,6 +13,8 @@ import {fetchCoordinatedEventByUserId} from "../../store/eventscoordinatedbycurr
 import {fetchRegisteredEventByUserId} from "../../store/eventsregisteredbyuser";
 import {fetchBookmarkedEventByUserId} from "../../store/eventsbookmarkedbycurrentuser";
 import {fetchAuth} from "../../store/auth";
+import {fetchMessages} from "../../store/messages";
+import {fetchAllUsers} from "../../store/users";
 
 export const StoreContext = React.createContext("storeContext");
 export const MapContext = React.createContext("mapContext");
@@ -109,6 +111,14 @@ export function Home() {
     const currentUser = useSelector(state => state.user ? state.user : null);
     //END CURRENT USER
 
+    //START ALL USERS
+    const allUsersEffect = useCallback(() => {
+        dispatch(fetchAllUsers());
+    }, [dispatch]);
+    React.useEffect(allUsersEffect, [allUsersEffect]);
+    const allUsers = useSelector(state => state.users ? state.users : null);
+    //END ALL USERS
+
     //START ALL EVENTS
     const allEventsEffect = useCallback(() => {
         dispatch(fetchAllEvents());
@@ -165,17 +175,27 @@ export function Home() {
     React.useEffect(authEffect, [authEffect]);
     //END AUTH
 
-    //START STORECONTEXT VALUES
+    //START MESSAGES
+    const messagesEffect = useCallback(() => {
+        dispatch(fetchMessages());
+    }, [dispatch]);
+    React.useEffect(messagesEffect, [messagesEffect]);
+    const messages = useSelector(state => state.messages ? state.messages : null);
+    //END MESSAGES
+
+    //START STORE CONTEXT VALUES
     const contextValues = {
         dispatch: dispatch,
         auth: auth,
         currentUser: currentUser,
+        allUsers: allUsers,
         allEvents: allEvents,
         coordinatedEvents: coordinatedEvents,
         registeredEvents: registeredEvents,
-        bookmarkedEvents: bookmarkedEvents
+        bookmarkedEvents: bookmarkedEvents,
+        messages: messages
     }
-    //END STORECONTEXT VALUES
+    //END STORE CONTEXT VALUES
 
     const initDisplayComponents = useMemo(() => {
         if (auth) {

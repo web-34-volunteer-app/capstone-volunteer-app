@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useCallback} from "react";
+import React, {useState, useEffect, useContext, useCallback, useMemo} from "react";
 import {EventListContext, MapContext, StoreContext} from "../main/Home";
 import {Accordion, AccordionContext} from "react-bootstrap";
 import {VolunteerList} from "./VolunteerList";
@@ -7,6 +7,7 @@ import {dateTimeToDate, dateTimeToTime} from "../dateFormat";
 import {ValidateHoursVolunteerForm} from "../forms/ValidateHoursVolunteerForm";
 import {EventButton} from "./EventButton";
 import {EventContext} from "./EventList";
+import {EventForum} from "./EventForum";
 
 export const EventStatusContext = React.createContext("eventStatusContext");
 
@@ -215,27 +216,54 @@ export const EventListRow = (props) => {
     //START VOLUNTEER LIST COMPONENT
     const getVolunteerList = useCallback(() => {
         return (
-            <VolunteerList
-                key={'volunteerList' + event.eventId}
-                event={event}
-                isPast={eventStatus.isPast}
-            />
+            <EventStatusContext.Provider
+                value={{
+                    eventStatus: eventStatus,
+                    setEventStatus: setEventStatus,
+                    header: header,
+                    setHeader: setHeader
+                }}
+            >
+                <VolunteerList
+                    key={'volunteerList' + event.eventId}
+                    event={event}
+                    isPast={eventStatus.isPast}
+                />
+            </EventStatusContext.Provider>
+
         );
-    }, [event, eventStatus.isPast]);
+    }, [event, eventStatus, header]);
     //END VOLUNTEER LIST COMPONENT
 
     //START VALIDATE HOURS FORM COMPONENT
     const displayValidateHoursForm = useCallback(() => {
         if (eventStatus.isPast && currentUser) {
             return (
-                <ValidateHoursVolunteerForm
-                    key={'validateHoursForm' + event.eventId}
-                    event={event}
-                    user={currentUser}
-                />);
+                <EventStatusContext.Provider
+                    value={{
+                        eventStatus: eventStatus,
+                        setEventStatus: setEventStatus,
+                        header: header,
+                        setHeader: setHeader
+                    }}
+                    key={"eventStatusContextProvider" + event.eventId + "ValidateHoursVolunteerForm"}
+                >
+                    <ValidateHoursVolunteerForm
+                        key={'validateHoursForm' + event.eventId}
+                    />
+                </EventStatusContext.Provider>
+                );
         }
-    }, [eventStatus.isPast, currentUser, event]);
+    }, [eventStatus, header, currentUser, event]);
     //END VALIDATE HOURS FORM COMPONENT
+
+    //START EVENT FORUM
+    const getEventForum = useMemo(() => {
+        return(
+            <EventForum/>
+        );
+    }, []);
+    //END EVENT FORUM
 
     //START EVENT FUNCTIONAL COMPONENTS SECTION
     const getEventButton = useCallback((option) => {
@@ -247,7 +275,7 @@ export const EventListRow = (props) => {
                     header: header,
                     setHeader: setHeader
                 }}
-                key={"eventStatusContextProvider" + option}
+                key={"eventStatusContextProvider" + event.eventId + option + "Button"}
             >
                 <EventButton
                     option={option}
@@ -274,13 +302,13 @@ export const EventListRow = (props) => {
                 return components;
             case "coordinatedEvent":
                 components.push(getVolunteerList());
+                components.push(getEventForum);
                 components.push(getEventButton("delete"));
                 return components;
             case "registeredEvent":
+                components.push(getEventForum);
                 components.push(getEventButton("unregister"));
-                if (eventStatus.isPast) {
-                    components.push(displayValidateHoursForm());
-                }
+                components.push(displayValidateHoursForm());
                 return components;
             default:
                 return components;
@@ -288,7 +316,6 @@ export const EventListRow = (props) => {
     }, [eventType,
         currentUser,
         event.eventUserId,
-        eventStatus,
         getEventButton,
         getVolunteerList,
         displayValidateHoursForm]);

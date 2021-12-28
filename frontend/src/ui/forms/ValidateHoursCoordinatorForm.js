@@ -1,15 +1,18 @@
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import * as Yup from "yup";
 import {httpConfig} from "../../utils/httpConfig";
 import {fetchUserByUserId} from "../../store/user";
 import {Form} from "react-bootstrap";
 import {Button} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Formik} from "formik";
 import {fetchVolunteersForCoordinator} from "../../store/volunteersForCoordinator";
+import {StoreContext} from "../main/Home";
+import {EventContext} from "../common/EventList";
 
 export const ValidateHoursCoordinatorForm = (props) => {
-    const dispatch = useDispatch();
+    const {dispatch} = useContext(StoreContext);
+    const {event} = useContext(EventContext);
     const validator = Yup.object().shape({});
 
     //Set up store for current user
@@ -29,18 +32,18 @@ export const ValidateHoursCoordinatorForm = (props) => {
 
     const submitForm = (values, {setStatus}) => {
         if (currentUser) {
-            if (currentUser.userId === props.event.eventUserId) {
+            if (currentUser.userId === event.eventUserId) {
                 const volunteerFormValues =
                     {
                         volunteerHoursPosterVerified: true
                     }
 
-                httpConfig.put(`/apis/volunteer/update/${props.user.userId}/${props.event.eventId}`, volunteerFormValues).then(reply => {
+                httpConfig.put(`/apis/volunteer/update/${props.user.userId}/${event.eventId}`, volunteerFormValues).then(reply => {
                     let {message, type} = reply;
 
                     if (reply.status === 200) {
                         dispatch(fetchVolunteersForCoordinator());
-                        httpConfig.get(`/apis/volunteer/getByUserIdEventId/${props.user.userId}/${props.event.eventId}`).then(reply => {
+                        httpConfig.get(`/apis/volunteer/getByUserIdEventId/${props.user.userId}/${event.eventId}`).then(reply => {
                             if(reply.status === 200) {
                                 const validated = reply.data.volunteerHoursPosterVerified &&
                                     reply.data.volunteerHoursVolunteerVerified
