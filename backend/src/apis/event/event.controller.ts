@@ -1,4 +1,5 @@
 import {Request, Response} from "express";
+import {User} from "../../utils/interfaces/User";
 import {Event} from "../../utils/interfaces/Event";
 import {Status} from "../../utils/interfaces/Status";
 import {insertEvent} from "../../utils/event/insertEvent";
@@ -8,7 +9,6 @@ import {selectEventByEventId} from "../../utils/event/selectEventbyEventId";
 import {selectEventByEventOrganization} from "../../utils/event/selectEventByEventOrganization";
 import {updateEvent} from "../../utils/event/updateEvent";
 import {selectEventByEventUserId} from "../../utils/event/selectEventByEventUserId";
-import {User} from "../../utils/interfaces/User";
 import {selectEventByVolunteerUserId} from "../../utils/event/selectEventByVolunteerUserId";
 
 
@@ -16,7 +16,6 @@ const Geocodio = require('geocodio-library-node');
 
 // const {validationResult} = require('express-validator');
 export async function getAllEventsController(request: Request, response: Response): Promise<Response<Status>> {
-    console.log("trying to get all events")
     try {
         const data = await selectAllEvents()
         //return the response
@@ -120,7 +119,6 @@ export async function deleteEventByEventIdController(request: Request, response:
 }
 
 export async function postEvent(request: Request, response: Response) {
-
     try {
         const {
             eventAddress, eventDate, eventDescription, eventDescriptionSkillsRequired, eventDescriptionTransportation,
@@ -164,8 +162,12 @@ export async function postEvent(request: Request, response: Response) {
         return response.json(status);
 
 
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
+        return response.json({
+            status: 500,
+            message: "Failed to create event",
+            data: []
+        });
     }
 }
 

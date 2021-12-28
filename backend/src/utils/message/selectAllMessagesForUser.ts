@@ -2,7 +2,7 @@ import {Message} from "../interfaces/Message"
 import {connect} from "../database.utils"
 import {RowDataPacket} from "mysql2"
 
-export async function selectAllMessageForUser(userId: string) : Promise<Message[]>
+export async function selectAllMessagesForUser(userId: string) : Promise<Message[]>
 {
     try {
         const mySqlConnection = await connect();

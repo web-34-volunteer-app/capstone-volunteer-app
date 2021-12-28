@@ -13,6 +13,7 @@ import {passportStrategy} from "./apis/sign-in/sign-in.controller";
 import {EventRouter} from './apis/event/event.route';
 import {bookMarkedEventRoute} from "./apis/bookmarkedEvent/bookmarkedEvent.route"
 import {VolunteerRouter} from "./apis/volunteer/volunteer.route";
+import {MessageRouter} from "./apis/message/message.route";
 
 
 
@@ -62,6 +63,7 @@ export class App {
         this.app.use('/apis/sign-in', SignInRouter);
         this.app.use('/apis/sign-up', signUpRouter);
         this.app.use('/apis/event', EventRouter);
+        this.app.use('/apis/message', MessageRouter);
         this.app.use('/apis/bookmarkedEvent', bookMarkedEventRoute);
         this.app.use('/apis/sign-out', SignOutRoute);
         this.app.use('/apis/volunteer', VolunteerRouter);

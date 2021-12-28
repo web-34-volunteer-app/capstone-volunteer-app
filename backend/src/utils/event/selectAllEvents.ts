@@ -1,5 +1,5 @@
 import {Event} from "../interfaces/Event";
-import{connect} from "../database.utils";
+import {connect} from "../database.utils";
 import {RowDataPacket} from "mysql2";
 
 export async function selectAllEvents() : Promise<Event[]>

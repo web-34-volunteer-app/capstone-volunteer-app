@@ -17,7 +17,6 @@ const {checkSchema} = require('express-validator');
 
 export const EventRouter = Router();
 
-
 EventRouter.route('/')
     .get(getAllEventsController)
     .post(isLoggedIn, asyncValidatorController(checkSchema(eventValidator)), postEvent)

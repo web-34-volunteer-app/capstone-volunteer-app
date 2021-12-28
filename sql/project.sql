@@ -1,9 +1,8 @@
 # DROP TABLE IF EXISTS flag;
 # DROP TABLE IF EXISTS bookmarkedEvent;
-DROP TABLE IF EXISTS eventMessage;
 # DROP TABLE IF EXISTS volunteer;
+DROP TABLE IF EXISTS message;
 # DROP TABLE IF EXISTS event;
-DROP TABLE IF EXISTS privateMessage;
 # DROP TABLE IF EXISTS user;
 
 # CREATE TABLE user
@@ -25,24 +24,6 @@ DROP TABLE IF EXISTS privateMessage;
 #     INDEX (userEmail),
 #     PRIMARY KEY (userID)
 # );
-
-CREATE TABLE privateMessage
-(
-    privateMessageId BINARY(16) NOT NULL,
-    privateMessageSenderUserId BINARY(16) NOT NULL,
-    privateMessageRecipientUserId BINARY(16) NOT NULL,
-    privateMessageParentMessageId BINARY(16) NOT NULL,
-    privateMessageBody VARCHAR(1024) NOT NULL,
-    privateMessageSubject VARCHAR(128) NOT NULL,
-    INDEX (privateMessageId),
-    INDEX (privateMessageSenderUserId),
-    INDEX (privateMessageRecipientUserId),
-    INDEX (privateMessageParentMessageId),
-    FOREIGN KEY (privateMessageSenderUserId) REFERENCES user (userId),
-    FOREIGN KEY (privateMessageRecipientUserId) REFERENCES user (userId),
-    FOREIGN KEY (privateMessageParentMessageId) REFERENCES privateMessage (privateMessageId),
-    PRIMARY KEY (privateMessageId)
-);
 
 # CREATE TABLE event
 # (
@@ -66,6 +47,36 @@ CREATE TABLE privateMessage
 #     PRIMARY KEY (eventId)
 # );
 
+# ParentId determines if the message is posted in an event forum, an inbox/outbox, or attached as a reply to another message
+CREATE TABLE message
+(
+    messageId              BINARY(16)    NOT NULL,
+    messageUserId          BINARY(16)    NOT NULL,
+#     messageParentId BINARY(16) NOT NULL,
+    messageParentEventId   BINARY(16),
+    messageParentMessageId BINARY(16),
+    messageParentUserId    BINARY(16),
+    messageBody            VARCHAR(1024) NOT NULL,
+    messageSubject         VARCHAR(128),
+    messageTimeStamp       VARCHAR(32)   NOT NULL,
+    INDEX (messageId),
+    INDEX (messageUserId),
+#     INDEX (messageParentId),
+    INDEX (messageParentEventId),
+    INDEX (messageParentMessageId),
+    INDEX (messageParentUserId),
+    PRIMARY KEY (messageId),
+    FOREIGN KEY (messageUserId) REFERENCES user (userId),
+#     FOREIGN KEY (messageParentId) REFERENCES event (eventId)
+    CONSTRAINT eventParent_FK FOREIGN KEY (messageParentEventId) REFERENCES event (eventId) ON DELETE CASCADE,
+    CONSTRAINT messageParent_FK FOREIGN KEY (messageParentMessageId) REFERENCES message (messageId) ON DELETE CASCADE,
+    CONSTRAINT userParent_FK FOREIGN KEY (messageParentUserId) REFERENCES user (userId) ON DELETE CASCADE,
+    CONSTRAINT singleParent CHECK (
+                messageParentEventId IS NOT NULL AND messageParentMessageId IS NULL AND messageParentUserId IS NULL OR
+                messageParentEventId IS NULL AND messageParentMessageId IS NOT NULL AND messageParentUserId IS NULL OR
+                messageParentEventId IS NULL AND messageParentMessageId IS NULL AND messageParentUserId IS NOT NULL)
+);
+
 # CREATE TABLE volunteer
 # (
 #     volunteerEventId                BINARY(16) NOT NULL,
@@ -79,23 +90,6 @@ CREATE TABLE privateMessage
 #     FOREIGN KEY (volunteerUserId) REFERENCES user (userId) ON DELETE CASCADE,
 #     PRIMARY KEY (volunteerEventId, volunteerUserId)
 # );
-
-CREATE TABLE eventMessage
-(
-    eventMessageId              BINARY(16)    NOT NULL,
-    eventMessageEventId         BINARY(16)    NOT NULL,
-    eventMessageUserId          BINARY(16)    NOT NULL,
-    eventMessageParentMessageId BINARY(16)    NOT NULL,
-    eventMessageBody            VARCHAR(1024) NOT NULL,
-    INDEX (eventMessageId),
-    INDEX (eventMessageEventId),
-    INDEX (eventMessageUserId),
-    INDEX (eventMessageParentMessageId),
-    FOREIGN KEY (eventMessageEventId) REFERENCES event (eventId) ON DELETE CASCADE,
-    FOREIGN KEY (eventMessageUserId) REFERENCES user (userId) ON DELETE CASCADE,
-    FOREIGN KEY (eventMessageParentMessageId) REFERENCES eventMessage (eventMessageId) ON DELETE CASCADE,
-    PRIMARY KEY (eventMessageId)
-);
 
 # CREATE TABLE bookmarkedEvent
 # (
