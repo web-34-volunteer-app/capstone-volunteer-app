@@ -3,7 +3,6 @@ import {selectUserByUserActivationToken} from "../../utils/user/selectUserByUser
 import {User} from "../../utils/interfaces/User";
 import {updateUser} from "../../utils/user/updateUser";
 
-
 export async function activationController(request: Request, response: Response, nextFunction: NextFunction) {
     const {activation} = request.params
     try {

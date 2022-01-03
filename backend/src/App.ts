@@ -1,20 +1,21 @@
 import express, { Application } from 'express'
+const session = require("express-session");
+import passport = require('passport');
+const MemoryStore = require('memorystore')(session);
+
 import morgan from 'morgan'
+
 // Routes
 import { indexRoute } from './apis/index.route'
 import { UserRoute } from './apis/user/user.route'
 import {SignOutRoute} from "./apis/sign-out/sign-out.route";
 import {SignInRouter} from "./apis/sign-in/sign-in.route";
 import {signUpRouter} from "./apis/sign-up/signup.route";
-const session = require("express-session");
-import passport = require('passport');
-const MemoryStore = require('memorystore')(session);
-import {passportStrategy} from "./apis/sign-in/sign-in.controller";
 import {EventRouter} from './apis/event/event.route';
 import {bookMarkedEventRoute} from "./apis/bookmarkedEvent/bookmarkedEvent.route"
 import {VolunteerRouter} from "./apis/volunteer/volunteer.route";
 
-
+import {passportStrategy} from "./apis/sign-in/sign-in.controller";
 
 // The following class creates the app and instantiates the server
 export class App {
@@ -29,7 +30,7 @@ export class App {
         this.routes()
     }
 
-    // private method that sets the port for the sever, to one from index.route.ts, and external .env file or defaults to 3000
+    // private method that sets the port for the server, to one from index.route.ts, and external .env file or defaults to 3000
     public settings () : void {
         this.app.set('port', this.port || process.env.PORT || 4200)
     }

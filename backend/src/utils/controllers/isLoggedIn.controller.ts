@@ -17,7 +17,6 @@ export function isLoggedIn(request: Request, response: Response, next: NextFunct
 
     const isSessionActive = (isUserActive: User| undefined) : boolean => !!isUserActive;
 
-
     const getJwtTokenFromHeader  = (headers: any): string => {
         return headers["authorization"];
     };

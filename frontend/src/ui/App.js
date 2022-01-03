@@ -11,10 +11,10 @@ export function App(store) {
     return (
         <>
             <Provider store={store}>
-                <BrowserRouter>
+                <BrowserRouter basename={'/MissionCitizen'}>
                     <Navigation/>
                     <Switch>
-                        <Route exact path='/' component={Home}/>
+                        <Route exact path={`/`} component={Home}/>
                     </Switch>
                     <PageFooter/>
                 </BrowserRouter>

@@ -1,4 +1,4 @@
- import {createPool, Pool} from 'mysql2/promise';
+import {createPool, Pool} from 'mysql2/promise';
 
 let globalPool: Pool | undefined = undefined
 

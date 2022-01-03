@@ -1,4 +1,3 @@
-
 import {connect} from "../database.utils";
 
 export async function selectUserByUserActivationToken(userActivationToken: string) {

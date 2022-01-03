@@ -21,7 +21,6 @@ export async function signupUserController(request: Request, response: Response)
         const userStartDate = date.toISOString().slice(0, 19).replace('T', ' ');
         const userAdmin = false;
         const basePath = `${request.protocol}://${request.get('host')}${request.originalUrl}/activation/${userActivationToken}`
-        console.log(userActivationToken)
 
         const message = `<h2>Welcome to MissionCitizen.</h2>
 <p>In order to get started, you must confirm your account </p>

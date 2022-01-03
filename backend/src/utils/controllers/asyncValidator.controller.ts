@@ -12,6 +12,5 @@ export const asyncValidatorController = (validations : any) => {
         }
         response.json({ status: 418, data: null, message: errors.array()[0].msg });
     };
-
 };
 
