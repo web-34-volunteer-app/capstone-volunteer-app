@@ -3,7 +3,7 @@ FROM node:14 as build-stage
 RUN mkdir /home/node/app
 WORKDIR ./home/node/app
 COPY package*.json ./
-COPY ../frontend ./
+COPY ./ ./
 RUN npm install --no-optional && npm cache clean --force
 RUN npm run build
 

@@ -32,6 +32,6 @@ services:
       - node
     #    For deploying to server use ports: - 80:80
     ports:
-      - 80:80
+      - 81:80
 volumes:
   compose-lesson:
